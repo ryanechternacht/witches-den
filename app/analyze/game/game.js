@@ -16,5 +16,5 @@ angular.module('myApp.analyze', ['ngRoute', 'ngResource'])
 }])
 
 .controller('AnalyzeGameCtrl', ['$scope', 'AnalyzeGameSrv', function($scope, AnalyzeGameSrv) { 
-    $scope.gameLog = AnalyzeGameSrv.get({game:'game1'});
+    $scope.gamelog = AnalyzeGameSrv.get({game:'game1'});
 }]);
