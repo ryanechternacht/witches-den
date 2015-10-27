@@ -71,7 +71,7 @@ function analyzeGame(game) {
 
 
 
-angular.module('myApp.analyze', ['ngRoute', 'ngResource'])
+angular.module('wd.analyze.game', ['ngRoute', 'wd.data.game'])
 
 .config(['$routeProvider', function($routeProvider) {
     $routeProvider.when('/analyze/game', {
@@ -80,14 +80,7 @@ angular.module('myApp.analyze', ['ngRoute', 'ngResource'])
     });
 }])
 
-.factory('AnalyzeGameSrv', ['$resource', function($resource){
-    return $resource('data/:game.json', {}, {
-        get: {method:'GET'}
-    });
-}])
-
-.controller('AnalyzeGameCtrl', ['$scope', 'AnalyzeGameSrv', function($scope, AnalyzeGameSrv) { 
-    AnalyzeGameSrv.get({game:'game1'}, function(data) { 
-        $scope.gamestats = analyzeGame(data);
-    });
+.controller('AnalyzeGameCtrl', ['$scope', 'DataGameSrv', 
+            function($scope, DataGameSrv) {    
+    $scope.gamestats = analyzeGame(DataGameSrv.gamelog);   
 }]);

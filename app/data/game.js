@@ -1,3 +1,6 @@
+'use strict';
+
+var gamelog = 
 {
   "gamelog":[
     {
@@ -17820,4 +17823,9 @@
       "fg":"#ccc"
     }
   ]
-}
+};
+
+angular.module('wd.data.game', [])
+.factory('DataGameSrv', [function($resource){
+    return {"gamelog": gamelog};
+}]);
