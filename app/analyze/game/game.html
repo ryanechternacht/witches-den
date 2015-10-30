@@ -1,15 +1,30 @@
-This page will have pretty graphs of how ppl play
-
-<div ng-repeat="faction in gamestats.factions">
-    <h3>{{faction.name}}</h3>
-    <table>
-        <tr>
-            <th>Round</th><th>Actions Taken</th>
-        </tr>
-        <tr ng-repeat="line in faction.turns track by $index">
-            <td>{{$index + 1}}</td><td>{{line}}</td>
-        </tr>
-    </table>
-
-    <hr/>
+<div class="page-header">
+    <h1>Analyze a Game of Terra Mystica</h1>
 </div>
+
+
+
+
+
+<article ng-repeat="faction in gamestats.factions">
+    <h3>{{faction.name}}</h3>
+
+    <div class="row">
+        <div class="col-sm-8">
+            <img src="http://getwordwall.com/Attachments/Screenshots/Play/bar-graph.png"
+                 width="100%"></img>
+        </div>
+        
+        <div class="col-sm-4">
+            <table class="table">
+                <tr>
+                    <th>Round</th><th>Actions Taken</th>
+                </tr>
+                <tr ng-repeat="line in faction.turns track by $index">
+                    <td>{{$index + 1}}</td><td>{{line}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <hr/>
+</article>
