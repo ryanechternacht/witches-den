@@ -7,7 +7,8 @@ angular.module('myApp', [
   'myApp.view2',
   'myApp.version',
   'wd.analyze.game',
-  'wd.data.game'
+  'wd.data.game',
+  'd3'
 ]).
 config(['$routeProvider', function($routeProvider) {
   $routeProvider.otherwise({redirectTo: '/analyze/game'});

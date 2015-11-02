@@ -112,7 +112,7 @@ angular.module('wd.analyze.game', ['ngRoute', 'wd.data.game'])
     });
 }])
 
-.controller('AnalyzeGameCtrl', ['$scope', 'DataGameSrv', 
-            function($scope, DataGameSrv) {    
+.controller('AnalyzeGameCtrl', ['$scope', 'DataGameSrv', 'd3',
+            function($scope, DataGameSrv, d3) {    
     $scope.gamestats = analyzeGame(DataGameSrv.gamelog);   
 }]);
