@@ -60,15 +60,26 @@ var drawChart = function(d3, svg, scope, iElement, iAttrs) {
         .attr("x", barWidth / 2)
         .attr("class", "bar-label");
 
+    var ticks = dataset.map(function(d) { return d; });
+
     var xAxis = d3.svg.axis()
         .scale(xScale)
         .orient("bottom")
-        .tickValues(function(d,i) { return i; });
+        .tickValues([1,2,3,4,5,6]);
 
     svg.append("g")
         .attr("class", "axis x-axis")
         .attr("transform", "translate(0," + yBottom + ")")
         .call(xAxis);
+
+    var yAxis = d3.svg.axis()
+        .scale(yScale)
+        .orient("left");
+
+    svg.append("g")
+        .attr("class", "axis y-axis")
+        .attr("transform", "translate(" + xLeft + ",0)")
+        .call(yAxis);
 
 }
 

@@ -67,10 +67,11 @@ svg .axis {
     font-size: 11px;
 }
 
-svg .axis path
+svg .axis path,
 svg .axis line { 
-    file: none;
+    fill: none;
     stroke: black;
     shape-rendering: crispEdges;
+
 }
 
