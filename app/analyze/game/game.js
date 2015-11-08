@@ -100,6 +100,12 @@ function analyzeGame(game) {
         stats.factions.push(faction);
     }
 
+
+
+    //TEMPORARY for testing out pegjs parsing
+    stats.turn50 = game.gamelog[50];
+    stats.turn50parsed = game.parsed;
+
     return stats;
 }
 
@@ -114,5 +120,5 @@ angular.module('wd.analyze.game', ['ngRoute', 'wd.data.game'])
 
 .controller('AnalyzeGameCtrl', ['$scope', 'DataGameSrv', 'd3',
             function($scope, DataGameSrv, d3) {    
-    $scope.gamestats = analyzeGame(DataGameSrv.gamelog);   
+    $scope.gamestats = analyzeGame(DataGameSrv.game);   
 }]);

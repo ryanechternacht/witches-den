@@ -1,0 +1,10 @@
+Parser is generated via the online generator found at pegjs.org/online. 
+
+The grammer file terra_grammar.pegjs is entered there, and then a parser is 
+downloaded and named terra_parser.js. After downloading the grammar, I change the first line from
+
+"module.exports = function(...)" to "var parser = function(...)"
+
+Another possible approach is to reference peg.js source and build my own, but 
+since for now, I like developing the grammar interactively, I having the grammar
+pre-compiled is fine. 

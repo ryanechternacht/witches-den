@@ -1,8 +1,8 @@
 'use strict';
 
-var gamelog = 
-{
-  "gamelog":[
+var gamelog = [
+// {
+//   "gamelog":[
     {
       "comment":" Default game options"
     },
@@ -17822,10 +17822,15 @@ var gamelog =
       "bg":"#000000",
       "fg":"#ccc"
     }
-  ]
-};
-
+//   ]
+// };
+];
 angular.module('wd.data.game', [])
 .factory('DataGameSrv', [function($resource){
-    return {"gamelog": gamelog};
+    // var command = parser.parse(gamelog[50].commands);
+    var turn = gamelog[50];
+    var command = turn.commands;
+    var parsed = parser.parse(command);
+
+    return {"game": {"gamelog": gamelog, "parsed":parsed}};
 }]);
