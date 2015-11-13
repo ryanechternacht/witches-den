@@ -19,6 +19,10 @@
     return a.join("");
   }
 
+  function pass(bonus) { 
+    return { "tile":bonus };
+  }
+
   function priestToCult(cult, amount) { 
     if(amount < 0 || amount > 3) {
       return "[failure] can only send a priest for 1, 2, or 3"
@@ -173,12 +177,24 @@
     return result;
   }
 
+  function transform(space, color) { 
+    return { "transform": { "space": space, "color": color }}
+  }
+
+  function burn(amount) { 
+    return { "burn": amount }
+  }
+
   function leech(accept, amount, faction) { 
     return { "leech": { "accept": accept, "amount": amount, "faction": faction } };
   }
 
   function dig(amount) { 
     return { "dig": amount, "spd": amount }
+  }
+
+  function advance(track) { 
+    return { "advance": track }
   }
   
   function cult(cult, amount) { 
@@ -194,6 +210,53 @@
     if(cult.toUpperCase() == "AIR") {
       return {"air": amount};
     }
+  }
+
+  function wait() { 
+    return { "wait":"wait" };
+  }
+
+  function done() { 
+    return { "done":"done" };
+  }
+
+  function factionSetup(faction, player) { 
+    if(player) { 
+      return { "setup": {"faction":faction, "player":player} };
+    } else {
+      return { "setup": {"faction":faction } };
+    }
+  }
+
+  function gameStart() { 
+    return { "setup": { "gameStart": true } };
+  }
+
+  function optionSetup(option) { 
+    return { "setup": { "option": option } };
+  }
+
+  function roundSetup(roundNum, roundTile, goal, points) { 
+    return { 
+      "setup": { 
+        "round": roundNum, 
+        "tile": roundTile, 
+        "goal": goal, 
+        "points":points 
+      } 
+    };
+  }
+
+  function bonusSetup(bonusTile) { 
+    return { "setup": { "bonus": bonusTile } };
+  }
+
+  function playerSetup(playerName, playerNum) { 
+    return { "setup": { "player": { "num": playerNum, "name": playerName } } };
+  } 
+
+  function additionalScoringSetup(scoringTile) { 
+    return { "setup": { "additionalScoring": scoringTile } };
   }
 
   function processActions(result, actions) { 
@@ -284,6 +347,18 @@
       }
       result.fav.push(action.fav);
     }
+    if(action.transform !== undefined) { 
+      if(result.transform == undefined) { 
+        result.transform = [];
+      }
+      result.transform.push(action.transform);
+    }
+    if(action.burn !== undefined) { 
+      if(result.burn == undefined) { 
+        result.burn = 0;
+      }
+      result.burn += action.burn;
+    }
 
     // main action only effects
     if(action.action != undefined) { 
@@ -302,13 +377,25 @@
       result.sh = action.sh;
     }
     if(action.sa != undefined) { 
-      result.sa = action.sa ;
+      result.sa = action.sa;
     }
     if(action.leech !== undefined) { 
       if(result.leech == undefined) { 
         result.leech = [];
       }
       result.leech.push(action.leech);
+    }
+    if(action.advance !== undefined) { 
+      result.advance = action.advance;
+    }
+    if(action.done != undefined) { 
+      result.done = action.done;
+    }
+    if(action.wait != undefined) { 
+      result.wait = action.wait;
+    }
+    if(action.setup != undefined) { 
+      result.setup = action.setup;
     }
   }
 
@@ -331,10 +418,6 @@
 
     return result;
   }
-
-  function pass(bonus) { 
-    return { "tile":bonus };
-  }
 }
 
 Action
@@ -347,9 +430,18 @@ MainAction
   / Build
   / Upgrade
   / Pass
-  / PowerAction
+  / OctagonalAction
   / Leech
-
+  / Advance
+  / Done
+  / Wait
+  / FactionSetup
+  / GameSetup
+  / OptionSetup
+  / RoundSetup
+  / BonusSetup
+  / PlayerSetup
+  / AdditionalScoringSetup
 
 SubAction
   = Convert
@@ -357,6 +449,8 @@ SubAction
   / Favor
   / Dig
   / Cult
+  / Transform
+  / Burn
 
 
 PriestToCult
@@ -374,13 +468,60 @@ Upgrade
   = "upgrade"i _ space:String _ "to" _ building:String _ "."? _ { return upgrade(building, space) }
 
 
-PowerAction
+Pass
+  = "pass"i _ bonus:String _ { return pass(bonus) }
+  / "pass"i _ { return pass("end") }
+
+
+OctagonalAction
   = "action"i _ act:String _ "."? _ { return action(act); }
 
 
-Pass
-  = "pass"i _ bonus:String? _ { return pass(bonus) }
-  / "pass"i
+Leech
+  = "leech"i _ amount:Number _ "from"i _ faction:String _ "."? _ { return leech(true, amount, faction) }
+  / "decline"i _ amount:Number _ "from"i _ faction:String _ "."? _ { return leech(false, amount, faction) }
+
+
+Advance
+  = "advance"i _ track:String _ "."? _ { return advance(track); } 
+
+
+Wait
+  = "wait"i _ "."? _ { return wait(); }
+
+
+Done
+  = "done"i _ "."? _ {return done(); }
+
+
+FactionSetup
+  = "setup"i _ faction:String _ "for"i _ player:String _ "."? _ { return factionSetup(faction, player) }
+  / "setup"i _ faction:String _ "."? _ { return factionSetup(faction) }
+
+
+GameSetup
+  = "default game options"i _ { return gameStart(); }
+
+
+OptionSetup
+  = "option"i _ opt:OptionString _ { return optionSetup(opt); }
+
+
+RoundSetup
+  = "round"i _ roundNum:Number _ "scoring:"i _ roundTile:String "," _ goal:String _ ">>" _ points:Number _ { return roundSetup(roundNum, roundTile, goal, points); }
+
+
+BonusSetup
+  = "removing tile "i  bonusTile:String { return bonusSetup(bonusTile); }
+
+
+PlayerSetup
+  = "Player "i playerNum:Number ": " playerName:OptionString { return playerSetup(playerName, playerNum); }
+
+
+AdditionalScoringSetup
+  = "added final scoring tile: "i scoringTile:OptionString { return additionalScoringSetup(scoringTile); }
+
 
 
 Convert
@@ -396,11 +537,6 @@ Town
 
 Favor
   = "+fav"i num:Number "."? _ { return favor(num) }
-
-
-Leech
-  = "leech"i _ amount:Number _ "from"i _ faction:String _ "."? _ { return leech(true, amount, faction) }
-  / "decline"i _ amount:Number _ "from"i _ faction:String _ "."? _ { return leech(false, amount, faction) }
 
 
 Dig 
@@ -429,9 +565,29 @@ Cult
   / "-" amount:Number "air"i "."? _ { return cult("air", -1 * amount); }
 
 
+Transform
+  = "transform"i _ space:String _ "to"i _ color:String _ "."? _ { return transform(space, color); }
+
+
+Burn
+ = "burn"i _ amount:Number _ "."? _ { return burn(amount); }
+
+
+
+
+
+
 String
-  = characters:[a-z0-9]i+ { return a2s(characters) }
+  = characters:[a-z0-9]i+ { return a2s(characters); }
+
+
+OptionString
+  = characters:[a-z0-9-/.]i+ { return a2s(characters); }
+
+
 Number
-  = digits:[0-9]+ { return parseInt(a2s(digits),10) }
+  = digits:[0-9]+ { return parseInt(a2s(digits),10); }
+
+
 _ "whitespace"
   = [ \t\n\r]*
