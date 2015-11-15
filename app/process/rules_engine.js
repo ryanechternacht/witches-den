@@ -1,4 +1,7 @@
-var makePlayer = function(name) {
+//TODO refactor all of this into the js object format
+
+
+function makePlayer(name) {
     return {
         faction: name,
         d: 0,
@@ -9,13 +12,27 @@ var makePlayer = function(name) {
         fav10: false,
         fav11: false,
         fav12: false,
-        passBonus: "",
+        passBonus: '',
         detailedPoints: {
             starting: 20
-        }
-        simplePoints { 
+        },
+        simplePoints: { 
             starting: 20
         }
+    };
+}
+
+
+function setupEngine(parsedLog, log) { 
+    // setup rounds
+    // setup players
+    // f&i endgame
+    // other options?
+
+    return {
+        rounds: [],
+        players: [], 
+        options: [],
     };
 }
 
@@ -23,66 +40,75 @@ var makePlayer = function(name) {
 
 
 
-function witches_onTw(player, round, command, action) { 
-    if(!command.tw || player.faction.toUpper() != "WITCHES") { 
-        return;
-    }
-
-    if(player.simplePoints.faction == undefined) { 
-        player.simplePoints.faction = 0;
-    }
-    player.simplePoints.faction += command.tw.length * 5;
-
-    if(player.detailedPoints.faction == undefined) { 
-        player.detailedPoints.faction = 0;
-    }
-    player.detailedPoints.faction += command.tw.length * 5;
-}
-
-// round5: d >> 2; 4fire -> 4pw
-function round5_d_onBuild(player, round, command, action) {
-    if(!command.build || round,toUpper() != "ROUND5") { 
-        return;
-    } 
-
-    if(player.simplePoints.round == undefined) { 
-        player.simplePoints.round = 0;
-    }
-    player.simplePoints.round += command.d * 2;
-
-    if(player.detailedPoints.round5 == undefined) { 
-        player.detailedPoints.round5 = 0;
-    }
-    player.detailedPoints.round5 += command.d * 2;
-}
-
-// bon7: vp*2
-function bon7_tp_onPass(player, round, command, action) { 
-    if(!command.pass || player.pass.toUpper() != "BON7") {
-        return;
-    }
-
-    if(player.simplePoints.bonus == undefined) { 
-        player.simplePoints.bonus = 0;
-    }
-    player.simplePoints.bonus += player.tp * 2;
-
-    if(player.detailedPoints.bonus7 == undefined) { 
-        player.detailedPoints.bonus7 = 0;
-    }
-    player.detailedPoints.bonus7 += player.tp * 2;
-}
-
-
-function processCommand(action, round) { 
-    var command = parser.parse(action.commands);
-    var faction = action.faction;
-
+function processCommand(player, round, parsedAction, action) { 
 
 }
 
-var makeRulesEngine = function() { 
+function addTurnToScorecard(player, turn) { 
 
+}
+
+function handleHardPoints(player, result, action) { 
+    // sum points
+    // check against factions (below)
+
+    // if(result.points != action.vp.delta) { 
+    //     if(p.faction == "engineers") { 
+    //         // if a multiple of 3 and sh built, assume faction
+    //     }
+    //     else if(p.faction == "fakirs") { 
+    //         // if = 4, assume faction
+    //     }
+    //     else if(p.faction == "dwarves") { 
+    //         // if = 4, assume faction
+    //     }
+    // }
+}
+
+function processCommands(engineSetup, parsedLog, log) { 
+    var players = engineSetup.players;
+    var rounds = engineSetup.rounds;
+    var round = rounds[0];
+
+
+
+    for(var i = 0; i < parsedLog.length; i++) { 
+        var parsedAction = parsedLog[i];
+        var action = log[i];
+
+        if(parsedAction.round != undefined) { 
+            // update round
+        }
+
+        var p = players[action.faction];
+        var result = processCommand(p, round, parsedAction, action);
+
+        handleHardPoints(p, result, action);
+
+        if(parsedAction.pass != undefined) { 
+            p.pass =  parsedAction.pass;
+        }
+
+        addTurnToScorecard(p, result);
+    }
+
+    return parsedLog;
+}
+
+function makeRulesEngine() { 
+    // hook up rules
+    var rules = [
+        score1_onSpd,
+        score5_d_onBuild,
+        witches_onTw,
+        bon7_tp_onPass
+    ];
+
+    return { 
+        setupEngine: setupEngine,
+        processCommands: processCommands,
+        rules: rules
+    }
 }
 
 

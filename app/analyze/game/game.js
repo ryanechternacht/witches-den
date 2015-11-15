@@ -100,16 +100,47 @@ function analyzeGame(game) {
         stats.factions.push(faction);
     }
 
-
-
-    //TEMPORARY for testing out pegjs parsing
-    stats.turn50 = game.gamelog[50];
-    stats.turn50parsed = game.parsed;
-
     return stats;
 }
 
-angular.module('wd.analyze.game', ['ngRoute', 'wd.data.game'])
+function parseFakeWitchesData(game) { 
+    var engineSetup = {
+            players: {
+                "witches":
+                    {
+                        faction: name,
+                        d: 0,
+                        tp: 0,
+                        te: 0,
+                        sh: 0,
+                        sa: 0,
+                        fav10: false,
+                        fav11: false,
+                        fav12: false,
+                        passBonus: '',
+                        detailedPoints: {
+                            starting: 20
+                        },
+                        simplePoints: { 
+                            starting: 20
+                        }
+                    }
+                },
+            rounds: {
+                "1": "SCORE1"
+            }
+        };
+
+    var parsedLog = parseLog(parser, game.gamelog);
+
+    var processed = processCommands(engineSetup, parsedLog, game.gamelog);
+
+    return processed;
+}
+
+
+
+angular.module('wd.analyze.game', ['ngRoute', 'wd.data.game', 'wd.data.fake'])
 
 .config(['$routeProvider', function($routeProvider) {
     $routeProvider.when('/analyze/game', {
@@ -118,7 +149,11 @@ angular.module('wd.analyze.game', ['ngRoute', 'wd.data.game'])
     });
 }])
 
-.controller('AnalyzeGameCtrl', ['$scope', 'DataGameSrv', 'd3',
-            function($scope, DataGameSrv, d3) {    
-    $scope.gamestats = analyzeGame(DataGameSrv.game);   
+.controller('AnalyzeGameCtrl', ['$scope', 'DataGameSrv', 'FakeDataGameSrv', 'd3',
+    function($scope, DataGameSrv, FakeDataGameSrv, d3) {    
+        var game = DataGameSrv.game;
+        $scope.gamestats = analyzeGame(game);   
+
+        var fake = FakeDataGameSrv.game;
+        $scope.fakeWitches = parseFakeWitchesData(fake);
 }]);

@@ -20,7 +20,7 @@
   }
 
   function pass(bonus) { 
-    return { "tile":bonus };
+    return { "pass":bonus };
   }
 
   function priestToCult(cult, amount) { 
@@ -185,6 +185,10 @@
     return { "burn": amount }
   }
 
+  function mermaidConnect(tiles) { 
+    return { "mermaidConnect": tiles }
+  }
+
   function leech(accept, amount, faction) { 
     return { "leech": { "accept": accept, "amount": amount, "faction": faction } };
   }
@@ -257,6 +261,14 @@
 
   function additionalScoringSetup(scoringTile) { 
     return { "setup": { "additionalScoring": scoringTile } };
+  }
+
+  function roundStart(roundNum) { 
+    return { "round": roundNum };
+  }
+
+  function income(incomeType) { 
+    return { "income": incomeType };
   }
 
   function processActions(result, actions) { 
@@ -359,6 +371,10 @@
       }
       result.burn += action.burn;
     }
+    if(action.mermaidConnect !== undefined) { 
+      result.mermaidConnect = action.mermaidConnect;
+    }
+
 
     // main action only effects
     if(action.action != undefined) { 
@@ -396,6 +412,19 @@
     }
     if(action.setup != undefined) { 
       result.setup = action.setup;
+    }    
+    if(action.pass) { 
+      result.pass = action.pass;
+    }
+    // build/upgrade
+    if(action.space) { 
+      result.space = action.space;
+    }
+    if(action.round) { 
+      result.round = action.round; 
+    }
+    if(action.income) { 
+      result.income = action.income; 
     }
   }
 
@@ -406,23 +435,15 @@
     processAction(result, action);   
     processActions(result, subactions2);    
 
-    // pass
-    if(action.tile) { 
-      result.tile = action.tile;
-    }
-
-    // build/upgrade
-    if(action.space) { 
-      result.space = action.space;
-    }
-
     return result;
   }
 }
 
 Action
-  = subactions:SubAction* action:MainAction subactions2:SubAction* 
-    { return makeAction(subactions, action, subactions2) }
+  //= subactions:SubAction* action:MainAction subactions2:SubAction* 
+  //    { return makeAction(subactions, action, subactions2) }
+  = preActions:PreAction* action:MainAction postActions:PostAction*
+      { return makeAction(preActions, action, postActions); }
 
 
 MainAction
@@ -442,6 +463,16 @@ MainAction
   / BonusSetup
   / PlayerSetup
   / AdditionalScoringSetup
+  / RoundStart
+  / BaseIncome
+  / CultIncome
+
+PreAction
+  = SubAction
+
+PostAction
+  = SubAction
+  / Build // this happens when doing a spd action and a build
 
 SubAction
   = Convert
@@ -451,6 +482,9 @@ SubAction
   / Cult
   / Transform
   / Burn
+  / MermaidConnect
+
+
 
 
 PriestToCult
@@ -523,6 +557,18 @@ AdditionalScoringSetup
   = "added final scoring tile: "i scoringTile:OptionString { return additionalScoringSetup(scoringTile); }
 
 
+RoundStart
+  = "Round "i roundNum:Number " income"i _ { return roundStart(roundNum) }
+
+
+BaseIncome
+  = "other_income_for_faction" _ { return income("base"); }
+
+
+CultIncome
+  = "cult_income_for_faction" _ { return income("cult"); }
+
+
 
 Convert
   = "convert"i _ from:ResourceAmount _ "to"i _ to:ResourceAmount _ "."? _ { return convert(from, to) }
@@ -570,10 +616,11 @@ Transform
 
 
 Burn
- = "burn"i _ amount:Number _ "."? _ { return burn(amount); }
+  = "burn"i _ amount:Number _ "."? _ { return burn(amount); }
 
 
-
+MermaidConnect
+  = "connect"i _ tiles:OptionString _ "."? _ { return mermaidConnect(tiles); }
 
 
 
@@ -582,7 +629,7 @@ String
 
 
 OptionString
-  = characters:[a-z0-9-/.]i+ { return a2s(characters); }
+  = characters:[a-z0-9-/.:]i+ { return a2s(characters); }
 
 
 Number
