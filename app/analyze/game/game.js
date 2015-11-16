@@ -108,7 +108,7 @@ function parseFakeWitchesData(game) {
             players: {
                 "witches":
                     {
-                        faction: name,
+                        faction: "witches",
                         d: 0,
                         tp: 0,
                         te: 0,
@@ -118,24 +118,26 @@ function parseFakeWitchesData(game) {
                         fav11: false,
                         fav12: false,
                         passBonus: '',
-                        detailedPoints: {
+                        detailed: {
                             starting: 20
                         },
-                        simplePoints: { 
+                        simple: { 
                             starting: 20
                         }
                     }
                 },
             rounds: {
-                "1": "SCORE1"
+                "1": { roundNum: 1, scoreTile: "SCORE1" },
+                "2": { roundNum: 2, scoreTile: "SCORE5" }
             }
         };
 
+    var setup = makeRulesEngine();
     var parsedLog = parseLog(parser, game.gamelog);
 
-    var processed = processCommands(engineSetup, parsedLog, game.gamelog);
+    var scorecards = processCommands(engineSetup, setup.rules, parsedLog, game.gamelog);
 
-    return processed;
+    return scorecards;
 }
 
 

@@ -165,7 +165,7 @@ var gamelog = [
         "delta":0
       },
       "faction":"witches",
-      "commands":"Pass BON4",
+      "commands":"Pass BON7",
       "leech":{
 
       },
