@@ -3398,6 +3398,9 @@ var parser = (function() {
       }
 
       function town(num) { 
+        if(num == 7) {
+          return { tw: 7, "advance-ship": 1 }
+        }
         return { "tw": num };
       }
 
@@ -3451,7 +3454,12 @@ var parser = (function() {
       }
 
       function advance(track) { 
-        return { "advance": track }
+        if(track == "ship") { 
+          return { "advance-ship": 1 };
+        }
+        else if(track == "dig") { 
+          return { "advance-dig": 1 };
+        }
       }
       
       function cult(cult, amount) { 
@@ -3654,8 +3662,17 @@ var parser = (function() {
           }
           result.leech.push(action.leech);
         }
-        if(action.advance !== undefined) { 
-          result.advance = action.advance;
+        if(action["advance-ship"] !== undefined) { 
+          if(result["advance-ship"] == undefined) { 
+            result["advance-ship"] = 0;
+          }
+          result["advance-ship"] += action["advance-ship"];
+        }
+        if(action["advance-dig"] !== undefined) { 
+          if(result["advance-dig"] == undefined) { 
+            result["advance-dig"] = 0;
+          }
+          result["advance-dig"] += action["advance-dig"];
         }
         if(action.done != undefined) { 
           result.done = action.done;

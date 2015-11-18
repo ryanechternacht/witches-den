@@ -12,7 +12,9 @@ function demo_onD(player, round, parsedAction, actino) {
 
 
 
+//
 // Round scoring 
+//
 
 //SCORE 1: spd >> 2; 1earth -> 1c
 function score1_onSpd(player, round, parsedAction, action) { 
@@ -38,8 +40,75 @@ function score1_onSpd(player, round, parsedAction, action) {
     return null;
 }
 
+//SCORE2: town >> 5; 4earth -> 1spd
+function score2_onTw(player, round, parsedAction, action) { 
+    if(round == undefined || round.scoreTile.toUpperCase() != "SCORE2") { 
+        return null;
+    }
+
+    var points = parsedAction.tw.length * 5;
+
+    if(points > 0) {  
+        return { 
+            simple: { round: points },
+            detailed: { 
+                round: { 
+                    roundNum: round.roundNum, 
+                    scoreTile: round.scoreTile, 
+                    points: points 
+                }
+            }
+        }
+    }
+}
+
+//SCORE3: d >> 2; 4water -> 1p
+function score3_onD(player, round, parsedAction, action) { 
+    if(round == undefined || round.scoreTile.toUpperCase() != "SCORE3") { 
+        return null;
+    }
+
+    var points = parsedAction.d * 2;
+
+    if(points > 0) {  
+        return { 
+            simple: { round: points },
+            detailed: { 
+                round: { 
+                    roundNum: round.roundNum, 
+                    scoreTile: round.scoreTile, 
+                    points: points 
+                }
+            }
+        }
+    }
+}
+
+//SCORE4: sh/sa >> 5; 2fire -> 1w
+function score4_onShsa(player, round, parsedAction, action) { 
+    if(round == undefined || round.scoreTile.toUpperCase() != "SCORE4") { 
+        return null;
+    }
+
+    var points = parsedAction.sh * 5;
+    points += parsedAction.sa * 5;
+
+    if(points > 0) {  
+        return { 
+            simple: { round: points },
+            detailed: { 
+                round: { 
+                    roundNum: round.roundNum, 
+                    scoreTile: round.scoreTile, 
+                    points: points 
+                }
+            }
+        }
+    }
+}
+
 // SCORE5: d >> 2; 4fire -> 4pw
-function score5_d_onBuild(player, round, parsedAction, action) {
+function score5_onD(player, round, parsedAction, action) {
     if(round == undefined || round.scoreTile.toUpperCase() != "SCORE5") { 
         return null;
     } 
@@ -49,7 +118,110 @@ function score5_d_onBuild(player, round, parsedAction, action) {
     if(points > 0) { 
         return { 
             simple: { round: points },
-            detailed: { roundNum: round.roundNum, scoreTile: round.scoreTile }
+            detailed: { 
+                round: { 
+                    roundNum: round.roundNum, 
+                    scoreTile: round.scoreTile, 
+                    points: points 
+                }
+            }
+        }
+    }
+    
+    return null;
+}
+
+// SCORE6: tp >> 3; 4water -> 1spd
+function score6_onTp(player, round, parsedAction, action) {
+    if(round == undefined || round.scoreTile.toUpperCase() != "SCORE6") { 
+        return null;
+    } 
+
+    var points = parsedAction.tp * 3;
+
+    if(points > 0) { 
+        return { 
+            simple: { round: points },
+            detailed: { 
+                round: { 
+                    roundNum: round.roundNum, 
+                    scoreTile: round.scoreTile, 
+                    points: points 
+                }
+            }
+        }
+    }
+    
+    return null;
+}
+
+// SCORE7: SHSA >> 3; 4water -> 1spd
+function score7_onShsa(player, round, parsedAction, action) {
+    if(round == undefined || round.scoreTile.toUpperCase() != "SCORE6") { 
+        return null;
+    } 
+
+    var points = parsedAction.sh * 5;
+    points += parsedAction.sa * 5;
+
+    if(points > 0) { 
+        return { 
+            simple: { round: points },
+            detailed: { 
+                round: { 
+                    roundNum: round.roundNum, 
+                    scoreTile: round.scoreTile, 
+                    points: points 
+                }
+            }
+        }
+    }
+    
+    return null;
+}
+
+// SCORE8: tp >> 3; 4air -> 1spd
+function score8_onTp(player, round, parsedAction, action) {
+    if(round == undefined || round.scoreTile.toUpperCase() != "SCORE6") { 
+        return null;
+    } 
+
+    var points = parsedAction.tp * 3;
+
+    if(points > 0) { 
+        return { 
+            simple: { round: points },
+            detailed: { 
+                round: { 
+                    roundNum: round.roundNum, 
+                    scoreTile: round.scoreTile, 
+                    points: points 
+                }
+            }
+        }
+    }
+    
+    return null;
+}
+
+// SCORE9: te >> 4; 1cult_p -> 2c
+function score9_onTe(player, round, parsedAction, action) {
+    if(round == undefined || round.scoreTile.toUpperCase() != "SCORE6") { 
+        return null;
+    } 
+
+    var points = parsedAction.te * 4;
+
+    if(points > 0) { 
+        return { 
+            simple: { round: points },
+            detailed: { 
+                round: { 
+                    roundNum: round.roundNum, 
+                    scoreTile: round.scoreTile, 
+                    points: points 
+                }
+            }
         }
     }
     
@@ -58,6 +230,9 @@ function score5_d_onBuild(player, round, parsedAction, action) {
 
 
 
+//
+// Faction Bonuses
+//
 
 function witches_onTw(player, round, parsedAction, action) { 
     if(player.faction.toUpperCase() != "WITCHES" || parsedAction.tw == undefined) { 
@@ -75,10 +250,89 @@ function witches_onTw(player, round, parsedAction, action) {
     return null;
 }
 
+function alchemists_onConvert(player, round, parsedAction, action) { 
+    if(player.faction.toUpperCase() != "ALCHEMISTS" || parsedAction.vp == undefined) { 
+        return null;
+    }
+
+    var points = parsedAction.vp;
+    if(points != 0) { 
+        return { 
+            simple: { faction: points },
+            detailed: {factoin: points }
+        }
+    }
+
+    return null;
+}
+
+function cultists_onSh(player, round, parsedAction, action) { 
+    if(player.faction.toUpperCase() != "CULTISTS" || parsedAction.sh == undefined) { 
+        return null;
+    }
+
+    var points = parsedAction.sh * 7;
+    if(points != 0) { 
+        return { 
+            simple: { faction: points },
+            detailed: {factoin: points }
+        }
+    }
+}
+
+function halflings_onSpd(player, round, parsedAction, action) { 
+    if(player.faction.toUpperCase() != "HALFLINGS" || parsedAction.spd == undefined) { 
+        return null;
+    }
+
+    var points = parsedAction.spd * 1;
+    if(points != 0) { 
+        return { 
+            simple: { faction: points },
+            detailed: {factoin: points }
+        }
+    } 
+}
+
+function darklings_onDig(player, round, parsedAction, action) { 
+    if(player.faction.toUpperCase() != "DARKLINGS" || parsedAction.dig == undefined) { 
+        return null;
+    }
+
+    var points = parsedAction.dig * 2;
+    if(points != 0) { 
+        return { 
+            simple: { faction: points },
+            detailed: {factoin: points }
+        }
+    } 
+}
 
 
-// bon7: vp*2
-function bon7_tp_onPass(player, round, parsedAction, action) { 
+
+// 
+// Pass Bonuses
+//
+
+// bon6: sh/sa * 4
+function bon6_onPassShsa(player, round, parsedAction, action) { 
+    if(parsedAction.pass == undefined
+        || player.pass == undefined
+        || player.pass.toUpperCase() != "BON6") { 
+        return null;
+    }
+
+    var points = (player.sh + player.sa) * 4;
+    if(points > 0) { 
+        return { 
+            simple: { bonus: points },
+            detailed: { bonus6: points }
+        }
+    }
+}
+
+// bon7: tp*2
+function bon7_onPassTp(player, round, parsedAction, action) { 
     if(parsedAction.pass == undefined 
         || player.pass == undefined 
         || player.pass.toUpperCase() != "BON7") {
@@ -95,3 +349,183 @@ function bon7_tp_onPass(player, round, parsedAction, action) {
 
     return null;
 }
+
+// bon9: d*1
+function bon9_onPassD(player, round, parsedAction, action) { 
+    if(parsedAction.pass == undefined 
+        || player.pass == undefined 
+        || player.pass.toUpperCase() != "BON9") {
+        return null;
+    }
+
+    var points = player.d * 1;
+    if(points > 0) {
+        return { 
+            simple: { bonus: points },
+            detailed: { bonus9: points }
+        }
+    }
+
+    return null;
+}
+
+// bon10: ship*3
+function bon10_onPassShip(player, round, parsedAction, action) { 
+    if(parsedAction.pass == undefined 
+        || player.pass == undefined 
+        || player.pass.toUpperCase() != "BON10") {
+        return null;
+    }
+
+    var points = player.ship * 3;
+    if(points > 0) {
+        return { 
+            simple: { bonus: points },
+            detailed: { bonus10: points }
+        }
+    }
+
+    return null;
+}
+
+
+
+//
+// Leech
+//
+function onLeech(player, round, parsedAction, action) { 
+    if(parsedAction.leech == undefined || !parsedAction.leech.accept) { 
+        return null;
+    }
+
+    var points = action.vp;
+    if(points != 0) { 
+        return { 
+            simple: { leech: points },
+            detailed: { leech: points }
+        }
+    }
+}
+
+
+
+//
+// Town
+//
+function onTw(player, round, parsedAction, action) {
+    if(parsedAction.tw == undefined) { 
+        return null;
+    }
+
+    var points = 0;
+    for(var i = 0; i < parsedAction.tw.length; i++) {
+        var tw = parsedAction.tw[i];
+
+        if(tw == 1) { 
+            points += 5;
+        }
+        else if(tw == 2) { 
+            points += 7;
+        }
+        else if(tw == 3) { 
+            points += 9;
+        }
+        else if(tw == 4) { 
+            points += 6;
+        }
+        else if(tw == 5) { 
+            points += 8;
+        }
+        else if(tw == 6) { 
+            points += 2;
+        }
+        else if(tw == 7) { 
+            points += 4;
+        }
+        else if(tw == 8) { 
+            points += 11;
+        }
+
+        return { 
+            simple: { town: points },
+            detailed: { town: points }
+        }
+    }
+}
+
+
+
+//
+// Favs
+//
+
+// fav10: tp >> 3
+function fav10_onTp(player, round, parsedAction, action) { 
+    if(!player.fav10) { 
+        return null;
+    } 
+
+    var points = parsedAction.tp * 3;
+
+    if(points > 0) { 
+        return { 
+            simple: { fav: points },
+            detailed: { fav10: points }
+        }
+    }
+    
+    return null;
+}
+
+// fav11: d >> 2
+function fav11_onD(player, round, parsedAction, action) { 
+    if(!player.fav11) { 
+        return null;
+    } 
+
+    var points = parsedAction.d * 2;
+
+    if(points > 0) { 
+        return { 
+            simple: { fav: points },
+            detailed: { fav11: points }
+        }
+    }
+    
+    return null;
+}
+
+// fav12: pass: 1tp >> 2, 2/3tp >> 3, 4 tp >> 4
+function fav12_onPassTp(player, round, parsedAction, action) { 
+    if(parsedAction.pass == undefined 
+        || !player.fav12) {
+        return null;
+    }
+
+    var points = 0;
+    if(player.tp == 1) { 
+        points = 2;
+    }
+    if(player.tp == 2 || player.tp == 3) { 
+        points = 3;
+    }
+    if(player.tp == 4) { 
+        points = 4;
+    }
+
+    if(points > 0) {
+        return { 
+            simple: { fav: points },
+            detailed: { fav12: points }
+        }
+    }
+
+    return null;
+}
+
+
+
+
+
+
+

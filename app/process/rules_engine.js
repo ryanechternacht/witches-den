@@ -179,11 +179,36 @@ function processCommands(engineSetup, rules, parsedLog, log) {
 function makeRulesEngine() { 
     // hook up rules
     var rules = [
+        demo_onD,
+
         score1_onSpd,
-        score5_d_onBuild,
+        score2_onTw,
+        score3_onD,
+        score4_onShsa,
+        score5_onD,
+        score6_onTp,
+        score7_onShsa,
+        score8_onTp,
+        score9_onTe,
+
         witches_onTw,
-        bon7_tp_onPass,
-        demo_onD
+        darklings_onDig,
+        alchemists_onConvert,
+        halflings_onSpd,
+        cultists_onSh,
+
+        bon6_onPassShsa,
+        bon7_onPassTp,
+        bon9_onPassD,
+        bon10_onPassShip,
+
+        onLeech,
+
+        onTw,
+
+        fav10_onTp,
+        fav11_onD,
+        fav12_onPassTp
     ];
 
     return { 
