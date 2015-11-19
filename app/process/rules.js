@@ -42,7 +42,8 @@ function score1_onSpd(player, round, parsedAction, action) {
 
 //SCORE2: town >> 5; 4earth -> 1spd
 function score2_onTw(player, round, parsedAction, action) { 
-    if(round == undefined || round.scoreTile.toUpperCase() != "SCORE2") { 
+    if(round == undefined || round.scoreTile.toUpperCase() != "SCORE2" 
+        || parsedAction.tw == undefined) { 
         return null;
     }
 

@@ -347,23 +347,22 @@ function processCommands(engineSetup, rules, parsedLog, log) {
         
 
     for(var i = 0; i < parsedLog.length; i++) { 
+        if(i == 39) {
+            console.log("oh yeah");
+        }
+
         var parsedAction = parsedLog[i];
         var action = log[i];
 
         var p = players[action.faction];
         // for now, skip non player actions -- we mave do this differnetly 
         // in the future
-        if(p == undefined) { 
-            continue;
+        if(p != undefined) { 
+            var result = processCommand(rules, p, round, parsedAction, action);
         }
 
-
-        var result = processCommand(rules, p, round, parsedAction, action);
-
-        if(result != undefined) {
-            if(result.round != undefined) { 
-                round = rounds[result.round];
-            }
+        if(parsedAction.round != undefined) {
+            round = rounds[parsedAction.round];
         }
     }
 
