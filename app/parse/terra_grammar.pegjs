@@ -408,10 +408,7 @@
       result.sa = action.sa;
     }
     if(action.leech !== undefined) { 
-      if(result.leech == undefined) { 
-        result.leech = [];
-      }
-      result.leech.push(action.leech);
+      result.leech = action.leech;
     }
     if(action.advanceShip !== undefined) { 
       if(result.advanceShip == undefined) { 

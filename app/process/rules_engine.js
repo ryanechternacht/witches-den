@@ -150,6 +150,12 @@ function addTurnToScorecard(player, effects) {
             }
             player.simple.endGameNetwork += effect.simple.endGameNetwork;
         }
+        if(effect.simple.leech != undefined) { 
+            if(player.simple.leech == undefined) { 
+                player.simple.leech = 0;
+            }
+            player.simple.leech += effect.simple.leech;
+        }
 
 
         // detailed
@@ -259,6 +265,12 @@ function addTurnToScorecard(player, effects) {
             }
             player.detailed.endGameNetwork += effect.detailed.endGameNetwork;
         }
+        if(effect.detailed.leech != undefined) { 
+            if(player.detailed.leech == undefined) { 
+                player.detailed.leech = 0;
+            }
+            player.detailed.leech += effect.detailed.leech;
+        }
     }
 }
 
@@ -347,7 +359,7 @@ function processCommands(engineSetup, rules, parsedLog, log) {
         
 
     for(var i = 0; i < parsedLog.length; i++) { 
-        if(i == 39) {
+        if(i == 61) {
             console.log("oh yeah");
         }
 

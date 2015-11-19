@@ -399,7 +399,7 @@ function onLeech(player, round, parsedAction, action) {
         return null;
     }
 
-    var points = action.vp;
+    var points = action.VP.delta;
     if(points != 0) { 
         return { 
             simple: { leech: points },
