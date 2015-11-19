@@ -259,7 +259,7 @@ function alchemists_onConvert(player, round, parsedAction, action) {
     if(points != 0) { 
         return { 
             simple: { faction: points },
-            detailed: {factoin: points }
+            detailed: {faction: points }
         }
     }
 
@@ -275,7 +275,7 @@ function cultists_onSh(player, round, parsedAction, action) {
     if(points != 0) { 
         return { 
             simple: { faction: points },
-            detailed: {factoin: points }
+            detailed: {faction: points }
         }
     }
 }
@@ -289,7 +289,7 @@ function halflings_onSpd(player, round, parsedAction, action) {
     if(points != 0) { 
         return { 
             simple: { faction: points },
-            detailed: {factoin: points }
+            detailed: {faction: points }
         }
     } 
 }
@@ -303,7 +303,7 @@ function darklings_onDig(player, round, parsedAction, action) {
     if(points != 0) { 
         return { 
             simple: { faction: points },
-            detailed: {factoin: points }
+            detailed: {faction: points }
         }
     } 
 }
@@ -326,7 +326,7 @@ function bon6_onPassShsa(player, round, parsedAction, action) {
     if(points > 0) { 
         return { 
             simple: { bonus: points },
-            detailed: { bonus6: points }
+            detailed: { bon6: points }
         }
     }
 }
@@ -343,7 +343,7 @@ function bon7_onPassTp(player, round, parsedAction, action) {
     if(points > 0) {
         return { 
             simple: { bonus: points },
-            detailed: { bonus7: points }
+            detailed: { bon7: points }
         }
     }
 
@@ -362,7 +362,7 @@ function bon9_onPassD(player, round, parsedAction, action) {
     if(points > 0) {
         return { 
             simple: { bonus: points },
-            detailed: { bonus9: points }
+            detailed: { bon9: points }
         }
     }
 
@@ -381,7 +381,7 @@ function bon10_onPassShip(player, round, parsedAction, action) {
     if(points > 0) {
         return { 
             simple: { bonus: points },
-            detailed: { bonus10: points }
+            detailed: { bon10: points }
         }
     }
 

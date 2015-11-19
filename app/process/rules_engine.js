@@ -169,29 +169,29 @@ function addTurnToScorecard(player, effects) {
             }
             player.detailed.faction += effect.detailed.faction;
         }
-        if(effect.detailed.bonus6 != undefined) { 
-            if(player.detailed.bonus6 == undefined) { 
-                player.detailed.bonus6 = 0;
+        if(effect.detailed.bon6 != undefined) { 
+            if(player.detailed.bon6 == undefined) { 
+                player.detailed.bon6 = 0;
             }
-            player.detailed.bonus6 += effect.detailed.bonus6;
+            player.detailed.bon6 += effect.detailed.bon6;
         }
-        if(effect.detailed.bonus7 != undefined) { 
-            if(player.detailed.bonus7 == undefined) { 
-                player.detailed.bonus7 = 0;
+        if(effect.detailed.bon7 != undefined) { 
+            if(player.detailed.bon7 == undefined) { 
+                player.detailed.bon7 = 0;
             }
-            player.detailed.bonus7 += effect.detailed.bonus7;
+            player.detailed.bon7 += effect.detailed.bon7;
         }
-        if(effect.detailed.bonus9 != undefined) { 
-            if(player.detailed.bonus9 == undefined) { 
-                player.detailed.bonus9 = 0;
+        if(effect.detailed.bon9 != undefined) { 
+            if(player.detailed.bon9 == undefined) { 
+                player.detailed.bon9 = 0;
             }
-            player.detailed.bonus9 += effect.detailed.bonus9;
+            player.detailed.bon9 += effect.detailed.bon9;
         }
-        if(effect.detailed.bonus10 != undefined) { 
-            if(player.detailed.bonus10 == undefined) { 
-                player.detailed.bonus10 = 0;
+        if(effect.detailed.bon10 != undefined) { 
+            if(player.detailed.bon10 == undefined) { 
+                player.detailed.bon10 = 0;
             }
-            player.detailed.bonus10 += effect.detailed.bonus10;
+            player.detailed.bon10 += effect.detailed.bon10;
         }
         if(effect.detailed.town != undefined) { 
             if(player.detailed.town == undefined) { 
@@ -282,7 +282,7 @@ function processCommand(rules, player, round, parsedAction, action) {
     if(parsedAction.sh != undefined) { 
         player.sh += parsedAction.sh;
     }
-    if(parsedAction.d != undefined) { 
+    if(parsedAction.sa != undefined) { 
         player.sa += parsedAction.sa;
     }
     if(parsedAction.fav != undefined) { 
