@@ -2,6 +2,45 @@
 
 
 function makePlayer(name) {
+    var shipStart,
+        shipLevels;
+
+    if(name.toUpperCase() == "NOMADS"
+        || name.toUpperCase() == "CHAOSMAGICIANS"
+        || name.toUpperCase() == "GIANTS"
+        || name.toUpperCase() == "SWARMLINGS"
+        || name.toUpperCase() == "ENGINEERS"
+        || name.toUpperCase() == "HALFLINGS"
+        || name.toUpperCase() == "CULTISTS"
+        || name.toUpperCase() == "ALCHEMISTS"
+        || name.toUpperCase() == "DARKLINGS"
+        || name.toUpperCase() == "AUREN"
+        || name.toUpperCase() == "WITCHES") {
+        shipStart = 0;
+        shipLevels = {
+            "1": { points: 2 },
+            "2": { points: 3 },
+            "3": { points: 4 }
+        };
+    }
+    else if(name.toUpperCase() == "FAKIRS"
+        || name.toUpperCase() == "DWARVES") { 
+        shipStart = 0;
+        shipLevels = {};
+    }
+    else if(name.toUpperCase() == "MERMAIDS") {
+        shipStart = 1;
+        shipLevels = {
+            "2": { points: 2 },
+            "3": { points: 3 },
+            "4": { points: 4 },
+            "5": { points: 5 }
+        };
+    }
+    else {
+        throw "We don't support Fire and Ice Factions yet. Sorry"
+    }
+
     return {
         faction: name,
         d: 0,
@@ -13,6 +52,8 @@ function makePlayer(name) {
         fav11: false,
         fav12: false,
         passBonus: '',
+        shipLevel: shipStart,
+        shipLevels: shipLevels,
         detailed: {
             starting: 20
         },
@@ -73,11 +114,41 @@ function addTurnToScorecard(player, effects) {
             }
             player.simple.faction += effect.simple.faction;
         }
-        if(effect.simple.bonus == undefined) { 
+        if(effect.simple.bonus != undefined) { 
             if(player.simple.bonus == undefined) { 
                 player.simple.bonus = 0;
             }
             player.simple.bonus += effect.simple.bonus;
+        }
+        if(effect.simple.town != undefined) { 
+            if(player.simple.town == undefined) { 
+                player.simple.town = 0;
+            }
+            player.simple.town += effect.simple.town;
+        }
+        if(effect.simple.advance != undefined) { 
+            if(player.simple.advance == undefined) { 
+                player.simple.advance = 0;
+            }
+            player.simple.advance += effect.simple.advance;
+        }
+        if(effect.simple.fav != undefined) { 
+            if(player.simple.fav == undefined) { 
+                player.simple.fav = 0;
+            }
+            player.simple.fav += effect.simple.fav;
+        }
+        if(effect.simple.endGameCult != undefined) { 
+            if(player.simple.endGameCult == undefined) { 
+                player.simple.endGameCult = 0;
+            }
+            player.simple.endGameCult += effect.simple.endGameCult;
+        }
+        if(effect.simple.endGameNetwork != undefined) { 
+            if(player.simple.endGameNetwork == undefined) { 
+                player.simple.endGameNetwork = 0;
+            }
+            player.simple.endGameNetwork += effect.simple.endGameNetwork;
         }
 
 
@@ -98,11 +169,95 @@ function addTurnToScorecard(player, effects) {
             }
             player.detailed.faction += effect.detailed.faction;
         }
+        if(effect.detailed.bonus6 != undefined) { 
+            if(player.detailed.bonus6 == undefined) { 
+                player.detailed.bonus6 = 0;
+            }
+            player.detailed.bonus6 += effect.detailed.bonus6;
+        }
         if(effect.detailed.bonus7 != undefined) { 
             if(player.detailed.bonus7 == undefined) { 
                 player.detailed.bonus7 = 0;
             }
             player.detailed.bonus7 += effect.detailed.bonus7;
+        }
+        if(effect.detailed.bonus9 != undefined) { 
+            if(player.detailed.bonus9 == undefined) { 
+                player.detailed.bonus9 = 0;
+            }
+            player.detailed.bonus9 += effect.detailed.bonus9;
+        }
+        if(effect.detailed.bonus10 != undefined) { 
+            if(player.detailed.bonus10 == undefined) { 
+                player.detailed.bonus10 = 0;
+            }
+            player.detailed.bonus10 += effect.detailed.bonus10;
+        }
+        if(effect.detailed.town != undefined) { 
+            if(player.detailed.town == undefined) { 
+                player.detailed.town = 0;
+            }
+            player.detailed.town += effect.detailed.town;
+        }
+        if(effect.detailed.advanceShip != undefined) { 
+            if(player.detailed.advanceShip == undefined) { 
+                player.detailed.advanceShip = 0;
+            }
+            player.detailed.advanceShip += effect.detailed.advanceShip;
+        }
+        if(effect.detailed.advanceDig != undefined) { 
+            if(player.detailed.advanceDig == undefined) { 
+                player.detailed.advanceDig = 0;
+            }
+            player.detailed.advanceDig += effect.detailed.advanceDig;
+        }
+        if(effect.detailed.fav10 != undefined) { 
+            if(player.detailed.fav10 == undefined) { 
+                player.detailed.fav10 = 0;
+            }
+            player.detailed.fav10 += effect.detailed.fav10;
+        }
+        if(effect.detailed.fav11 != undefined) { 
+            if(player.detailed.fav11 == undefined) { 
+                player.detailed.fav11 = 0;
+            }
+            player.detailed.fav11 += effect.detailed.fav11;
+        }
+        if(effect.detailed.fav12 != undefined) { 
+            if(player.detailed.fav12 == undefined) { 
+                player.detailed.fav12 = 0;
+            }
+            player.detailed.fav12 += effect.detailed.fav12;
+        }
+        if(effect.detailed.endGameFire != undefined) { 
+            if(player.detailed.endGameFire == undefined) { 
+                player.detailed.endGameFire = 0;
+            }
+            player.detailed.endGameFire += effect.detailed.endGameFire;
+        }
+        if(effect.detailed.endGameWater != undefined) { 
+            if(player.detailed.endGameWater == undefined) { 
+                player.detailed.endGameWater = 0;
+            }
+            player.detailed.endGameWater += effect.detailed.endGameWater;
+        }
+        if(effect.detailed.endGameEarth != undefined) { 
+            if(player.detailed.endGameEarth == undefined) { 
+                player.detailed.endGameEarth = 0;
+            }
+            player.detailed.endGameEarth += effect.detailed.endGameEarth;
+        }
+        if(effect.detailed.endGameAir != undefined) { 
+            if(player.detailed.endGameAir == undefined) { 
+                player.detailed.endGameAir = 0;
+            }
+            player.detailed.endGameAir += effect.detailed.endGameAir;
+        }
+        if(effect.detailed.endGameNetwork != undefined) { 
+            if(player.detailed.endGameNetwork == undefined) { 
+                player.detailed.endGameNetwork = 0;
+            }
+            player.detailed.endGameNetwork += effect.detailed.endGameNetwork;
         }
     }
 }
@@ -115,8 +270,40 @@ function processCommand(rules, player, round, parsedAction, action) {
         return { round: parsedAction.round }
     }
 
+    if(parsedAction.d != undefined) { 
+        player.d += parsedAction.d;
+    }
+    if(parsedAction.tp != undefined) { 
+        player.tp += parsedAction.tp;
+    }
+    if(parsedAction.te != undefined) { 
+        player.te += parsedAction.te;
+    }
+    if(parsedAction.sh != undefined) { 
+        player.sh += parsedAction.sh;
+    }
+    if(parsedAction.d != undefined) { 
+        player.sa += parsedAction.sa;
+    }
+    if(parsedAction.fav != undefined) { 
+        for(var i = 0; i < parsedAction.fav.length; i++) { 
+            var f = parsedAction.fav[i];
+            if(f == 10) { 
+                player.fav10 = true;
+            }
+            else if(f == 11) { 
+                player.fav11 = true;
+            }
+            else if(f == 12) { 
+                player.fav12 = true;
+            }
+        }
+    }
+
+
     for(var i = 0; i < rules.length; i++) { 
         var rule = rules[i];
+
         var effect = rule(player, round, parsedAction, action);
 
         if(effect != null) { 
@@ -164,6 +351,13 @@ function processCommands(engineSetup, rules, parsedLog, log) {
         var action = log[i];
 
         var p = players[action.faction];
+        // for now, skip non player actions -- we mave do this differnetly 
+        // in the future
+        if(p == undefined) { 
+            continue;
+        }
+
+
         var result = processCommand(rules, p, round, parsedAction, action);
 
         if(result != undefined) {
@@ -179,7 +373,7 @@ function processCommands(engineSetup, rules, parsedLog, log) {
 function makeRulesEngine() { 
     // hook up rules
     var rules = [
-        demo_onD,
+        // demo_onD,
 
         score1_onSpd,
         score2_onTw,
@@ -208,7 +402,13 @@ function makeRulesEngine() {
 
         fav10_onTp,
         fav11_onD,
-        fav12_onPassTp
+        fav12_onPassTp,
+
+        advanceDig,
+        advanceShip,
+
+        endGameCult,
+        endGameNetwork
     ];
 
     return { 

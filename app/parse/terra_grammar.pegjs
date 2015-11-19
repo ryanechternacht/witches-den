@@ -20,7 +20,7 @@
   }
 
   function pass(bonus) { 
-    return { "pass":bonus };
+    return { pass:bonus };
   }
 
   function priestToCult(cult, amount) { 
@@ -29,37 +29,37 @@
     }
 
     if(cult.toUpperCase() == "FIRE") {
-      return {"fire": amount};
+      return { fire: amount };
     }
     if(cult.toUpperCase() == "WATER") {
-      return {"water": amount};
+      return { water: amount };
     }
     if(cult.toUpperCase() == "EARTH") {
-      return {"earth": amount};
+      return { earth: amount };
     }
     if(cult.toUpperCase() == "AIR") {
-      return {"air": amount};
+      return { air: amount };
     }
 
     return "[failure]: " + cult + " is not recognized";
   }
 
   function build(space) {
-    return {"d": 1, "space": space};
+    return { d: 1, space: space };
   }
 
   function upgrade(building, space) {
     if(building.toUpperCase() == "SH") { 
-      return {"sh": 1, "tp": -1, "space":space}
+      return { sh: 1, tp: -1, space:space }
     }
     if(building.toUpperCase() == "TE") { 
-      return {"te": 1, "tp": -1, "space":space}
+      return { te: 1, tp: -1, space:space }
     }
     if(building.toUpperCase() == "TP") { 
-      return {"tp": 1, "d": -1, "space":space}
+      return { tp: 1, d: -1, space:space }
     }
     if(building.toUpperCase() == "SA") { 
-      return {"sa": 1, "te": -1, "space":space}
+      return { sa: 1, te: -1, space:space }
     }
 
     return "[failure]: " + building + " is not recognized";
@@ -126,19 +126,19 @@
     }
 
     if(res.toUpperCase() == "PW") { 
-      return {"pw": quantity};
+      return { pw: quantity };
     }
     if(res.toUpperCase() == "W") { 
-      return {"w": quantity};
+      return { w: quantity };
     }
     if(res.toUpperCase() == "C") { 
-      return {"c": quantity};
+      return { c: quantity };
     }
     if(res.toUpperCase() == "P") { 
-      return {"p": quantity};
+      return { p: quantity };
     }
     if(res.toUpperCase() == "VP") { 
-      return {"vp": quantity};
+      return { vp: quantity };
     }
 
     return "[failure] " + res + " is not recognized";
@@ -146,17 +146,17 @@
 
   function town(num) { 
     if(num == 7) {
-      return { tw: 7, "advance-ship": 1 }
+      return { tw: 7, advanceShip: 1 }
     }
-    return { "tw": num };
+    return { tw: num };
   }
 
   function favor(num) { 
-    return { "fav": num };
+    return { fav: num };
   }
 
   function action(act) { 
-    var result = { "action": act };
+    var result = { action: act };
 
     if(act.toUpperCase() == "ACT1") { 
       // do what?
@@ -181,102 +181,106 @@
   }
 
   function transform(space, color) { 
-    return { "transform": { "space": space, "color": color }}
+    return { transform: { space: space, color: color } }
   }
 
   function burn(amount) { 
-    return { "burn": amount }
+    return { burn: amount }
   }
 
   function mermaidConnect(tiles) { 
-    return { "mermaidConnect": tiles }
+    return { mermaidConnect: tiles }
   }
 
   function leech(accept, amount, faction) { 
-    return { "leech": { "accept": accept, "amount": amount, "faction": faction } };
+    return { leech: { accept: accept, amount: amount, faction: faction } };
   }
 
   function dig(amount) { 
-    return { "dig": amount, "spd": amount }
+    return { dig: amount, spd: amount }
   }
 
   function advance(track) { 
     if(track == "ship") { 
-      return { "advance-ship": 1 };
+      return { advanceShip: 1 };
     }
     else if(track == "dig") { 
-      return { "advance-dig": 1 };
+      return { advanceDig: 1 };
     }
   }
   
   function cult(cult, amount) { 
     if(cult.toUpperCase() == "FIRE") {
-      return {"fire": amount};
+      return { fire: amount };
     }
     if(cult.toUpperCase() == "WATER") {
-      return {"water": amount};
+      return { water: amount };
     }
     if(cult.toUpperCase() == "EARTH") {
-      return {"earth": amount};
+      return { earth: amount };
     }
     if(cult.toUpperCase() == "AIR") {
-      return {"air": amount};
+      return { air: amount };
     }
   }
 
   function wait() { 
-    return { "wait":"wait" };
+    return { wait:"wait" };
   }
 
   function done() { 
-    return { "done":"done" };
+    return { done: "done" };
   }
 
   function factionSetup(faction, player) { 
     if(player) { 
-      return { "setup": {"faction":faction, "player":player} };
+      return { setup: { faction: faction, player: player } };
     } else {
-      return { "setup": {"faction":faction } };
+      return { setup: { faction: faction } };
     }
   }
 
   function gameStart() { 
-    return { "setup": { "gameStart": true } };
+    return { setup: { gameStart: true } };
   }
 
   function optionSetup(option) { 
-    return { "setup": { "option": option } };
+    return { setup: { option: option } };
+  }
+  
+  function endGamePoints(source, points) { 
+    return { endGame: { source: source, points: points } };
   }
 
   function roundSetup(roundNum, roundTile, goal, points) { 
     return { 
-      "setup": { 
-        "round": roundNum, 
-        "tile": roundTile, 
-        "goal": goal, 
-        "points":points 
+      setup: { 
+        round: roundNum, 
+        tile: roundTile, 
+        goal: goal, 
+        points: points 
       } 
     };
   }
 
   function bonusSetup(bonusTile) { 
-    return { "setup": { "bonus": bonusTile } };
+    return { setup: { bonus: bonusTile } };
   }
 
   function playerSetup(playerName, playerNum) { 
-    return { "setup": { "player": { "num": playerNum, "name": playerName } } };
+    return { setup: { player: { num: playerNum, name: playerName } } };
   } 
 
   function additionalScoringSetup(scoringTile) { 
-    return { "setup": { "additionalScoring": scoringTile } };
+    return { setup: { additionalScoring: scoringTile } };
   }
 
   function roundStart(roundNum) { 
-    return { "round": roundNum };
+    return { round: roundNum };
   }
 
   function income(incomeType) { 
-    return { "income": incomeType };
+    return { income: incomeType };
   }
 
   function processActions(result, actions) { 
@@ -409,17 +413,17 @@
       }
       result.leech.push(action.leech);
     }
-    if(action["advance-ship"] !== undefined) { 
-      if(result["advance-ship"] == undefined) { 
-        result["advance-ship"] = 0;
+    if(action.advanceShip !== undefined) { 
+      if(result.advanceShip == undefined) { 
+        result.advanceShip = 0;
       }
-      result["advance-ship"] += action["advance-ship"];
+      result.advanceShip += action.advanceShip;
     }
-    if(action["advance-dig"] !== undefined) { 
-      if(result["advance-dig"] == undefined) { 
-        result["advance-dig"] = 0;
+    if(action.advanceDig !== undefined) { 
+      if(result.advanceDig == undefined) { 
+        result.advanceDig = 0;
       }
-      result["advance-dig"] += action["advance-dig"];
+      result.advanceDig += action.advanceDig;
     }
     if(action.done != undefined) { 
       result.done = action.done;
@@ -443,6 +447,10 @@
     if(action.income) { 
       result.income = action.income; 
     }
+    
+    if(action.endGame) { 
+      result.endGame = action.endGame;
+    }
   }
 
   function makeAction(subactions, action, subactions2) {
@@ -457,11 +465,8 @@
 }
 
 Action
-  //= subactions:SubAction* action:MainAction subactions2:SubAction* 
-  //    { return makeAction(subactions, action, subactions2) }
   = preActions:PreAction* action:MainAction postActions:PostAction*
       { return makeAction(preActions, action, postActions); }
-
 
 MainAction
   = PriestToCult
@@ -483,6 +488,7 @@ MainAction
   / RoundStart
   / BaseIncome
   / CultIncome
+  / EndGamePoints
 
 PreAction
   = SubAction
@@ -503,87 +509,71 @@ SubAction
 
 
 
-
 PriestToCult
   = "send"i _ "p"i _ "to"i _ cult:String _ amount:PriestToCultFor _ "."? _ { return priestToCult(cult, amount) }
 PriestToCultFor
   = "for"i _ amount:Number _ { return amount; }
   / _ { return 2 }
 
-
 Build 
   = "build"i _ space:String _ "."? _ { return build(space) }
 
-
 Upgrade
   = "upgrade"i _ space:String _ "to" _ building:String _ "."? _ { return upgrade(building, space) }
-
 
 Pass
   = "pass"i _ bonus:String _ { return pass(bonus) }
   / "pass"i _ { return pass("end") }
 
-
 OctagonalAction
   = "action"i _ act:String _ "."? _ { return action(act); }
-
 
 Leech
   = "leech"i _ amount:Number _ "from"i _ faction:String _ "."? _ { return leech(true, amount, faction) }
   / "decline"i _ amount:Number _ "from"i _ faction:String _ "."? _ { return leech(false, amount, faction) }
 
-
 Advance
   = "advance"i _ track:String _ "."? _ { return advance(track); } 
-
 
 Wait
   = "wait"i _ "."? _ { return wait(); }
 
-
 Done
   = "done"i _ "."? _ {return done(); }
-
 
 FactionSetup
   = "setup"i _ faction:String _ "for"i _ player:String _ "."? _ { return factionSetup(faction, player) }
   / "setup"i _ faction:String _ "."? _ { return factionSetup(faction) }
 
-
 GameSetup
   = "default game options"i _ { return gameStart(); }
-
 
 OptionSetup
   = "option"i _ opt:OptionString _ { return optionSetup(opt); }
 
-
 RoundSetup
   = "round"i _ roundNum:Number _ "scoring:"i _ roundTile:String "," _ goal:String _ ">>" _ points:Number _ { return roundSetup(roundNum, roundTile, goal, points); }
-
 
 BonusSetup
   = "removing tile "i  bonusTile:String { return bonusSetup(bonusTile); }
 
-
 PlayerSetup
   = "Player "i playerNum:Number ": " playerName:OptionString { return playerSetup(playerName, playerNum); }
-
 
 AdditionalScoringSetup
   = "added final scoring tile: "i scoringTile:OptionString { return additionalScoringSetup(scoringTile); }
 
-
 RoundStart
   = "Round "i roundNum:Number " income"i _ { return roundStart(roundNum) }
-
 
 BaseIncome
   = "other_income_for_faction" _ { return income("base"); }
 
-
 CultIncome
   = "cult_income_for_faction" _ { return income("cult"); }
+
+EndGamePoints
+  = "+" points:Number "vp for " source:String { return endGamePoints(source, points); }
 
 
 
@@ -593,18 +583,14 @@ ResourceAmount
   = quantity:Number res:String { return resource(res, quantity) }
   / res:String { return resource(res, 1) }
 
-
 Town
   = "+tw"i num:Number "."? _ { return town(num) }
-
 
 Favor
   = "+fav"i num:Number "."? _ { return favor(num) }
 
-
 Dig 
   = "dig"i _ amount:Number "."? _ { return dig(amount); }
-
 
 Cult
   = "+fire"i "."? _ { return cult("fire", 1); }
@@ -627,14 +613,11 @@ Cult
   / "-" amount:Number "earth"i "."? _ { return cult("earth", -1 * amount); }
   / "-" amount:Number "air"i "."? _ { return cult("air", -1 * amount); }
 
-
 Transform
   = "transform"i _ space:String _ "to"i _ color:String _ "."? _ { return transform(space, color); }
 
-
 Burn
   = "burn"i _ amount:Number _ "."? _ { return burn(amount); }
-
 
 MermaidConnect
   = "connect"i _ tiles:OptionString _ "."? _ { return mermaidConnect(tiles); }
@@ -644,14 +627,11 @@ MermaidConnect
 String
   = characters:[a-z0-9]i+ { return a2s(characters); }
 
-
 OptionString
   = characters:[a-z0-9-/.:]i+ { return a2s(characters); }
 
-
 Number
   = digits:[0-9]+ { return parseInt(a2s(digits),10); }
-
 
 _ "whitespace"
   = [ \t\n\r]*

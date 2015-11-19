@@ -105,32 +105,14 @@ function analyzeGame(game) {
 
 function parseFakeWitchesData(game) { 
     var engineSetup = {
-            players: {
-                "witches":
-                    {
-                        faction: "witches",
-                        d: 0,
-                        tp: 0,
-                        te: 0,
-                        sh: 0,
-                        sa: 0,
-                        fav10: false,
-                        fav11: false,
-                        fav12: false,
-                        passBonus: '',
-                        detailed: {
-                            starting: 20
-                        },
-                        simple: { 
-                            starting: 20
-                        }
-                    }
-                },
-            rounds: {
-                "1": { roundNum: 1, scoreTile: "SCORE1" },
-                "2": { roundNum: 2, scoreTile: "SCORE5" }
-            }
-        };
+        players: {
+            witches: makePlayer("witches")
+        },
+        rounds: {
+            "1": { roundNum: 1, scoreTile: "SCORE1" },
+            "2": { roundNum: 2, scoreTile: "SCORE5" }
+        }
+    };
 
     var setup = makeRulesEngine();
     var parsedLog = parseLog(parser, game.gamelog);
@@ -138,6 +120,33 @@ function parseFakeWitchesData(game) {
     var scorecards = processCommands(engineSetup, setup.rules, parsedLog, game.gamelog);
 
     return scorecards;
+}
+
+function parseAurenGame(game) { 
+    var engineSetup = {
+        players: {
+            "swarmlings": makePlayer("swarmlings"),
+            "auren": makePlayer("auren"),
+            "alchemists": makePlayer("alchemists"),
+            "chaosmagicians": makePlayer("chaosmagicians")
+        },
+        rounds: {
+            "1": { roundNum: 1, scoreTile: "SCORE5" },
+            "2": { roundNum: 2, scoreTile: "SCORE8" },
+            "3": { roundNum: 3, scoreTile: "SCORE2" },
+            "4": { roundNum: 4, scoreTile: "SCORE6" },
+            "5": { roundNum: 5, scoreTile: "SCORE7" },
+            "6": { roundNum: 6, scoreTile: "SCORE4" },
+        }
+    };
+
+    var setup = makeRulesEngine();
+    var parsedLog = parseLog(parser, game.gamelog);
+
+    var scoreCards = processCommands(engineSetup, setup.rules, parsedLog, game.gamelog);
+
+    return scoreCards;
+
 }
 
 
@@ -155,7 +164,9 @@ angular.module('wd.analyze.game', ['ngRoute', 'wd.data.game', 'wd.data.fake'])
     function($scope, DataGameSrv, FakeDataGameSrv, d3) {    
         var game = DataGameSrv.game;
         $scope.gamestats = analyzeGame(game);   
+        $scope.auren = parseAurenGame(game);
 
-        var fake = FakeDataGameSrv.game;
-        $scope.fakeWitches = parseFakeWitchesData(fake);
+
+        // var fake = FakeDataGameSrv.game;
+        // $scope.fakeWitches = parseFakeWitchesData(fake);
 }]);

@@ -1,6 +1,6 @@
 'use strict';
 
-var gamelog = [
+var witchesGamelog = [
 // {
 //   "gamelog":[
     {
@@ -408,7 +408,7 @@ var gamelog = [
         "delta":0
       },
       "faction":"witches",
-      "commands":"Upgrade c4 to sh",
+      "commands":"Upgrade c4 to sh. +tw7",
       "leech":{
         "red":1
       },
@@ -851,5 +851,5 @@ var gamelog = [
 
 angular.module('wd.data.fake', [])
 .factory('FakeDataGameSrv', [function($resource){
-    return {"game": {"gamelog": gamelog }};
+    return {"game": {"gamelog": witchesGamelog }};
 }]);

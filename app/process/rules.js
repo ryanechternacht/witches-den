@@ -526,6 +526,106 @@ function fav12_onPassTp(player, round, parsedAction, action) {
 
 
 
+//
+// advances
+//
+function advanceDig(player, round, parsedAction, action) {
+    if(parsedAction.advanceDig == undefined) {
+        return null;
+    }
+
+    var points = 6 * parsedAction.advanceDig;
+    if(points > 0) {
+        return { 
+            simple: { advance: points },
+            detailed: { advanceDig: points }
+        }
+    }
+
+    return null;
+}
+
+function advanceShip(player, round, parsedAction, action) { 
+    if(parsedAction.advanceShip == undefined) {
+        return null;
+    }
+
+    var next = player.shipLevel + 1;
+    var nextLevel = player.shipLevels[next];
+
+    if(nextLevel != undefined) {
+        player.shipLevel = next;
+        return { 
+            simple: { advance: nextLevel.points },
+            detailed: { advanceShip: nextLevel.points }
+        }
+    }
+
+    return null;
+}
+
+
+//
+// Endgame points
+//
+function endGameCult(player, round, parsedAction, action) { 
+    if(parsedAction.endGame == undefined 
+        || parsedAction.endGame.source.toUpperCase()== "NETWORK") {
+        return null;
+    }
+
+    var points = parsedAction.endGame.points;
+    if(points > 0) {
+        if(parsedAction.endGame.source.toUpperCase() == "FIRE") {
+            return { 
+                simple: { endGameCult: points },
+                detailed: { endGameFire: points }
+            }
+        }
+        if(parsedAction.endGame.source.toUpperCase() == "WATER") {
+            return { 
+                simple: { endGameCult: points },
+                detailed: { endGameWater: points }
+            }
+        }
+        if(parsedAction.endGame.source.toUpperCase() == "EARTH") {
+            return { 
+                simple: { endGameCult: points },
+                detailed: { endGameEarth: points }
+            }
+        }
+        if(parsedAction.endGame.source.toUpperCase() == "AIR") {
+            return { 
+                simple: { endGameCult: points },
+                detailed: { endGameAir: points }
+            }
+        }
+
+    }
+    return null;
+}
+
+function endGameNetwork(player, round, parsedAction, action) {
+    if(parsedAction.endGame == undefined 
+        || parsedAction.endGame.source.toUpperCase() != "NETWORK") {
+        return null;
+    }
+
+    var points = parsedAction.endGame.points;
+    if(points > 0) {
+        return { 
+            simple: { endGameNetwork: points },
+            detailed: { endGameNetwork: points }
+        }
+    }
+
+    return null;
+}
+
+
+
+
+
 
 
 
