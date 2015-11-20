@@ -251,6 +251,14 @@
   function endGamePoints(source, points) { 
     return { endGame: { source: source, points: points } };
   }
+  
+  function bridge(tile1, tile2, tile3) { 
+    var tiles = [tile1, tile2];
+    if(tile3 != undefined) { 
+      tiles.push(tile3);
+    }
+    return { bridge: tiles };
+  }
 
   function roundSetup(roundNum, roundTile, goal, points) { 
     return { 
@@ -299,61 +307,61 @@
       }
       result.pw += action.pw;
     }
-    if(action.c !== undefined) { 
+    if(action.c != undefined) { 
       if(result.c == undefined) { 
         result.c = 0;
       }
       result.c += action.c;
     }
-    if(action.w !== undefined) { 
+    if(action.w != undefined) { 
       if(result.w == undefined) { 
         result.w = 0;
       }
       result.w += action.w;
     }
-    if(action.p !== undefined) { 
+    if(action.p != undefined) { 
       if(result.p == undefined) { 
         result.p = 0;
       }
       result.p += action.p;
     }
-    if(action.vp !== undefined) { 
+    if(action.vp != undefined) { 
       if(result.vp == undefined) { 
         result.vp = 0;
       }
       result.vp += action.vp;
     }
-    if(action.spd !== undefined) { 
+    if(action.spd != undefined) { 
       if(result.spd == undefined) { 
         result.spd = 0;
       }
       result.spd += action.spd;
     }
-    if(action.dig !== undefined) { 
+    if(action.dig != undefined) { 
       if(result.dig == undefined) { 
         result.dig = 0;
       }
       result.dig += action.dig;
     }
-    if(action.fire !== undefined) { 
+    if(action.fire != undefined) { 
       if(result.fire == undefined) { 
         result.fire = 0;
       }
       result.fire += action.fire;
     }
-    if(action.water !== undefined) { 
+    if(action.water != undefined) { 
       if(result.water == undefined) { 
         result.water = 0;
       }
       result.water += action.water;
     }
-    if(action.earth !== undefined) { 
+    if(action.earth != undefined) { 
       if(result.earth == undefined) { 
         result.earth = 0;
       }
       result.earth += action.earth ;
     }
-    if(action.air !== undefined) { 
+    if(action.air != undefined) { 
       if(result.air == undefined) { 
         result.air = 0;
       }
@@ -365,13 +373,13 @@
       }
       result.tw.push(action.tw);
     }
-    if(action.fav !== undefined) { 
+    if(action.fav != undefined) { 
       if(result.fav == undefined) { 
         result.fav = [];
       }
       result.fav.push(action.fav);
     }
-    if(action.transform !== undefined) { 
+    if(action.transform != undefined) { 
       if(result.transform == undefined) { 
         result.transform = [];
       }
@@ -383,8 +391,11 @@
       }
       result.burn += action.burn;
     }
-    if(action.mermaidConnect !== undefined) { 
+    if(action.mermaidConnect != undefined) { 
       result.mermaidConnect = action.mermaidConnect;
+    }
+    if(action.bridge != undefined) { 
+      result.bridge = action.bridge;
     }
 
 
@@ -493,6 +504,7 @@ PreAction
 PostAction
   = SubAction
   / Build // this happens when doing a spd action and a build
+  / Upgrade // this happens when swarmlings use their sh
 
 SubAction
   = Convert
@@ -503,6 +515,7 @@ SubAction
   / Transform
   / Burn
   / MermaidConnect
+  / Bridge
 
 
 
@@ -571,7 +584,7 @@ CultIncome
 
 EndGamePoints
   = "+" points:Number "vp for " source:String { return endGamePoints(source, points); }
-
+  / "score_resources" { return endGamePoints("resources", 0); }
 
 
 Convert
@@ -618,6 +631,10 @@ Burn
 
 MermaidConnect
   = "connect"i _ tiles:OptionString _ "."? _ { return mermaidConnect(tiles); }
+
+Bridge
+  = "bridgei" _ tile1:String ":" tile2:String ":" tile3:String _ "."? _ { return bridge(tile1, tile2, tile3) }
+  / "bridge"i _ tile1:String ":" tile2:String _ "."? _ { return bridge(tile1, tile2) }
 
 
 

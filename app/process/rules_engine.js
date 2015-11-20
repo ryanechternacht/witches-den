@@ -84,7 +84,6 @@ function addTurnToScorecard(player, effects) {
     for(var i = 0; i < effects.length; i++) { 
         var effect = effects[i];
 
-
         // DEMO
         if(effect.simple.demo != undefined) { 
             if(player.simple.demo == undefined) { 
@@ -150,11 +149,23 @@ function addTurnToScorecard(player, effects) {
             }
             player.simple.endGameNetwork += effect.simple.endGameNetwork;
         }
+        if(effect.simple.endGameResources != undefined) { 
+            if(player.simple.endGameResources == undefined) { 
+                player.simple.endGameResources = 0;
+            }
+            player.simple.endGameResources += effect.simple.endGameResources;
+        }
         if(effect.simple.leech != undefined) { 
             if(player.simple.leech == undefined) { 
                 player.simple.leech = 0;
             }
             player.simple.leech += effect.simple.leech;
+        }
+        if(effect.simple.unknown != undefined) { 
+            if(player.simple.unknown == undefined) { 
+                player.simple.unknown = 0;
+            }
+            player.simple.unknown += effect.simple.unknown;
         }
 
 
@@ -265,11 +276,23 @@ function addTurnToScorecard(player, effects) {
             }
             player.detailed.endGameNetwork += effect.detailed.endGameNetwork;
         }
+        if(effect.detailed.endGameResources != undefined) { 
+            if(player.detailed.endGameResources == undefined) { 
+                player.detailed.endGameResources = 0;
+            }
+            player.detailed.endGameResources += effect.detailed.endGameResources;
+        }
         if(effect.detailed.leech != undefined) { 
             if(player.detailed.leech == undefined) { 
                 player.detailed.leech = 0;
             }
             player.detailed.leech += effect.detailed.leech;
+        }
+        if(effect.detailed.unknown != undefined) { 
+            if(player.detailed.unknown == undefined) { 
+                player.detailed.unknown = [];
+            }
+            player.detailed.unknown.push(effect.detailed);
         }
     }
 }
@@ -325,6 +348,8 @@ function processCommand(rules, player, round, parsedAction, action) {
 
     handleHardPoints(player, effects, action);
 
+    markUnmappedPoints(player, effects, action);
+
     addTurnToScorecard(player, effects)
 
     if(parsedAction.pass != undefined) { 
@@ -350,6 +375,53 @@ function handleHardPoints(player, effects, action) {
     //         // if = 4, assume faction
     //     }
     // }
+}
+
+function markUnmappedPoints(player, effects, action) {
+    var points = 0;
+
+    for(var i = 0; i < effects.length; i++){ 
+        var effect = effects[i];
+
+        if(effect.simple.round != undefined) { 
+            points += effect.simple.round;
+        }
+        if(effect.simple.faction != undefined) { 
+            points += effect.simple.faction;
+        }
+        if(effect.simple.bonus != undefined) { 
+            points += effect.simple.bonus;
+        }
+        if(effect.simple.town != undefined) { 
+            points += effect.simple.town;
+        }
+        if(effect.simple.advance != undefined) { 
+            points += effect.simple.advance;
+        }
+        if(effect.simple.fav != undefined) { 
+            points += effect.simple.fav;
+        }
+        if(effect.simple.endGameCult != undefined) { 
+            points += effect.simple.endGameCult;
+        }
+        if(effect.simple.endGameNetwork != undefined) { 
+            points += effect.simple.endGameNetwork;
+        }
+        if(effect.simple.endGameResources != undefined) {
+            points += effect.simple.endGameResources;
+        }
+        if(effect.simple.leech != undefined) { 
+            points += effect.simple.leech;
+        }
+    }
+
+    if(action.VP.delta != points) { 
+        var diff = action.VP.delta - points
+        effects.push({
+            simple: { unknown: diff }, 
+            detailed: { unknown: diff, action: action.commands } 
+        });
+    }
 }
 
 function processCommands(engineSetup, rules, parsedLog, log) { 
@@ -419,7 +491,8 @@ function makeRulesEngine() {
         advanceShip,
 
         endGameCult,
-        endGameNetwork
+        endGameNetwork,
+        endGameResources
     ];
 
     return { 

@@ -91,8 +91,13 @@ function score4_onShsa(player, round, parsedAction, action) {
         return null;
     }
 
-    var points = parsedAction.sh * 5;
-    points += parsedAction.sa * 5;
+    var points = 0;
+    if(parsedAction.sh) { 
+        points += 5;
+    }
+    if(parsedAction.sa) {
+        points += 5;
+    }
 
     if(points > 0) {  
         return { 
@@ -158,12 +163,17 @@ function score6_onTp(player, round, parsedAction, action) {
 
 // SCORE7: SHSA >> 3; 4water -> 1spd
 function score7_onShsa(player, round, parsedAction, action) {
-    if(round == undefined || round.scoreTile.toUpperCase() != "SCORE6") { 
+    if(round == undefined || round.scoreTile.toUpperCase() != "SCORE7") { 
         return null;
     } 
 
-    var points = parsedAction.sh * 5;
-    points += parsedAction.sa * 5;
+    var points = 0;
+    if(parsedAction.sh) { 
+        points += 5;
+    }
+    if(parsedAction.sa) {
+        points += 5;
+    }
 
     if(points > 0) { 
         return { 
@@ -183,7 +193,7 @@ function score7_onShsa(player, round, parsedAction, action) {
 
 // SCORE8: tp >> 3; 4air -> 1spd
 function score8_onTp(player, round, parsedAction, action) {
-    if(round == undefined || round.scoreTile.toUpperCase() != "SCORE6") { 
+    if(round == undefined || round.scoreTile.toUpperCase() != "SCORE8") { 
         return null;
     } 
 
@@ -207,7 +217,7 @@ function score8_onTp(player, round, parsedAction, action) {
 
 // SCORE9: te >> 4; 1cult_p -> 2c
 function score9_onTe(player, round, parsedAction, action) {
-    if(round == undefined || round.scoreTile.toUpperCase() != "SCORE6") { 
+    if(round == undefined || round.scoreTile.toUpperCase() != "SCORE9") { 
         return null;
     } 
 
@@ -378,7 +388,7 @@ function bon10_onPassShip(player, round, parsedAction, action) {
         return null;
     }
 
-    var points = player.ship * 3;
+    var points = player.shipLevel * 3;
     if(points > 0) {
         return { 
             simple: { bonus: points },
@@ -570,8 +580,7 @@ function advanceShip(player, round, parsedAction, action) {
 // Endgame points
 //
 function endGameCult(player, round, parsedAction, action) { 
-    if(parsedAction.endGame == undefined 
-        || parsedAction.endGame.source.toUpperCase()== "NETWORK") {
+    if(parsedAction.endGame == undefined ) {
         return null;
     }
 
@@ -601,7 +610,6 @@ function endGameCult(player, round, parsedAction, action) {
                 detailed: { endGameAir: points }
             }
         }
-
     }
     return null;
 }
@@ -623,7 +631,20 @@ function endGameNetwork(player, round, parsedAction, action) {
     return null;
 }
 
+function endGameResources(player, round, parsedAction, action) { 
+    if(parsedAction.endGame == undefined 
+        || parsedAction.endGame.source.toUpperCase() != "RESOURCES") {
+        return null;
+    }
 
+    var points = action.VP.delta;
+    if(points > 0) { 
+        return { 
+            simple: { endGameResources: points },
+            detailed: { endGameResources: points }
+        }
+    }
+}
 
 
 
