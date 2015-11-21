@@ -441,9 +441,6 @@ function processCommands(engineSetup, rules, parsedLog, log) {
     }
 
     for(var i = 0; i < parsedLog.length; i++) { 
-        if(i == 200)
-            console.log("yeah");
-
         var parsedAction = parsedLog[i];
         var action = log[i];
 

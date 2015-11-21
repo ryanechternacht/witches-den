@@ -3,32 +3,23 @@
 </div>
 
 
-
 <article ng-repeat="stats in gamestats.factions">
-    <div class="page-header">
-        <h3>{{stats.faction}}</h3>
-    </div>
-    {{stats}}
-</article>
-
-
-
-<article ng-repeat="faction in gamestats">
-    <h3>{{faction.name}}</h3>
+    <h3>{{stats.faction}}</h3>
 
     <div class="row">
-        <div class="col-sm-8"><!-- 
-            <d3-scoregraph height="300" width="600" data="faction.turns">
+        <div class="col-sm-8">
+            <textarea style="height: 400px !important" class="form-control">{{stats}}</textarea>
+            <!-- <d3-scoregraph height="300" width="600" data="stats.simple">
             </d3-scoregraph> -->
         </div>
         
         <div class="col-sm-4">
             <table class="table">
                 <tr>
-                    <th>Round</th><th>Actions Taken</th>
+                    <th>Source</th><th>Points Gainged</th>
                 </tr>
-                <tr ng-repeat="line in faction.turns track by $index">
-                    <td>{{$index + 1}}</td><td>{{line}}</td>
+                <tr ng-repeat="(key, value) in stats.detailed">
+                    <td>{{key}}</td><td>{{value}}</td>
                 </tr>
             </table>
         </div>
