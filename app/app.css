@@ -58,6 +58,10 @@ svg .bar {
     fill: teal;
 }
 
+svg .negative-bar { 
+    fill: orange;
+}
+
 svg .bar-label { 
     font-size: 14px;
     text-anchor: middle;
@@ -72,6 +76,9 @@ svg .axis line {
     fill: none;
     stroke: black;
     shape-rendering: crispEdges;
-
 }
 
+/*svg .tick text { 
+    transform: translate(0, 30) rotate(45deg);
+}
+*/

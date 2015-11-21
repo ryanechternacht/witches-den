@@ -8,15 +8,15 @@
 
     <div class="row">
         <div class="col-sm-8">
-            <textarea readonly style="height: 400px !important" class="form-control">{{stats}}</textarea>
-            <!-- <d3-scoregraph height="300" width="600" data="stats.simple">
-            </d3-scoregraph> -->
+            <!-- <textarea readonly style="height: 400px !important" class="form-control">{{stats}}</textarea> -->
+            <d3-scoregraph height="300" width="600" data="stats.simple">
+            </d3-scoregraph>
         </div>
         
         <div class="col-sm-4">
             <table class="table">
                 <tr>
-                    <th>Source</th><th>Points Gainged</th>
+                    <th>Source</th><th>Points Gained</th>
                 </tr>
                 <tr ng-repeat="(key, value) in stats.detailed">
                     <td>{{key}}</td><td>{{value}}</td>
