@@ -27,19 +27,6 @@ var drawChart = function(d3, svg, scope, iElement, iAttrs) {
         .domain([0, dataset.length])
         .range([xLeft, xRight]);
 
-    var a = yScale(6),
-        b = yScale(7),
-        c = yScale(8),
-        d = yScale(9),
-        e = yScale(10),
-        f = yScale(11),
-        g = xScale(0),
-        h = xScale(1),
-        i = xScale(2),
-        j = xScale(3),
-        k = xScale(4),
-        l = xScale(5);
-
     var bar = svg.selectAll("g")
         .data(dataset)
         .enter()

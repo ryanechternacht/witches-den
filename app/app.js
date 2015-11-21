@@ -6,7 +6,6 @@ angular.module('myApp', [
   'myApp.version',
   'wd.analyze.game',
   'wd.data.game',
-  'wd.data.fake',
   'd3'
 ]).
 config(['$routeProvider', function($routeProvider) {

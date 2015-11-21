@@ -3,37 +3,23 @@
 </div>
 
 
-<div class="page-header">
-    <h3>Auren</h3>
-</div>
-{{auren.auren}}
 
-<div class="page-header">
-    <h3>Swarmlings</h3>
-</div>
-{{auren.swarmlings}}
-
-<div class="page-header">
-    <h3>Alchemists</h3>
-</div>
-{{auren.alchemists}}
-
-<div class="page-header">
-    <h3>Chaos Magicians</h3>
-</div>
-{{auren.chaosmagicians}}
-<hr/>
+<article ng-repeat="stats in gamestats.factions">
+    <div class="page-header">
+        <h3>{{stats.faction}}</h3>
+    </div>
+    {{stats}}
+</article>
 
 
-<article ng-repeat="faction in gamestats.factions">
+
+<article ng-repeat="faction in gamestats">
     <h3>{{faction.name}}</h3>
 
     <div class="row">
-        <div class="col-sm-8">
-  <!--           <img src="http://getwordwall.com/Attachments/Screenshots/Play/bar-graph.png"
-                 width="100%"></img> -->
+        <div class="col-sm-8"><!-- 
             <d3-scoregraph height="300" width="600" data="faction.turns">
-            </d3-scoregraph>
+            </d3-scoregraph> -->
         </div>
         
         <div class="col-sm-4">

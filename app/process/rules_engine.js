@@ -429,16 +429,27 @@ function processCommands(engineSetup, rules, parsedLog, log) {
         rounds = engineSetup.rounds,
         round = null;
         
+    var playerLookup = [];
+    for(var i = 0; i < players.length; i++) { 
+        var p = players[i];
+        playerLookup[p.faction] = p;
+    }    
+    var roundLookup = [];
+    for(var i = 0; i < rounds.length; i++) { 
+        var r = rounds[i];
+        roundLookup[r.roundNum] = r;
+    }
 
     for(var i = 0; i < parsedLog.length; i++) { 
-        if(i == 61) {
-            console.log("oh yeah");
-        }
+        if(i == 200)
+            console.log("yeah");
 
         var parsedAction = parsedLog[i];
         var action = log[i];
 
-        var p = players[action.faction];
+        // var p = players[action.faction];
+        var p = playerLookup[action.faction];
+
         // for now, skip non player actions -- we mave do this differnetly 
         // in the future
         if(p != undefined) { 
@@ -446,7 +457,7 @@ function processCommands(engineSetup, rules, parsedLog, log) {
         }
 
         if(parsedAction.round != undefined) {
-            round = rounds[parsedAction.round];
+            round = roundLookup[parsedAction.round];
         }
     }
 
