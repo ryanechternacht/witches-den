@@ -34,6 +34,42 @@ function parseAurenGame(game) {
     return { factions: scoreCards };
 }
 
+// I could use this for localization
+function buildPrettyStrings() { 
+    var a = new Array();
+
+    //Factions
+    a["swarmlings"] = "Swarmlings";
+    a["mermaids"] = "Mermaids";
+    a["witches"] = "Witches";
+    a["auren"] = "Auren";
+    a["dwarves"] = "Dwarves";
+    a["engineers"] = "Engineers";
+    a["chaosmagicians"] = "Chaos Magicians";
+    a["giants"] = "Giants";
+    a["nomads"] = "Nomads";
+    a["fakirs"] = "Fakirs";
+    a["halflings"] = "Halflings";
+    a["cultists"] = "Cultists";
+    a["darklings"] = "Darklings";
+    a["alchemists"] = "Alchemists";
+
+    // simple
+    a["starting"] = "Starting";
+    a["round"] = "Round";
+    a["bonus"] = "Bonus";
+    a["town"] = "Town";
+    a["advance"] = "Ship/Dig Track";
+    a["endGameCult"] = "Cult Track";
+    a["endGameNetwork"] = "Network";
+    a["endGameResources"] = "Unused Resources";
+    a["leech"] = "Leech";
+    a["fav"] = "Favors";
+    a["faction"] = "Faction";
+
+    return a;
+}
+
 
 
 angular.module('wd.analyze.game', ['ngRoute', 'wd.data.game'])
@@ -48,5 +84,7 @@ angular.module('wd.analyze.game', ['ngRoute', 'wd.data.game'])
 .controller('AnalyzeGameCtrl', ['$scope', 'DataGameSrv', 'd3',
     function($scope, DataGameSrv, d3) {    
         var game = DataGameSrv.game;
-        $scope.gamestats = parseAurenGame(game);   
+        $scope.gamestats = parseAurenGame(game);
+
+        $scope.pretty = buildPrettyStrings();
 }]);

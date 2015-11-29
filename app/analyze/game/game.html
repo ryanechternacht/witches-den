@@ -2,14 +2,19 @@
     <h1>Analyze a Game of Terra Mystica</h1>
 </div>
 
+<!-- <div class="page-header">
+    <div class="">
 
+    </div>
+</div>
+ -->
 <article ng-repeat="stats in gamestats.factions">
-    <h3>{{stats.faction}}</h3>
+    <h3>{{pretty[stats.faction]}}</h3>
 
     <div class="row">
         <div class="col-sm-8">
             <!-- <textarea readonly style="height: 400px !important" class="form-control">{{stats}}</textarea> -->
-            <d3-scoregraph height="300" width="600" data="stats.simple">
+            <d3-scoregraph height="300" width="600" data="stats.simple" dictionary="pretty">
             </d3-scoregraph>
         </div>
         

@@ -1,10 +1,12 @@
 'use strict';
 
-var drawChart = function(d3, svg, scope, iElement, iAttrs) { 
+var drawChart = function(d3, svg, scope, translator, iElement, iAttrs) { 
     svg.selectAll("*").remove();
 
     var width = scope.width,
-        height = scope.height;
+        height = scope.height,
+        translator = makeTranslator(scope.dictionary);
+
 
     var dataset = [];
     var keys = _.keys(scope.data);
@@ -34,7 +36,7 @@ var drawChart = function(d3, svg, scope, iElement, iAttrs) {
         .range([yBottom, yTop]);
 
     var xScale = d3.scale.ordinal()
-        .domain(dataset.map(function(d) { return d.key; }))
+        .domain(dataset.map(function(d) { return translator(d.key); }))
         .rangeRoundBands([xLeft, xRight], .1);
 
     var bar = svg.selectAll("g")
@@ -42,7 +44,7 @@ var drawChart = function(d3, svg, scope, iElement, iAttrs) {
         .enter()
         .append("g")
         .attr("transform", function(d, i) { 
-            return "translate(" + xScale(d.key) + ",0)";
+            return "translate(" + xScale(translator(d.key)) + ",0)";
         });
 
     bar.append("rect")
@@ -70,29 +72,36 @@ var drawChart = function(d3, svg, scope, iElement, iAttrs) {
         .scale(xScale)
         .orient("bottom");
 
-    svg.append("g") // Add the X Axis
-        .attr("class", "x axis")
-        .attr("id", "x")
-            .attr("transform", "translate(0," + yBottom + ")")
-            .call(xAxis)
-            .selectAll("text")
-            .style("text-anchor", "end")
-            .attr("dx", "-.8em")
-            .attr("dy", ".15em")
-            .attr("transform", function (d) {
-            return "rotate(-30)";
+    svg.append("g")
+        .attr("class", "axis")
+        .attr("transform", "translate(0," + yBottom + ")")
+        .call(xAxis)
+        .selectAll("text")
+        .style("text-anchor", "end")
+        .attr("dx", "-.8em")
+        .attr("dy", ".15em")
+        .attr("transform", function(d) {
+            return "rotate(-30)" 
         });
+}
 
-    // svg.append("g")
-    //     .attr("class", "axis")
-    //     .attr("transform", "translate(0," + yBottom + ")")
-    //     .call(xAxis)
-    //     .style("text-anchor", "end")
-    //     .attr("dx", "-.8em")
-    //     .attr("dy", ".15em")
-    //     .attr("transform", function(d) {
-    //         return "rotate(-65)" 
-    //     });
+// return a function that converts strings into a prettier form. 
+// if the string exists in the passed in diciontary, return that value; 
+// otherwise return the original string.
+var makeTranslator = function(dictionary) { 
+    if(dictionary == undefined || dictionary == null) { 
+        return function(s) { return s; };
+    }
+
+    return function(s) { 
+        var t = dictionary[s];
+        if(t != null) { 
+            return t;
+        }
+        else { 
+            return s;
+        }
+    }
 }
 
 angular.module('d3').directive('d3Scoregraph', ['d3', function(d3) { 
@@ -101,7 +110,8 @@ angular.module('d3').directive('d3Scoregraph', ['d3', function(d3) {
         scope: {
             data: '=', // binding to an angular object
             width: '@',    // static binding to a value
-            height: '@'
+            height: '@',
+            dictionary: '=',
             // label: '@',
             // onClick: '&'
         },
