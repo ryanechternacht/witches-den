@@ -13,7 +13,6 @@
 
     <div class="row">
         <div class="col-sm-8">
-            <!-- <textarea readonly style="height: 400px !important" class="form-control">{{stats}}</textarea> -->
             <d3-scoregraph height="300" width="600" data="stats.simple" dictionary="pretty">
             </d3-scoregraph>
         </div>
@@ -24,7 +23,7 @@
                     <th>Source</th><th>Points Gained</th>
                 </tr>
                 <tr ng-repeat="(key, value) in stats.detailed">
-                    <td>{{key}}</td><td>{{value}}</td>
+                    <td>{{pretty[key] || key}}</td><td>{{value}}</td>
                 </tr>
             </table>
         </div>

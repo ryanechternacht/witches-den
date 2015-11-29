@@ -172,13 +172,11 @@ function addTurnToScorecard(player, effects) {
         // detailed
         if(effect.detailed.round != undefined) { 
             var round = effect.detailed.round;
-            if(player.detailed.round == undefined) { 
-                player.detailed.round = {};
+
+            if(player.detailed[round.scoreTile] == undefined) { 
+                player.detailed[round.scoreTile] = 0;
             }
-            if(player.detailed.round[round.roundNum] == undefined) { 
-                player.detailed.round[round.roundNum] = 0;
-            }
-            player.detailed.round[round.roundNum] += round.points;
+            player.detailed[round.scoreTile] += round.points;
         }
         if(effect.detailed.faction != undefined) { 
             if(player.detailed.faction == undefined) { 
