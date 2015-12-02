@@ -8,8 +8,8 @@
     </div>
 </div>
  -->
-<article ng-repeat="stats in gamestats.factions">
-    <h3>{{pretty[stats.faction]}}</h3>
+<article ng-repeat="stats in gamestats.factions | orderBy:'faction'">
+    <h3>{{ pretty[stats.faction] }}</h3>
 
     <div class="row">
         <div class="col-sm-8">
@@ -21,10 +21,10 @@
             <table class="table">
                 <tr>
                     <th>Source</th><th>Points Gained</th>
-                </tr>
+                </tr> 
                 <tr ng-repeat="(key, value) in stats.detailed">
                     <td>{{pretty[key] || key}}</td><td>{{value}}</td>
-                </tr>
+                </tr> 
             </table>
         </div>
     </div>
