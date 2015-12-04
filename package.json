@@ -17,7 +17,9 @@
     "protractor": "^2.1.0",
     "shelljs": "^0.2.6",
     "express": "~4.1.1",
-    "method-override": "^1.0.0"
+    "method-override": "^1.0.0",
+    "morgan": "^1.0.0",
+    "prototype": "0.0.5"
   },
   "scripts": {
     "postinstall": "bower install",
