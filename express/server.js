@@ -21,7 +21,7 @@ app.all("/*", function(req, res, next) {
         res.sendFile("index.html", { root: __dirname + "/../app" });
 });
 
-var port = process.env.port || 3001;
+var port = process.env.PORT || 3001;
 
 app.listen(port);
 
