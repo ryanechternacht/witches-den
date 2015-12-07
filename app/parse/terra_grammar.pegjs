@@ -232,12 +232,8 @@
     return { done: "done" };
   }
 
-  function factionSetup(faction, player) { 
-    if(player) { 
-      return { setup: { faction: faction, player: player } };
-    } else {
-      return { setup: { faction: faction } };
-    }
+  function factionSetup() { 
+      return { setup: { factionSelection: true } };
   }
 
   function gameStart() { 
@@ -552,8 +548,7 @@ Done
   = "done"i _ "."? _ {return done(); }
 
 FactionSetup
-  = "setup"i _ faction:String _ "for"i _ player:String _ "."? _ { return factionSetup(faction, player) }
-  / "setup"i _ faction:String _ "."? _ { return factionSetup(faction) }
+  = "setup"i { return factionSetup() }
 
 GameSetup
   = "default game options"i _ { return gameStart(); }
@@ -562,7 +557,7 @@ OptionSetup
   = "option"i _ opt:OptionString _ { return optionSetup(opt); }
 
 RoundSetup
-  = "round"i _ roundNum:Number _ "scoring:"i _ roundTile:String "," _ goal:String _ ">>" _ points:Number _ { return roundSetup(roundNum, roundTile, goal, points); }
+  = "round"i _ roundNum:Number _ "scoring:"i _ roundTile:String "," _ goal:OptionString _ ">>" _ points:Number _ { return roundSetup(roundNum, roundTile, goal, points); }
 
 BonusSetup
   = "removing tile "i  bonusTile:String { return bonusSetup(bonusTile); }

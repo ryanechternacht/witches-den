@@ -1,21 +1,21 @@
 //TODO refactor all of this into the js object format
 
 
-function makePlayer(name) {
+function makePlayer(name, faction) {
     var shipStart,
         shipLevels;
 
-    if(name.toUpperCase() == "NOMADS"
-        || name.toUpperCase() == "CHAOSMAGICIANS"
-        || name.toUpperCase() == "GIANTS"
-        || name.toUpperCase() == "SWARMLINGS"
-        || name.toUpperCase() == "ENGINEERS"
-        || name.toUpperCase() == "HALFLINGS"
-        || name.toUpperCase() == "CULTISTS"
-        || name.toUpperCase() == "ALCHEMISTS"
-        || name.toUpperCase() == "DARKLINGS"
-        || name.toUpperCase() == "AUREN"
-        || name.toUpperCase() == "WITCHES") {
+    if(faction.toUpperCase() == "NOMADS"
+        || faction.toUpperCase() == "CHAOSMAGICIANS"
+        || faction.toUpperCase() == "GIANTS"
+        || faction.toUpperCase() == "SWARMLINGS"
+        || faction.toUpperCase() == "ENGINEERS"
+        || faction.toUpperCase() == "HALFLINGS"
+        || faction.toUpperCase() == "CULTISTS"
+        || faction.toUpperCase() == "ALCHEMISTS"
+        || faction.toUpperCase() == "DARKLINGS"
+        || faction.toUpperCase() == "AUREN"
+        || faction.toUpperCase() == "WITCHES") {
         shipStart = 0;
         shipLevels = {
             "1": { points: 2 },
@@ -23,12 +23,12 @@ function makePlayer(name) {
             "3": { points: 4 }
         };
     }
-    else if(name.toUpperCase() == "FAKIRS"
-        || name.toUpperCase() == "DWARVES") { 
+    else if(faction.toUpperCase() == "FAKIRS"
+        || faction.toUpperCase() == "DWARVES") { 
         shipStart = 0;
         shipLevels = {};
     }
-    else if(name.toUpperCase() == "MERMAIDS") {
+    else if(faction.toUpperCase() == "MERMAIDS") {
         shipStart = 1;
         shipLevels = {
             "2": { points: 2 },
@@ -42,7 +42,8 @@ function makePlayer(name) {
     }
 
     return {
-        faction: name,
+        faction: faction,
+        name: name,
         d: 0,
         tp: 0,
         te: 0,
@@ -65,14 +66,42 @@ function makePlayer(name) {
 
 
 function setupEngine(parsedLog, log) { 
-    // setup rounds
-    // setup players
     // f&i endgame
     // other options?
 
+    var rounds = [],
+        players = [],
+        options = [],
+        names = []; // holds player info until faction selection
+
+    for(var i = 0; i < parsedLog.length; i++) { 
+        var parsedAction = parsedLog[i];
+        var action = log[i];
+
+        if(parsedAction.setup == undefined ) { 
+            continue;
+        }
+
+        if(parsedAction.setup.round != undefined) { 
+            rounds.push({ 
+                roundNum: parsedAction.setup.round, 
+                scoreTile: parsedAction.setup.tile
+            });
+        }
+
+        if(parsedAction.setup.player != undefined) { 
+            names.push(parsedAction.setup.player.name);
+        }
+
+        if(parsedAction.setup.factionSelection) { 
+            var name = names.shift();
+            players.push(makePlayer(name, action.faction));
+        }
+    }
+
     return {
-        rounds: [],
-        players: [], 
+        rounds: rounds,
+        players: players, 
         options: [],
     };
 }
