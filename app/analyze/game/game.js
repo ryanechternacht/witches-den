@@ -112,4 +112,6 @@ angular.module('wd.analyze.game', ['ngRoute'])
                     $scope.pretty = buildPrettyStrings($scope.gamestats.rounds);
                 });
             };
+
+    analyzeGame("onion");
 }]);
