@@ -18,7 +18,10 @@ require('./routes.js')(app);
 // app.use("/img", express.static(__dirname + "/app/img"));
 // app.use("/css", express.static(__dirname + "/app/css"));
 app.all("/*", function(req, res, next) {
-        res.sendFile("index.html", { root: __dirname + "/../app" });
+    console.log(req);
+    console.log(res);
+    console.log(next);
+    res.sendFile("index.html", { root: __dirname + "/../app" });
 });
 
 var port = process.env.PORT || 3001;

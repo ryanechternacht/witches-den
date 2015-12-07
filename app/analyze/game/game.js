@@ -1,6 +1,17 @@
 'use strict';
 
-function parseAurenGame(game) { 
+// function parseAurenGame(game) { 
+//     var setup = makeRulesEngine();
+//     var parsedLog = parseLog(parser, game.gamelog);
+
+//     var engineSetup = setupEngine(parsedLog, game.gamelog);
+
+//     var scoreCards = processCommands(engineSetup, setup.rules, parsedLog, game.gamelog);
+
+//     return { factions: scoreCards, rounds: engineSetup.rounds };
+// }
+
+function parseGame(game) { 
     var setup = makeRulesEngine();
     var parsedLog = parseLog(parser, game.gamelog);
 
@@ -82,8 +93,6 @@ function buildPrettyStrings(rounds) {
     return a;
 }
 
-
-
 angular.module('wd.analyze.game', ['ngRoute', 'wd.data.game'])
 
 .config(['$routeProvider', function($routeProvider) {
@@ -93,33 +102,16 @@ angular.module('wd.analyze.game', ['ngRoute', 'wd.data.game'])
     });
 }])
 
-// .filter('toKeyValue', function() { 
-//     return function(obj) {
-//         if (!(obj instanceof Object)) return obj;
-        
-//         var list = [];
-//         // var keys = _.sortBy(_.keys(obj), function(k) { return k; });
-//         var raw = _.keys(obj);
-//         var keys = _.sortBy(raw, function(k) { return k; });
+.controller('AnalyzeGameCtrl', ['$scope', '$http', 'DataGameSrv', 'd3',
+    function($scope, $http, DataGameSrv, d3) {    
+        $scope.analyzeGame = function(game) { 
+            $http({method: 'GET', url: '/data/game/' + game})
+                .then(function(response) { 
+                    $scope.gamestats = parseGame({ gamelog: response.data });
+                    $scope.pretty = buildPrettyStrings($scope.gamestats.rounds);
+                });
+            };
 
-//         for(var i = 0; i < keys.length; i++) { 
-//             var key = keys[i];
-//             list.push({key: key, value: obj[key]});
-//         }
-
-//         return list;
-
-//         // return _.map(obj, function(val, key) {
-//         //     return Object.defineProperty(val, '$key', {__proto__: null, value: key});
-//         // });
-//         // return _.sortBy(obj, function(item) { return item.key; });
-//     }
-// })
-
-.controller('AnalyzeGameCtrl', ['$scope', 'DataGameSrv', 'd3',
-    function($scope, DataGameSrv, d3) {    
-        var game = DataGameSrv.game;
-        $scope.gamestats = parseAurenGame(game);
-
-        $scope.pretty = buildPrettyStrings($scope.gamestats.rounds);
+        $scope.game = "4pLeague_S10_D7L27_G5";
+        // $scope.analyzeGame("4pLeague_S10_D7L27_G5");
 }]);
