@@ -4,7 +4,6 @@
 angular.module('myApp', [
   'ngRoute',
   'wd.analyze.game',
-  'wd.data.game',
   'd3'
 ]).
 config(['$routeProvider', function($routeProvider) {

@@ -93,7 +93,7 @@ function buildPrettyStrings(rounds) {
     return a;
 }
 
-angular.module('wd.analyze.game', ['ngRoute', 'wd.data.game'])
+angular.module('wd.analyze.game', ['ngRoute'])
 
 .config(['$routeProvider', function($routeProvider) {
     $routeProvider.when('/analyze/game', {
@@ -102,16 +102,14 @@ angular.module('wd.analyze.game', ['ngRoute', 'wd.data.game'])
     });
 }])
 
-.controller('AnalyzeGameCtrl', ['$scope', '$http', 'DataGameSrv', 'd3',
-    function($scope, $http, DataGameSrv, d3) {    
+.controller('AnalyzeGameCtrl', ['$scope', '$http', 'd3',
+    function($scope, $http, d3) {    
         $scope.analyzeGame = function(game) { 
+            //TODO refactor this to a service?
             $http({method: 'GET', url: '/data/game/' + game})
                 .then(function(response) { 
                     $scope.gamestats = parseGame({ gamelog: response.data });
                     $scope.pretty = buildPrettyStrings($scope.gamestats.rounds);
                 });
             };
-
-        $scope.game = "4pLeague_S10_D7L27_G5";
-        // $scope.analyzeGame("4pLeague_S10_D7L27_G5");
 }]);
