@@ -113,5 +113,5 @@ angular.module('wd.analyze.game', ['ngRoute'])
                 });
             };
 
-    analyzeGame("onion");
+    $scope.analyzeGame("onion");
 }]);
