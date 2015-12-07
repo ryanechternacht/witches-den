@@ -1,15 +1,19 @@
 <div class="page-header">
     <h1>Analyze a Game of Terra Mystica</h1>
 
-    <form class="form-horizontal">
+    <form id="load-game" class="form-horizontal">
         <div class="form-group">
-            <div class="col-sm-8">
-                <input ng-model="game" class="form-control"/>
+            <div class="col-xs-8">
+                <input ng-model="game" class="form-control" placeholder="game name (capitalization matters)"/>
             </div>
-            <div class="col-sm-2">
+            <div class="col-xs-2">
                 <input type="submit" class="form-control sm-col-2" ng-click="analyzeGame(game)"
                        value="Analyze Game">
             </div>
+        </div>
+        <div class="form-group">
+            <span id="load-block-loading" class="hidden help-block">Loading...</span>
+            <span id="load-block-error" class="hidden help-block">Game not found. Try checking your capitalization</span>
         </div>
     </form>
 </div>

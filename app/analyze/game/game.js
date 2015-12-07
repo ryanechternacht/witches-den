@@ -1,16 +1,5 @@
 'use strict';
 
-// function parseAurenGame(game) { 
-//     var setup = makeRulesEngine();
-//     var parsedLog = parseLog(parser, game.gamelog);
-
-//     var engineSetup = setupEngine(parsedLog, game.gamelog);
-
-//     var scoreCards = processCommands(engineSetup, setup.rules, parsedLog, game.gamelog);
-
-//     return { factions: scoreCards, rounds: engineSetup.rounds };
-// }
-
 function parseGame(game) { 
     var setup = makeRulesEngine();
     var parsedLog = parseLog(parser, game.gamelog);
@@ -105,13 +94,22 @@ angular.module('wd.analyze.game', ['ngRoute'])
 .controller('AnalyzeGameCtrl', ['$scope', '$http', 'd3',
     function($scope, $http, d3) {    
         $scope.analyzeGame = function(game) { 
+            $('#load-block-error').addClass('hidden');
+            $('#load-block-loading').removeClass('hidden');
+            $scope.gamestats = null;
+
             //TODO refactor this to a service?
             $http({method: 'GET', url: '/data/game/' + game})
                 .then(function(response) { 
-                    $scope.gamestats = parseGame({ gamelog: response.data });
-                    $scope.pretty = buildPrettyStrings($scope.gamestats.rounds);
+                    if(response.data) { 
+                        $scope.gamestats = parseGame({ gamelog: response.data });
+                        $scope.pretty = buildPrettyStrings($scope.gamestats.rounds);
+                    } else {
+                        $('#load-block-error').removeClass('hidden');
+                    }
+
+                    $('#load-block-loading').addClass('hidden');
+
                 });
             };
-
-    $scope.analyzeGame("onion");
 }]);
