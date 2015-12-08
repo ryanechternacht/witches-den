@@ -456,11 +456,11 @@ function onTw(player, round, parsedAction, action) {
         else if(tw == 8) { 
             points += 11;
         }
+    }
 
-        return { 
-            simple: { town: points },
-            detailed: { town: points }
-        }
+    return { 
+        simple: { town: points },
+        detailed: { town: points }
     }
 }
 

@@ -474,6 +474,9 @@ function processCommands(engineSetup, rules, parsedLog, log) {
         // var p = players[action.faction];
         var p = playerLookup[action.faction];
 
+        // if(action.commands == "dig 2. transform B6 to black")
+        //     console.log("found it");
+
         // for now, skip non player actions -- we mave do this differnetly 
         // in the future
         if(p != undefined) { 
