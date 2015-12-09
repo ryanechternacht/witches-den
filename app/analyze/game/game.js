@@ -82,6 +82,61 @@ function buildPrettyStrings(rounds) {
     return a;
 }
 
+function buildSimpleOrdering() { 
+    var a = new Array();
+    
+    // simple
+    a.push("bonus");
+    a.push("endGameCult"); // cult track
+    a.push("faction");
+    a.push("fav");
+    a.push("leech");
+    a.push("endGameNetwork"); // network
+    a.push("round");
+    a.push("starting");
+    a.push("town");
+    a.push("advance");
+    a.push("endGameResources"); // unused resources
+
+    return a;
+}
+
+function buildDetailedOrdering() { 
+    var a = new Array();
+
+    // detailed
+    a.push("advanceDig");
+    a.push("advanceShip");
+    a.push("bon6");
+    a.push("bon7");
+    a.push("bon9");
+    a.push("bon10");
+    a.push("endGameFire"); // 'cult'
+    a.push("endGameWater"); // 'cult'
+    a.push("endGameEarth"); // 'cult'
+    a.push("endGameAir"); // 'cult'
+    a.push("faction");
+    a.push("fav10");
+    a.push("fav11");
+    a.push("fav12");
+    a.push("leech");
+    a.push("endGameNetwork"); // network
+    a.push("SCORE1"); // TODO redo these to leverage round ordering
+    a.push("SCORE2");
+    a.push("SCORE3");
+    a.push("SCORE4");
+    a.push("SCORE5");
+    a.push("SCORE6");
+    a.push("SCORE7");
+    a.push("SCORE8");
+    a.push("SCORE9");
+    a.push("starting");
+    a.push("town");
+    a.push("endGameResources"); // unused resources
+
+    return a;
+}
+
 angular.module('wd.analyze.game', ['ngRoute'])
 
 .config(['$routeProvider', function($routeProvider) {
@@ -93,6 +148,9 @@ angular.module('wd.analyze.game', ['ngRoute'])
 
 .controller('AnalyzeGameCtrl', ['$scope', '$http', 'd3',
     function($scope, $http, d3) {    
+        $scope.simpleOrdering = buildSimpleOrdering();
+        $scope.detailedOrdering = buildDetailedOrdering();
+
         $scope.analyzeGame = function(game) { 
             $('#load-block-error').addClass('hidden');
             $('#load-block-loading').removeClass('hidden');
@@ -107,16 +165,14 @@ angular.module('wd.analyze.game', ['ngRoute'])
                     } else {
                         $('#load-block-error').removeClass('hidden');
                     }
-
                     $('#load-block-loading').addClass('hidden');
-
                 });
             };
         
-        // load test data
-        // $http({ method: 'GET', url: '/data/test' })
-        //     .then(function(response) { 
-        //         $scope.gamestats = parseGame({ gamelog: response.data });
-        //         $scope.pretty = buildPrettyStrings($scope.gamestats.rounds);
-        // });
+        //load test data
+        $http({ method: 'GET', url: '/data/test' })
+            .then(function(response) { 
+                $scope.gamestats = parseGame({ gamelog: response.data });
+                $scope.pretty = buildPrettyStrings($scope.gamestats.rounds);
+        });
 }]);
