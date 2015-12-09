@@ -373,9 +373,7 @@ function processCommand(rules, player, round, parsedAction, action) {
         }
     }
 
-    handleHardPoints(player, effects, action);
-
-    markUnmappedPoints(player, effects, action);
+    markUnmappedPoints(player, effects, parsedAction, action);
 
     addTurnToScorecard(player, effects)
 
@@ -386,25 +384,29 @@ function processCommand(rules, player, round, parsedAction, action) {
     return;
 }
 
-function handleHardPoints(player, effects, action) { 
-    // sum points
-    // check against factions (below)
-    // if we need to add, add points to effects
-
-    // if(result.points != action.vp.delta) { 
-    //     if(p.faction == "engineers") { 
-    //         // if a multiple of 3 and sh built, assume faction
-    //     }
-    //     else if(p.faction == "fakirs") { 
-    //         // if = 4, assume faction
-    //     }
-    //     else if(p.faction == "dwarves") { 
-    //         // if = 4, assume faction
-    //     }
-    // }
+function handleHardPoints(player, parsedAction, action, diff) { 
+    if(player.faction.toUpperCase() == "ENGINEERS") { 
+        // if a multiple of 3 and sh built, assume faction
+    }
+    else if(player.faction.toUpperCase() == "FAKIRS") { 
+        if(diff >= 4 && parsedAction.d > 0 || parsedAction.transform != null) { 
+            return {
+                simple: { faction: diff }, 
+                detailed: { faction: diff } 
+            };
+        }
+    }
+    else if(player.faction.toUpperCase() == "DWARVES") { 
+        if(diff >= 4 && parsedAction.d > 0 || parsedAction.transform != null) { 
+            return {
+                simple: { faction: diff }, 
+                detailed: { faction: diff } 
+            };
+        }
+    }
 }
 
-function markUnmappedPoints(player, effects, action) {
+function markUnmappedPoints(player, effects, parsedAction, action) {
     var points = 0;
 
     for(var i = 0; i < effects.length; i++){ 
@@ -443,7 +445,17 @@ function markUnmappedPoints(player, effects, action) {
     }
 
     if(action.VP.delta != points) { 
-        var diff = action.VP.delta - points
+        var diff = action.VP.delta - points;
+        var effect = handleHardPoints(player, parsedAction, action, diff);
+
+        if(effect != null) { 
+            effects.push(effect);
+            points += effect.simple.faction;
+        }
+    }
+
+    if(action.VP.delta != points) { 
+        var diff = action.VP.delta - points;
         effects.push({
             simple: { unknown: diff }, 
             detailed: { unknown: diff, action: action.commands } 
