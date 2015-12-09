@@ -386,10 +386,16 @@ function processCommand(rules, player, round, parsedAction, action) {
 
 function handleHardPoints(player, parsedAction, action, diff) { 
     if(player.faction.toUpperCase() == "ENGINEERS") { 
-        // if a multiple of 3 and sh built, assume faction
+        if(diff % 3 == 0 && player.sh == 1 && parsedAction.pass != undefined)
+        // if 3,6,9 points unaccounted for and we have a sh and we're passing
+        return { 
+            simple: { faction: diff },
+            detailed: { faciton: diff}
+        }
     }
     else if(player.faction.toUpperCase() == "FAKIRS") { 
-        if(diff >= 4 && parsedAction.d > 0 || parsedAction.transform != null) { 
+        if(diff == 4 && (parsedAction.d > 0 || parsedAction.transform != undefined)) { 
+            // if 4 points unaccounted for and we built or transformed
             return {
                 simple: { faction: diff }, 
                 detailed: { faction: diff } 
@@ -397,7 +403,8 @@ function handleHardPoints(player, parsedAction, action, diff) {
         }
     }
     else if(player.faction.toUpperCase() == "DWARVES") { 
-        if(diff >= 4 && parsedAction.d > 0 || parsedAction.transform != null) { 
+        // if 4 points unaccounted for and we built or transformed
+        if(diff == 4 && (parsedAction.d > 0 || parsedAction.transform != undefined)) { 
             return {
                 simple: { faction: diff }, 
                 detailed: { faction: diff } 
