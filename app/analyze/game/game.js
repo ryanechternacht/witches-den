@@ -170,9 +170,9 @@ angular.module('wd.analyze.game', ['ngRoute'])
             };
         
         //load test data
-        $http({ method: 'GET', url: '/data/test' })
-            .then(function(response) { 
-                $scope.gamestats = parseGame({ gamelog: response.data });
-                $scope.pretty = buildPrettyStrings($scope.gamestats.rounds);
-        });
+        // $http({ method: 'GET', url: '/data/test' })
+        //     .then(function(response) { 
+        //         $scope.gamestats = parseGame({ gamelog: response.data });
+        //         $scope.pretty = buildPrettyStrings($scope.gamestats.rounds);
+        // });
 }]);
