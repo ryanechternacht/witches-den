@@ -24,7 +24,6 @@ var drawChart = function(d3, svg, scope, iElement, iAttrs) {
         yTop = margin.top,
         xLeft = margin.left,
         xRight = width - margin.right;
-        // barWidth = ((xRight - xLeft) / dataset.length) - (barPadding * 2);
 
     // some numbers can be negative (e.g. leech). We'll take the absolute value
     // of all numbers for building the graphs, and use color styling to mark 
@@ -49,7 +48,6 @@ var drawChart = function(d3, svg, scope, iElement, iAttrs) {
     bar.append("rect")
         .attr("y", function(d) { return yScale(Math.abs(d.value)); })
         .attr("height", function(d) { return yBottom - yScale(Math.abs(d.value)); })
-        // .attr("width", function(d) { return barWidth; })
         .attr("width", function(d) { return xScale.rangeBand(); })
         .attr("class", function(d) {
             if(d.value >= 0) { 
@@ -63,7 +61,6 @@ var drawChart = function(d3, svg, scope, iElement, iAttrs) {
     bar.append("text")
         .text(function(d) { return d.value; })
         .attr("y", function(d) { return yScale(Math.abs(d.value)) - 5; })
-        // .attr("x", barWidth / 2)
         .attr("x", xScale.rangeBand() / 2)
         .attr("class", "bar-label");
 
