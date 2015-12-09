@@ -176,6 +176,10 @@
     if(act.toUpperCase() == "ACT6") { 
       result.spd = 2;
     }
+    
+    if(act.toUpperCase() == "BON1") { 
+      result.spd = 1;
+    }
 
     return result;
   }
@@ -459,7 +463,7 @@
 
   function makeAction(actions) {
     var result = {};    
-    processActions(result, actions);
+  processActions(result, actions);
     return result;
   }
 }

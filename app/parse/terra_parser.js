@@ -3519,6 +3519,10 @@ var parser = (function() {
         if(act.toUpperCase() == "ACT6") { 
           result.spd = 2;
         }
+        
+        if(act.toUpperCase() == "BON1") { 
+          result.spd = 1;
+        }
 
         return result;
       }
