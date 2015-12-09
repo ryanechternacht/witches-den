@@ -99,7 +99,7 @@ angular.module('wd.analyze.game', ['ngRoute'])
             $scope.gamestats = null;
 
             //TODO refactor this to a service?
-            $http({method: 'GET', url: '/data/game/' + game})
+            $http({ method: 'GET', url: '/data/game/' + game })
                 .then(function(response) { 
                     if(response.data) { 
                         $scope.gamestats = parseGame({ gamelog: response.data });
@@ -112,4 +112,11 @@ angular.module('wd.analyze.game', ['ngRoute'])
 
                 });
             };
+        
+        // load test data
+        // $http({ method: 'GET', url: '/data/test' })
+        //     .then(function(response) { 
+        //         $scope.gamestats = parseGame({ gamelog: response.data });
+        //         $scope.pretty = buildPrettyStrings($scope.gamestats.rounds);
+        // });
 }]);

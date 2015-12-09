@@ -1,14 +1,24 @@
 var http = require('http'),
-    prototype = require('prototype');
+    prototype = require('prototype'),
+    fs = require('fs');
 
-exports.getSeattle = function(req, res) { 
-    console.log("root");
+function readJsonFileSync(filepath, encoding){
 
-    res.send("Hello, Seattle\n");
+    if (typeof (encoding) == 'undefined'){
+        encoding = 'utf8';
+    }
+    var file = fs.readFileSync(filepath, encoding);
+    return JSON.parse(file);
+}
+
+exports.test = function(req, res) { 
+    // relative to root of project
+    var filePath = 'express/controllers/testgame.json';
+    res.send(readJsonFileSync(filePath));
 }
 
 exports.findByName = function(req, res) { 
-    console.log("/game/" + req.params.name);
+    console.log("/data/game/" + req.params.name);
 
     var options = {
         host: 'terra.snellman.net',
@@ -19,10 +29,8 @@ exports.findByName = function(req, res) {
 
     var state;
 
-    var request = http.request(options, function(terra_res) {
-        // console.log('STATUS: ' + terra_res.statusCode);
-        // console.log('HEADERS: ' + JSON.stringify(terra_res.headers));
-    });
+    // var request = http.request(options, function(terra_res) { });
+    var request = http.request(options);
 
     request.on('response', function(response) {
         var data = "";

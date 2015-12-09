@@ -1,12 +1,11 @@
 'use strict';
 
-var drawChart = function(d3, svg, scope, translator, iElement, iAttrs) { 
+var drawChart = function(d3, svg, scope, iElement, iAttrs) { 
     svg.selectAll("*").remove();
 
-    var width = scope.width,
-        height = scope.height,
+    var height = scope.height,
+        width = scope.width || d3.select(iElement[0])[0][0].offsetWidth - 20,
         translator = makeTranslator(scope.dictionary);
-
 
     var dataset = [];
     var keys = _.keys(scope.data);
@@ -112,12 +111,15 @@ angular.module('d3').directive('d3Scoregraph', ['d3', function(d3) {
             width: '@',    // static binding to a value
             height: '@',
             dictionary: '=',
-            // label: '@',
-            // onClick: '&'
         },
         link: function(scope, iElement, iAttrs) {
             var svg = d3.select(iElement[0])
                 .append("svg");
+
+            // use auto scaling for width
+            if(scope.width == undefined) {
+                svg.style("width", "100%");
+            }
 
             // on window resize, re-render d3 canvas
             window.onresize = function() {
