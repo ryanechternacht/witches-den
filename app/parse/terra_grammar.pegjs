@@ -457,22 +457,18 @@
     }
   }
 
-  function makeAction(subactions, action, subactions2) {
-    var result = {};
-
-    processActions(result, subactions); 
-    processAction(result, action);   
-    processActions(result, subactions2);    
-
+  function makeAction(actions) {
+    var result = {};    
+    processActions(result, actions);
     return result;
   }
 }
 
-Action
-  = preActions:PreAction* action:MainAction postActions:PostAction*
-      { return makeAction(preActions, action, postActions); }
+Turn
+  = actions:Action* { return makeAction(actions); }
 
-MainAction
+
+Action
   = PriestToCult
   / Build
   / Upgrade
@@ -480,6 +476,7 @@ MainAction
   / OctagonalAction
   / Leech
   / Advance
+  / Transform
   / Done
   / Wait
   / FactionSetup
@@ -493,26 +490,15 @@ MainAction
   / BaseIncome
   / CultIncome
   / EndGamePoints
-
-PreAction
-  = SubAction
-
-PostAction
-  = SubAction
-  / Build // this happens when doing a spd action and a build
-  / Upgrade // this happens when swarmlings use their sh
-
-SubAction
-  = Convert
+  / Convert
   / Town
   / Favor
   / Dig
   / Cult
-  / Transform
   / Burn
   / MermaidConnect
   / Bridge
-
+  / Transform
 
 
 PriestToCult
@@ -628,7 +614,7 @@ MermaidConnect
   = "connect"i _ tiles:OptionString _ "."? _ { return mermaidConnect(tiles); }
 
 Bridge
-  = "bridgei" _ tile1:String ":" tile2:String ":" tile3:String _ "."? _ { return bridge(tile1, tile2, tile3) }
+  = "bridge"i _ tile1:String ":" tile2:String ":" tile3:String _ "."? _ { return bridge(tile1, tile2, tile3) }
   / "bridge"i _ tile1:String ":" tile2:String _ "."? _ { return bridge(tile1, tile2) }
 
 
