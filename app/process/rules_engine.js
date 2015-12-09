@@ -446,6 +446,9 @@ function markUnmappedPoints(player, effects, parsedAction, action) {
         if(effect.simple.endGameResources != undefined) {
             points += effect.simple.endGameResources;
         }
+        if(effect.simple.vp != undefined) { 
+            points += effect.simple.vp;
+        }
         if(effect.simple.leech != undefined) { 
             points += effect.simple.leech;
         }
@@ -546,7 +549,8 @@ function makeRulesEngine() {
 
         endGameCult,
         endGameNetwork,
-        endGameResources
+        endGameResources,
+        onConvertToVp
     ];
 
     return { 

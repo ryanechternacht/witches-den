@@ -646,7 +646,25 @@ function endGameResources(player, round, parsedAction, action) {
     }
 }
 
+function onConvertToVp(player, round, parsedAction, action) { 
+    // I assume this is only being used endGame by people who manually convert
+    // into points
 
+    // if you're alchemists, use their faction specific rule
+    if(player.faction.toUpperCase() == "ALCHEMISTS" || parsedAction.vp == undefined) { 
+        return null;
+    }
+
+    var points = parsedAction.vp;
+    if(points != 0) { 
+        return { 
+            simple: { endGameResources: points },
+            detailed: {endGameResources: points }
+        }
+    }
+
+    return null;
+}
 
 
 
