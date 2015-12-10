@@ -15,7 +15,12 @@ function makePlayer(name, faction) {
         || faction.toUpperCase() == "ALCHEMISTS"
         || faction.toUpperCase() == "DARKLINGS"
         || faction.toUpperCase() == "AUREN"
-        || faction.toUpperCase() == "WITCHES") {
+        || faction.toUpperCase() == "WITCHES"
+        || faction.toUpperCase() == "ICEMAIDENS"
+        || faction.toUpperCase() == "YETIS"
+        || faction.toUpperCase() == "SHAPESHIFTERS"
+        || faction.toUpperCase() == "DRAGONLORDS"
+        || faction.toUpperCase() == "ACOLYTES") {
         shipStart = 0;
         shipLevels = {
             "1": { points: 2 },
@@ -37,8 +42,12 @@ function makePlayer(name, faction) {
             "5": { points: 5 }
         };
     }
+    else if(faction.toUpperCase() == "RIVERWALKERS") { 
+        shipStart = 1;
+        shipLevels = {};
+    }
     else {
-        throw "We don't support Fire and Ice Factions yet. Sorry"
+        throw "Faction [" + faction + "] unrecognized";
     }
 
     return {
@@ -184,6 +193,12 @@ function addTurnToScorecard(player, effects) {
             }
             player.simple.endGameResources += effect.simple.endGameResources;
         }
+        if(effect.simple.endGameBonus != undefined) { 
+            if(player.simple.endGameBonus == undefined) { 
+                player.simple.endGameBonus = 0;
+            }
+            player.simple.endGameBonus += effect.simple.endGameBonus;
+        }
         if(effect.simple.leech != undefined) { 
             if(player.simple.leech == undefined) { 
                 player.simple.leech = 0;
@@ -212,6 +227,18 @@ function addTurnToScorecard(player, effects) {
                 player.detailed.faction = 0;
             }
             player.detailed.faction += effect.detailed.faction;
+        }
+        if(effect.detailed["faction-ssOnLeech"] != undefined) { 
+            if(player.detailed["faction-ssOnLeech"] == undefined) { 
+                player.detailed["faction-ssOnLeech"] = 0;
+            }
+            player.detailed["faction-ssOnLeech"] += effect.detailed["faction-ssOnLeech"];
+        }
+        if(effect.detailed["faction-ssAbility"] != undefined) { 
+            if(player.detailed["faction-ssAbility"] == undefined) { 
+                player.detailed["faction-ssAbility"] = 0;
+            }
+            player.detailed["faction-ssAbility"] += effect.detailed["faction-ssAbility"];
         }
         if(effect.detailed.bon6 != undefined) { 
             if(player.detailed.bon6 == undefined) { 
@@ -308,6 +335,30 @@ function addTurnToScorecard(player, effects) {
                 player.detailed.endGameResources = 0;
             }
             player.detailed.endGameResources += effect.detailed.endGameResources;
+        }
+        if(effect.detailed.endGameConnectedDistance != undefined) { 
+            if(player.detailed.endGameConnectedDistance == undefined) { 
+                player.detailed.endGameConnectedDistance = 0;
+            }
+            player.detailed.endGameConnectedDistance += effect.detailed.endGameConnectedDistance;
+        }
+        if(effect.detailed.endGameConnectedSaShDistance != undefined) { 
+            if(player.detailed.endGameConnectedSaShDistance == undefined) { 
+                player.detailed.endGameConnectedSaShDistance = 0;
+            }
+            player.detailed.endGameConnectedSaShDistance += effect.detailed.endGameConnectedSaShDistance;
+        }
+        if(effect.detailed.endGameConnectedClusters != undefined) { 
+            if(player.detailed.endGameConnectedClusters == undefined) { 
+                player.detailed.endGameConnectedClusters = 0;
+            }
+            player.detailed.endGameConnectedClusters += effect.detailed.endGameConnectedClusters;
+        }
+        if(effect.detailed.endGameBuildingOnEdge != undefined) { 
+            if(player.detailed.endGameBuildingOnEdge == undefined) { 
+                player.detailed.endGameBuildingOnEdge = 0;
+            }
+            player.detailed.endGameBuildingOnEdge += effect.detailed.endGameBuildingOnEdge;
         }
         if(effect.detailed.leech != undefined) { 
             if(player.detailed.leech == undefined) { 
@@ -446,6 +497,9 @@ function markUnmappedPoints(player, effects, parsedAction, action) {
         if(effect.simple.endGameResources != undefined) {
             points += effect.simple.endGameResources;
         }
+        if(effect.simple.endGameBonus != undefined) {
+            points += effect.simple.endGameBonus;
+        }
         if(effect.simple.vp != undefined) { 
             points += effect.simple.vp;
         }
@@ -530,6 +584,9 @@ function makeRulesEngine() {
         alchemists_onConvert,
         halflings_onSpd,
         cultists_onSh,
+        icemaidens_onPassTe,
+        shapeshifters_gainPowerToken,
+        shapeshifters_factionAbility,
 
         bon6_onPassShsa,
         bon7_onPassTp,
@@ -550,6 +607,7 @@ function makeRulesEngine() {
         endGameCult,
         endGameNetwork,
         endGameResources,
+        endGameBonus,
         onConvertToVp
     ];
 

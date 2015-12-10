@@ -270,7 +270,7 @@ function alchemists_onConvert(player, round, parsedAction, action) {
     if(points != 0) { 
         return { 
             simple: { faction: points },
-            detailed: {faction: points }
+            detailed: { faction: points }
         }
     }
 
@@ -286,7 +286,7 @@ function cultists_onSh(player, round, parsedAction, action) {
     if(points != 0) { 
         return { 
             simple: { faction: points },
-            detailed: {faction: points }
+            detailed: { faction: points }
         }
     }
 }
@@ -300,7 +300,7 @@ function halflings_onSpd(player, round, parsedAction, action) {
     if(points != 0) { 
         return { 
             simple: { faction: points },
-            detailed: {faction: points }
+            detailed: { faction: points }
         }
     } 
 }
@@ -314,9 +314,58 @@ function darklings_onDig(player, round, parsedAction, action) {
     if(points != 0) { 
         return { 
             simple: { faction: points },
-            detailed: {faction: points }
+            detailed: { faction: points }
         }
     } 
+}
+
+function icemaidens_onPassTe(player, round, parsedAction, action) { 
+    if(player.faction.toUpperCase() != "ICEMAIDENS" 
+        || parsedAction.pass == undefined
+        || player.sh == 0) { 
+        return null;
+    }
+
+    var points = player.te * 3;
+    if(points != 0) { 
+        return { 
+            simple: { faction: points },
+            detailed: { faction: points }
+        }
+    }
+}
+
+function shapeshifters_gainPowerToken(player, round, parsedAction, action) { 
+    if(player.faction.toUpperCase() != "SHAPESHIFTERS" 
+        || parsedAction.gainPowerToken == undefined
+        || parsedAction.gainPowerToken == false) { 
+        return null;
+    }
+
+    // do some logic around which version of shape shifters we're playing
+    var points = -1;
+    if(points != 0) { 
+        return { 
+            simple: { faction: points },
+            detailed: { "faction-ssOnLeech": points }
+        }
+    }
+}
+
+function shapeshifters_factionAbility(player, round, parsedAction, action) { 
+    if(player.faction.toUpperCase() != "SHAPESHIFTERS"
+        || parsedAction.action == undefined) { 
+        return null;
+    }
+
+    // do some logic aorund which version of shape shifters we're playing with
+    var points = 0; 
+    if(points != 0) { 
+        return { 
+            simple: { faction: points },
+            detailed: { "faction-ssAbility": points }
+        }
+    }
 }
 
 
@@ -643,6 +692,30 @@ function endGameResources(player, round, parsedAction, action) {
             simple: { endGameResources: points },
             detailed: { endGameResources: points }
         }
+    }
+}
+
+function endGameBonus(player, round, parsedAction, action) { 
+    if(parsedAction.endGame == undefined) { 
+        return null;
+    }
+
+    var points = parsedAction.endGame.points;
+    if(points > 0) {
+        var obj = { simple: { endGameBonus: points } };
+
+        if(parsedAction.endGame.source.toUpperCase() == "CONNECTED-DISTANCE") { 
+            obj.detailed = { endGameConnectedDistance: points };
+        } else if(parsedAction.endGame.source.toUpperCase() == "CONNECTED-SA-SH-DISTANCE") { 
+            obj.detailed = { endGameConnectedSaShDistance: points };
+        } else if(parsedAction.endGame.source.toUpperCase() == "CONNECTED-CLUSTERS") { 
+            obj.detailed = { endGameConnectedClusters: points };
+        } else if(parsedAction.endGame.source.toUpperCase() == "BUILDING-ON-EDGE") { 
+            obj.detailed = { endGameBuildingOnEdge: points };
+        } else {
+            return null;
+        }
+        return obj;
     }
 }
 

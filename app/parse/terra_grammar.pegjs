@@ -154,6 +154,14 @@
   function favor(num) { 
     return { fav: num };
   }
+  
+  function leechOption(accepted) { 
+    return { leechAccepted: accepted };
+  }
+  
+  function ssGainPowerToken(accepted) { 
+    return { gainPowerToken: accepted }
+  }
 
   function action(act) { 
     var result = { action: act };
@@ -179,6 +187,10 @@
     
     if(act.toUpperCase() == "BON1") { 
       result.spd = 1;
+    }
+    
+    if(act.toUpperCase() == "ACTG") { 
+      result.spd = 2;
     }
 
     return result;
@@ -290,6 +302,10 @@
   function income(incomeType) { 
     return { income: incomeType };
   }
+  
+  function pickColor(color) { 
+    return { pickColor: color };
+  }
 
   function processActions(result, actions) { 
     for(var i = 0; i < actions.length; i++) {
@@ -399,7 +415,6 @@
     }
 
 
-    // main action only effects
     if(action.action != undefined) { 
       result.action = action.action;
     }
@@ -459,6 +474,18 @@
     if(action.endGame) { 
       result.endGame = action.endGame;
     }
+    
+    if(action.leechAccepted != undefined) { 
+      result.leechAccepted = action.leechAccepted;
+    }
+    
+    if(action.gainPowerToken != undefined) { 
+      result.gainPowerToken = action.gainPowerToken;
+    }
+    
+    if(action.pickColor != undefined) { 
+      result.pickColor = action.pickColor;
+    }
   }
 
   function makeAction(actions) {
@@ -503,7 +530,10 @@ Action
   / MermaidConnect
   / Bridge
   / Transform
-
+  / LeechOption
+  / ShapeshifterGainPowerToken
+  / PickColor
+  
 
 PriestToCult
   = "send"i _ "p"i _ "to"i _ cult:String _ amount:PriestToCultFor _ "."? _ { return priestToCult(cult, amount) }
@@ -568,7 +598,7 @@ CultIncome
   = "cult_income_for_faction" _ { return income("cult"); }
 
 EndGamePoints
-  = "+" points:Number "vp for " source:String { return endGamePoints(source, points); }
+  = "+" points:Number "vp for " source:OptionString { return endGamePoints(source, points); }
   / "score_resources" { return endGamePoints("resources", 0); }
 
 
@@ -621,7 +651,16 @@ Bridge
   = "bridge"i _ tile1:String ":" tile2:String ":" tile3:String _ "."? _ { return bridge(tile1, tile2, tile3) }
   / "bridge"i _ tile1:String ":" tile2:String _ "."? _ { return bridge(tile1, tile2) }
 
+LeechOption
+  = "[opponent accepted power]"i { return leechOption(true); }
+  / "[all opponents declined power]"i { return leechOption(false); }
 
+ShapeshifterGainPowerToken
+  = "gain P3 for VP"i _ "."? _ { return ssGainPowerToken(true); }
+  / "-GAIN_P3_FOR_VP"i _ "."? _ { return ssGainPowerToken(false); }
+
+PickColor
+  = "pick-color "i color:String _ "."? _ { return pickColor(color); }
 
 String
   = characters:[a-z0-9]i+ { return a2s(characters); }

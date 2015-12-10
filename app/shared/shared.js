@@ -19,6 +19,12 @@ var buildPrettyStrings = function (rounds) {
     a["cultists"] = "Cultists";
     a["darklings"] = "Darklings";
     a["alchemists"] = "Alchemists";
+    a["yetis"] = "Yetis";
+    a["icemaidens"] = "Ice Maidens";
+    a["riverwalkers"] = "Riverwalkers";
+    a["shapeshifters"] = "Shapeshifters";
+    a["dragonlords"] = "Dragonlords";
+    a["acolytes"] = "Acolytes";
 
     // simple
     a["starting"] = "Starting";
@@ -81,6 +87,7 @@ var buildSimpleOrdering = function() {
     a.push("fav");
     a.push("leech");
     a.push("endGameNetwork"); // network
+    a.push("endGameBonus")
     a.push("round");
     a.push("starting");
     a.push("town");
