@@ -20,7 +20,7 @@
 
 
 <article ng-repeat="stats in gamestats.factions | orderBy:'faction'">
-    <h3>{{ pretty[stats.faction] }}</h3>
+    <h3>{{ pretty[stats.faction] }} ({{ stats.total }})</h3>
 
     <div class="row">
         <div class="col-sm-8">

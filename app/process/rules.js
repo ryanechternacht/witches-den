@@ -1,17 +1,3 @@
-// demo rules
-function demo_onD(player, round, parsedAction, actino) { 
-    var points = parsedAction.d * 1;
-
-    if(points > 0) { 
-        return { 
-            simple: { demo: points },
-            detailed: { demo_onD: points}
-        }
-    }
-}
-
-
-
 //
 // Round scoring 
 //

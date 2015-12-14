@@ -117,26 +117,8 @@ function setupEngine(parsedLog, log) {
 
 
 function addTurnToScorecard(player, effects) { 
-    
-
     for(var i = 0; i < effects.length; i++) { 
         var effect = effects[i];
-
-        // DEMO
-        if(effect.simple.demo != undefined) { 
-            if(player.simple.demo == undefined) { 
-                player.simple.demo = 0;
-            }
-            player.simple.demo += effect.simple.demo;
-        }
-        if(effect.detailed.demo_onD != undefined) { 
-            if(player.detailed.demo_onD == undefined) { 
-                player.detailed.demo_onD = 0;
-            }
-            player.detailed.demo_onD += effect.detailed.demo_onD;
-        }
-        //END DEMO
-
 
         // simple
         if(effect.simple.round != undefined) { 
@@ -527,6 +509,25 @@ function markUnmappedPoints(player, effects, parsedAction, action) {
     }
 }
 
+var sumPoints = function(player) { 
+    var points = 0;
+
+    points += player.simple.starting || 0;
+    points += player.simple.round || 0;
+    points += player.simple.faction || 0;
+    points += player.simple.bonus || 0;
+    points += player.simple.town || 0;
+    points += player.simple.advance || 0;
+    points += player.simple.fav || 0;
+    points += player.simple.endGameNetwork || 0;
+    points += player.simple.endGameResources || 0;
+    points += player.simple.endGameCult || 0;
+    points += player.simple.endGameBonus || 0;
+    points += player.simple.leech || 0;
+
+    player.total = points;
+}
+
 function processCommands(engineSetup, rules, parsedLog, log) { 
     var players = engineSetup.players;
         rounds = engineSetup.rounds,
@@ -561,14 +562,16 @@ function processCommands(engineSetup, rules, parsedLog, log) {
         }
     }
 
+    for(var i = 0; i < players.length; i++) { 
+        sumPoints(players[i]);
+    }
+
     return players;
 }
 
 function makeRulesEngine() { 
     // hook up rules
     var rules = [
-        // demo_onD,
-
         score1_onSpd,
         score2_onTw,
         score3_onD,
