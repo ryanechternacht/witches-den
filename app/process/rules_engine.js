@@ -583,6 +583,7 @@ function makeRulesEngine() {
         darklings_onDig,
         alchemists_onConvert,
         halflings_onSpd,
+        halflings_onSh,
         cultists_onSh,
         icemaidens_onPassTe,
         shapeshifters_gainPowerToken,

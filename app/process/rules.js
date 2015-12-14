@@ -305,6 +305,31 @@ function halflings_onSpd(player, round, parsedAction, action) {
     } 
 }
 
+function halflings_onSh(player, round, parsedAction, action) { 
+    if(player.faction.toUpperCase() != "HALFLINGS" || parsedAction.sh == undefined) { 
+        return null;
+    }
+
+    // handle this manually... not the best but w/e
+    var fakeParsedAction = { spd: 3 }, 
+        fakeAction = {},
+        returnValue = { simple: {}, detailed: {} };
+
+    var onAbility = halflings_onSpd(player, round, fakeParsedAction, fakeAction);
+    if(onAbility != null) { 
+        returnValue.simple.faction = onAbility.simple.faction;
+        returnValue.detailed.faction = onAbility.detailed.faction;
+    }
+
+    var onRound = score1_onSpd(player, round, fakeParsedAction, fakeAction);
+    if(onRound != null) { 
+        returnValue.simple.round = onRound.simple.round;
+        returnValue.detailed.round = onRound.detailed.round;
+    }
+
+    return returnValue;
+}
+
 function darklings_onDig(player, round, parsedAction, action) { 
     if(player.faction.toUpperCase() != "DARKLINGS" || parsedAction.dig == undefined) { 
         return null;
@@ -458,7 +483,11 @@ function onLeech(player, round, parsedAction, action) {
         return null;
     }
 
-    var points = action.VP.delta;
+    if(action.PW.delta <= 1) { 
+        return null;
+    }
+
+    var points = -(action.PW.delta - 1);
     if(points != 0) { 
         return { 
             simple: { leech: points },
