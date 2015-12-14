@@ -640,7 +640,7 @@ Cult
 
 Transform
   = "transform"i _ space:String _ "to"i _ color:String _ "."? _ { return transform(space, color); }
-
+  / "transform"i _ space:String _ "."? _ { return transform(space); }
 Burn
   = "burn"i _ amount:Number _ "."? _ { return burn(amount); }
 

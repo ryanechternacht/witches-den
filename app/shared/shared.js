@@ -38,6 +38,7 @@ var buildPrettyStrings = function (rounds) {
     a["leech"] = "Leech";
     a["fav"] = "Favors";
     a["faction"] = "Faction";
+    a["endGameBonus"] = "F&I End Bonus";
 
     // detailed
     a["bon6"] = "Bonus 6 (pass SH/SA * 4)";
@@ -50,6 +51,10 @@ var buildPrettyStrings = function (rounds) {
     a["endGameWater"] = "Water Track";
     a["endGameEarth"] = "Earth Track";
     a["endGameAir"] = "Air Track";
+    a["endGameConnectedClusters"] = "F&I Connected Clusters";
+    a["endGameConnectedDistance"] = "F&I Connected Distance";
+    a["endGameConnectedSaShDistance"] = "F&I Connected Sh/Sa Distance";
+    a["endGameBuildingOnEdge"] = "F&I Building on Edge";
     a["fav10"] = "Favor 10 (TP >> 3)";
     a["fav11"] = "Favor 11 (D >> 2)";
     a["fav12"] = "Favor 12 (pass TP [0,2,2,3,4])"
