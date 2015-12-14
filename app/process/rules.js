@@ -330,6 +330,17 @@ function halflings_onSh(player, round, parsedAction, action) {
     return returnValue;
 }
 
+function mermaids_onSh(player, round, parsedAction, action) { 
+    if(player.faction.toUpperCase() != "MERMAIDS" || parsedAction.sh == undefined) { 
+        return null;
+    }
+
+    var fakeParsedAction = { advanceShip: 1 },
+        fakeAction = {};
+
+    return advanceShip(player, round, fakeParsedAction, fakeAction);
+}
+
 function darklings_onDig(player, round, parsedAction, action) { 
     if(player.faction.toUpperCase() != "DARKLINGS" || parsedAction.dig == undefined) { 
         return null;
