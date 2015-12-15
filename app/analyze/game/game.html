@@ -18,26 +18,25 @@
     </form>
 </div>
 
-
-<article ng-repeat="stats in gamestats.factions | orderBy:'faction'">
-    <h3>{{ pretty[stats.faction] }} ({{ stats.total }})</h3>
-
-    <div class="row">
-        <div class="col-sm-8">
-            <d3-scoregraph height="300" data="stats.simple" dictionary="pretty" ordering="simpleOrdering">
-            </d3-scoregraph>
-        </div>
-        
-        <div class="col-sm-4">
-            <table class="table">
-                <tr>
-                    <th>Source</th><th>Points Gained</th>
-                </tr> 
-                <tr ng-repeat="(key, value) in stats.detailed">
-                    <td>{{ pretty[key] || key }}</td><td>{{ value }}</td>
-                </tr> 
-            </table>
-        </div>
+<h3>Faction Breakdowns</h3>
+<article ng-repeat="stats in gamestats.factions">
+    <h4>{{ pretty[stats.faction] }} ({{ stats.total }})</h4>
+        <d3-scoregraph height="300" data="stats.simple" dictionary="pretty" ordering="simpleOrdering">
+        </d3-scoregraph>
     </div>
     <hr/>
+</article>
+
+<article>
+    <h3>Detailed Score Statistics</h3>
+
+    <table class="table">
+        <tr>
+            <th>Source</th><th>p1</th><th>p2</th><th>p3</th><th>p4</th><th>p5</th>
+        </tr>
+        <tr ng-repeat="(key, value) in detailedStats">
+            <td>{{ pretty[key] || key }}</td>
+            <td ng-repeat="v in value track by $index">{{ v || 0 }}</td>
+        </tr>
+    </table>
 </article>

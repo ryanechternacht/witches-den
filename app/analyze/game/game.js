@@ -8,7 +8,25 @@ function parseGame(game) {
 
     var scoreCards = processCommands(engineSetup, setup.rules, parsedLog, game.gamelog);
 
-    return { factions: scoreCards, rounds: engineSetup.rounds };
+    var players = _.sortBy(scoreCards, 'total').reverse();
+
+    return { factions: players, rounds: engineSetup.rounds };
+}
+
+function buildDetailedStats(scoreCards, ordering, pretty) { 
+    var obj = {};
+
+    for(var i = 0; i < ordering.length; i++) { 
+        var key = ordering[i];
+        var players = [];
+        for(var j = 0; j < scoreCards.length; j++) { 
+            var sc = scoreCards[j];
+            players.push(sc.detailed[key]);
+        }
+        obj[pretty[key] || key] = players;
+    }
+
+    return obj;
 }
 
 angular.module('wd.analyze.game', ['ngRoute', 'wd.shared'])
@@ -36,6 +54,8 @@ angular.module('wd.analyze.game', ['ngRoute', 'wd.shared'])
                     if(response.data) { 
                         $scope.gamestats = parseGame({ gamelog: response.data });
                         $scope.pretty = shared.buildPrettyStrings($scope.gamestats.rounds);
+                        $scope.detailedStats = buildDetailedStats($scope.gamestats.factions, 
+                            $scope.detailedOrdering, $scope.pretty);
                     } else {
                         $('#load-block-error').removeClass('hidden');
                     }
@@ -44,9 +64,5 @@ angular.module('wd.analyze.game', ['ngRoute', 'wd.shared'])
             };
         
         //load test data
-        $http({ method: 'GET', url: '/data/test' })
-            .then(function(response) { 
-                $scope.gamestats = parseGame({ gamelog: response.data });
-                $scope.pretty = buildPrettyStrings($scope.gamestats.rounds);
-        });
+        $scope.analyzeGame('onion');
 }]);
