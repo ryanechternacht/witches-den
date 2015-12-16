@@ -1,6 +1,6 @@
 'use strict';
 
-function parseGame(game) { 
+var parseGame = function(game) { 
     var setup = makeRulesEngine();
     var parsedLog = parseLog(parser, game.gamelog);
 
@@ -11,22 +11,6 @@ function parseGame(game) {
     var players = _.sortBy(scoreCards, 'total').reverse();
 
     return { factions: players, rounds: engineSetup.rounds };
-}
-
-function buildDetailedStats(scoreCards, ordering, pretty) { 
-    var obj = {};
-
-    for(var i = 0; i < ordering.length; i++) { 
-        var key = ordering[i];
-        var players = [];
-        for(var j = 0; j < scoreCards.length; j++) { 
-            var sc = scoreCards[j];
-            players.push(sc.detailed[key]);
-        }
-        obj[pretty[key] || key] = players;
-    }
-
-    return obj;
 }
 
 angular.module('wd.analyze.game', ['ngRoute', 'wd.shared'])
@@ -40,9 +24,6 @@ angular.module('wd.analyze.game', ['ngRoute', 'wd.shared'])
 
 .controller('AnalyzeGameCtrl', ['$scope', '$http', 'd3', 'shared',
     function($scope, $http, d3, shared) {    
-        $scope.detailedOrdering = shared.buildDetailedOrdering();
-        $scope.simpleOrdering = buildSimpleOrdering();
-
         $scope.analyzeGame = function(game) { 
             $('#load-block-error').addClass('hidden');
             $('#load-block-loading').removeClass('hidden');
@@ -53,9 +34,11 @@ angular.module('wd.analyze.game', ['ngRoute', 'wd.shared'])
                 .then(function(response) { 
                     if(response.data) { 
                         $scope.gamestats = parseGame({ gamelog: response.data });
-                        $scope.pretty = shared.buildPrettyStrings($scope.gamestats.rounds);
-                        $scope.detailedStats = buildDetailedStats($scope.gamestats.factions, 
-                            $scope.detailedOrdering, $scope.pretty);
+                        var s = shared.init($scope.gamestats);
+                        $scope.simpleOrdering = s.simpleOrdering;
+                        $scope.detailedOrdering = s.detailedOrdering;
+                        $scope.pretty = s.pretty;
+                        $scope.detailedStats = s.detailedStats;
                     } else {
                         $('#load-block-error').removeClass('hidden');
                     }

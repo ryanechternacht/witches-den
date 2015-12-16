@@ -39,6 +39,7 @@ var buildPrettyStrings = function (rounds) {
     a["fav"] = "Favors";
     a["faction"] = "Faction";
     a["endGameBonus"] = "F&I End Bonus";
+    a["unknown"] = "Unknown";
 
     // detailed
     a["bon6"] = "Bonus 6 (pass SH/SA * 4)";
@@ -98,6 +99,7 @@ var buildSimpleOrdering = function() {
     a.push("town");
     a.push("advance");
     a.push("endGameResources"); // unused resources
+    a.push("unknown");
 
     return a;
 }
@@ -134,17 +136,51 @@ var buildDetailedOrdering = function() {
     a.push("starting");
     a.push("town");
     a.push("endGameResources"); // unused resources
+    a.push("unknown");
 
     return a;
 }
 
-angular.module('wd.shared', [])
-.factory('shared', function() { 
+// return a function that converts strings into a prettier form. 
+// if the string exists in the passed in diciontary, return that value; 
+// otherwise return the original string.
+var buildPrettyFunction = function(rounds) { 
+    var prettyArray = buildPrettyStrings(rounds);
+
+    return function(item) { 
+        return prettyArray[item] || item;
+    }
+}
+
+var buildDetailedStats = function(ordering, pretty, scoreCards) {
+    var obj = {};
+
+    for(var i = 0; i < ordering.length; i++) { 
+        var key = ordering[i];
+        var players = [];
+        for(var j = 0; j < scoreCards.length; j++) { 
+            var sc = scoreCards[j];
+            players.push(sc.detailed[key]);
+        }
+        obj[pretty[key] || key] = players;
+    }
+
+    return obj;
+}
+
+var buildShared = function(gameInfo ) { 
     var shared = {};
 
-    shared.buildPrettyStrings = buildPrettyStrings;
-    shared.buildSimpleOrdering = buildSimpleOrdering;
-    shared.buildDetailedOrdering = buildDetailedOrdering;
+    shared.pretty = buildPrettyFunction(gameInfo.rounds);
+    shared.detailedOrdering = buildDetailedOrdering();
+    shared.detailedStats = buildDetailedStats(shared.detailedOrdering, 
+        shared.pretty, gameInfo.factions);
+    shared.simpleOrdering = buildSimpleOrdering();
 
     return shared;
+}
+
+angular.module('wd.shared', [])
+.factory('shared', function() { 
+    return { init: buildShared };
 })
