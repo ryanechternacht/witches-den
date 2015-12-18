@@ -1,6 +1,6 @@
 'use strict';
 
-function parseGame(game) { 
+var parseGame = function(game) { 
     var setup = makeRulesEngine();
     var parsedLog = parseLog(parser, game.gamelog);
 
@@ -8,7 +8,9 @@ function parseGame(game) {
 
     var scoreCards = processCommands(engineSetup, setup.rules, parsedLog, game.gamelog);
 
-    return { factions: scoreCards, rounds: engineSetup.rounds };
+    var players = _.sortBy(scoreCards, 'total').reverse();
+
+    return { factions: players, rounds: engineSetup.rounds };
 }
 
 angular.module('wd.analyze.game', ['ngRoute', 'wd.shared'])
@@ -22,9 +24,6 @@ angular.module('wd.analyze.game', ['ngRoute', 'wd.shared'])
 
 .controller('AnalyzeGameCtrl', ['$scope', '$http', 'd3', 'shared',
     function($scope, $http, d3, shared) {    
-        $scope.detailedOrdering = shared.buildDetailedOrdering();
-        $scope.simpleOrdering = buildSimpleOrdering();
-
         $scope.analyzeGame = function(game) { 
             $('#load-block-error').addClass('hidden');
             $('#load-block-loading').removeClass('hidden');
@@ -35,7 +34,11 @@ angular.module('wd.analyze.game', ['ngRoute', 'wd.shared'])
                 .then(function(response) { 
                     if(response.data) { 
                         $scope.gamestats = parseGame({ gamelog: response.data });
-                        $scope.pretty = shared.buildPrettyStrings($scope.gamestats.rounds);
+                        var s = shared.init($scope.gamestats);
+                        $scope.simpleOrdering = s.simpleOrdering;
+                        $scope.detailedOrdering = s.detailedOrdering;
+                        $scope.pretty = s.pretty;
+                        $scope.detailedStats = s.detailedStats;
                     } else {
                         $('#load-block-error').removeClass('hidden');
                     }
@@ -44,9 +47,5 @@ angular.module('wd.analyze.game', ['ngRoute', 'wd.shared'])
             };
         
         //load test data
-        $http({ method: 'GET', url: '/data/test' })
-            .then(function(response) { 
-                $scope.gamestats = parseGame({ gamelog: response.data });
-                $scope.pretty = buildPrettyStrings($scope.gamestats.rounds);
-        });
+        $scope.analyzeGame('onion');
 }]);
