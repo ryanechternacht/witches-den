@@ -5,7 +5,7 @@ var drawChart = function(d3, svg, scope, iElement, iAttrs) {
 
     var height = scope.height,
         width = scope.width || d3.select(iElement[0])[0][0].offsetWidth - 20,
-        translator = makeTranslator(scope.dictionary);
+        translator = scope.pretty;
 
     var dataset = [];
     var keys = _.keys(scope.data);
@@ -89,25 +89,6 @@ var drawChart = function(d3, svg, scope, iElement, iAttrs) {
         });
 }
 
-// return a function that converts strings into a prettier form. 
-// if the string exists in the passed in diciontary, return that value; 
-// otherwise return the original string.
-var makeTranslator = function(dictionary) { 
-    if(dictionary == undefined || dictionary == null) { 
-        return function(s) { return s; };
-    }
-
-    return function(s) { 
-        var t = dictionary[s];
-        if(t != null) { 
-            return t;
-        }
-        else { 
-            return s;
-        }
-    }
-}
-
 angular.module('d3').directive('d3Scoregraph', ['d3', function(d3) { 
     return {
         restrict: 'EA',
@@ -116,7 +97,7 @@ angular.module('d3').directive('d3Scoregraph', ['d3', function(d3) {
             width: '@',    // static binding to a value
             height: '@',
             ordering: '=',
-            dictionary: '='
+            pretty: '='
         },
         link: function(scope, iElement, iAttrs) {
             var svg = d3.select(iElement[0])

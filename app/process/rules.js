@@ -316,6 +316,22 @@ function halflings_onSh(player, round, parsedAction, action) {
     return returnValue;
 }
 
+// right now, the only way for anyone (and specifically halfings) to gain points
+// from cult income is to gain a spd (which is worth a vp for halflings)
+function halflings_onCultIncome(player, round, parsedAction, action) { 
+    if(player.faction.toUpperCase() != "HALFLINGS" || parsedAction.income != "cult") { 
+        return null;
+    }
+
+    var points = action.VP.delta;
+    if(points != 0) { 
+        return { 
+            simple: { faction: points },
+            detailed: { faction: points }
+        }
+    } 
+}
+
 function mermaids_onSh(player, round, parsedAction, action) { 
     if(player.faction.toUpperCase() != "MERMAIDS" || parsedAction.sh == undefined) { 
         return null;

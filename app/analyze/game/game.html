@@ -6,9 +6,9 @@
             <div class="col-xs-8">
                 <input ng-model="game" class="form-control" placeholder="game name (capitalization matters)"/>
             </div>
-            <div class="col-xs-2">
+            <div class="col-xs-4">
                 <input type="submit" class="form-control sm-col-2" ng-click="analyzeGame(game)"
-                       value="Analyze Game">
+                       value="Analyze">
             </div>
         </div>
         <div class="form-group">
@@ -18,26 +18,35 @@
     </form>
 </div>
 
-
-<article ng-repeat="stats in gamestats.factions | orderBy:'faction'">
-    <h3>{{ pretty[stats.faction] }} ({{ stats.total }})</h3>
-
-    <div class="row">
-        <div class="col-sm-8">
-            <d3-scoregraph height="300" data="stats.simple" dictionary="pretty" ordering="simpleOrdering">
-            </d3-scoregraph>
-        </div>
-        
-        <div class="col-sm-4">
-            <table class="table">
-                <tr>
-                    <th>Source</th><th>Points Gained</th>
-                </tr> 
-                <tr ng-repeat="(key, value) in stats.detailed">
-                    <td>{{ pretty[key] || key }}</td><td>{{ value }}</td>
-                </tr> 
-            </table>
-        </div>
+<h3>Faction Breakdowns</h3>
+<article ng-repeat="stats in gamestats.factions">
+    <h4>{{ pretty(stats.faction) }} ({{ stats.total }})</h4>
+        <d3-scoregraph height="300" data="stats.simple" pretty="pretty" ordering="simpleOrdering">
+        </d3-scoregraph>
     </div>
     <hr/>
+</article>
+
+<article>
+    <h3>Detailed Score Statistics</h3>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Source</th><th ng-repeat="p in gamestats.factions">{{ pretty(p.faction) }} ({{ p.total }})</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <td>Total</td><td ng-repeat="p in gamestats.factions">{{ p.total }}</td>
+            <tr>
+        </tfoot>
+        <tbody>
+            <tr ng-repeat="(key, value) in detailedStats">
+                <!-- <td>{{ pretty[key] || key }}</td> -->
+                <td> {{ pretty(key) }}</td>
+                <td ng-repeat="v in value track by $index">{{ v || 0 }}</td>
+            </tr>
+        </tbody>
+    </table>
 </article>

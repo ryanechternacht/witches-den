@@ -587,6 +587,7 @@ function makeRulesEngine() {
         alchemists_onConvert,
         halflings_onSpd,
         halflings_onSh,
+        halflings_onCultIncome,
         mermaids_onSh,
         cultists_onSh,
         icemaidens_onPassTe,
