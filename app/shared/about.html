@@ -1,0 +1,72 @@
+<article>
+    <div class="page-header">
+        <h2>The Basics</h2>
+
+        <h4>Overview</h4>
+        <p> Witches' Den is a game analyzer for Juho Snellman's Online Terra Mystica 
+            implementation (terra.snellman.net). As I begun playing more, I was 
+            constantly looking for how to improve, and this site is my attempt to 
+            build the tools and perform the research to answer that question. 
+            Specficially, I was looking to answer questions like: 
+            <ul>
+                <li>How many points am I spending to leech power?</li>
+                <li>How many points does fav11 really get me?</li>
+                <li>Am I using the pass bonus tiles well for points?</li>
+            </ul>
+        </p>
+
+        <h4>Who am I</h4>
+        <p> My name is ryan echternacht (user: ryan.echternacht), and I just started
+            playing Terra Mystica (both online and in person)> I think it's a 
+            phenomenal game, and I'm glad to see such a strong community built 
+            around it. I made this site to improve my play and give back. If you
+            want to know more, have feedback, find a bug, or get involved, hit me 
+            up at ryan [at] echternacht [dot] org. 
+
+        <h4>My Goals</h4>
+        <p>
+            When I started building the site, I didn't know that Juho provided some
+            of this information already -- now I do (you can find it if you click
+            on your score ingame). Regardless, I envisioning taking this much 
+            farther. Some of the questions I'd like to answer:
+            <ul>
+                <li>On average, how many points do people gain from the Engineer's 
+                    Stronghold</li>
+                <li>How many towns do most people found with X faction</li>
+                <li>Based on this board setup, which faction should I select?</li>
+                <li>Based on this board setup, and faction X, how many points should
+                    I get? Did I meet the goal? Why or why not?</li>
+                <li>How built up should I be by the end of round 3?</li>
+                <li>When I'm halflings, how many digs should I shoot for with a
+                    Round 4 spade scoring tile</li>
+            </ul>
+            Overall, I'm focused on learning from other plays to improve my play. 
+            One of my overall goals is to compare my scores against my "peers" 
+            (e.g. players +/-100 rating) and against the "best" players (e.g. top 
+            10%) to see where I'm underscoring. 
+        </p>
+
+        <h4>Focus on Points</h4>
+        <p>
+            As an overall guideline, my analysis is focused on scoring points, not
+            winning. While the two items are intrisically linked, I think focusing
+            on improving my score is a better guideline than focusing on beating
+            others -- both because it's easier to measure in isolation and because
+            I think it should be more stable over time. Perhaps these are faulty
+            assumptions, but I plan to keep them for now.
+        </p>
+
+        <h4>How it Works (in short)</h4>
+        <p>
+            The specific data I gather is the data found in Snellman's ingame log.
+            Specifically, I'm parsing those logs to determine what scoring sources
+            a player has (e.g. current round bonus, current pass tile bonus, favors)
+            and then checking every action against these for scoring. I'm reconciling
+            this with Snellman's calculation every action. If you see any points
+            labeled as "unknown", these are times when I come to a differnet count
+            than Snellman -- please tell me if you see these and I'll investigate
+            why and fix it. If you care about the technical details, see the later
+            sections.
+        </p>
+    </div>
+</article>

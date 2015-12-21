@@ -28,6 +28,7 @@ angular.module('wd.analyze.game', ['ngRoute', 'wd.shared'])
             $('#load-block-error').addClass('hidden');
             $('#load-block-loading').removeClass('hidden');
             $scope.gamestats = null;
+            $scope.detailedStats = null;
 
             //TODO refactor this to a service?
             $http({ method: 'GET', url: '/data/game/' + game })

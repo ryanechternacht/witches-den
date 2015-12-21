@@ -8,5 +8,5 @@ angular.module('myApp', [
   'd3'
 ]).
 config(['$routeProvider', function($routeProvider) {
-  $routeProvider.otherwise({redirectTo: '/analyze/game'});
+    $routeProvider.otherwise({redirectTo: '/analyze/game'});
 }]);
