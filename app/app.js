@@ -6,7 +6,7 @@ angular.module('myApp', [
   'wd.analyze.game',
   'wd.shared',
   'd3'
-]).
-config(['$routeProvider', function($routeProvider) {
+])
+.config(['$routeProvider', function($routeProvider) {
     $routeProvider.otherwise({redirectTo: '/analyze/game'});
 }]);

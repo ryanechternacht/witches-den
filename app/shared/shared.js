@@ -180,7 +180,17 @@ var buildShared = function(gameInfo ) {
     return shared;
 }
 
-angular.module('wd.shared', [])
+angular.module('wd.shared', ['ngRoute'])
+.config(['$routeProvider', function($routeProvider) {
+    $routeProvider.when('/about', {
+        templateUrl: 'shared/about.html', 
+        controller: 'AboutCtrl'
+    });
+}])
 .factory('shared', function() { 
     return { init: buildShared };
 })
+.controller('AboutCtrl', ['$scope', 
+    function($scope) {    
+        
+}]);
