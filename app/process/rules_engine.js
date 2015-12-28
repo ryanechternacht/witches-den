@@ -100,7 +100,7 @@ angular.module('wd.process', [])
 
 
     function processCommands(engineSetup, parsedLog, log) { 
-        var players = engineSetup.players;
+        var players = engineSetup.players,
             rounds = engineSetup.rounds,
             round = null;
             
