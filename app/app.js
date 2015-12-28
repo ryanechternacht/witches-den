@@ -6,6 +6,7 @@ angular.module('myApp', [
   'wd.analyze.game',
   'wd.shared',
   'wd.process',
+  'wd.parse',
   'd3'
 ]).
 config(['$routeProvider', function($routeProvider) {

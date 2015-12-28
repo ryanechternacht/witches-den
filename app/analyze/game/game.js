@@ -1,7 +1,7 @@
 'use strict';
 
-var parseGame = function(gamelog, rulesengine) { 
-    var parsedLog = parseLog(parser, gamelog);
+var parseGame = function(gamelog, rulesengine, parser) { 
+    var parsedLog = parser.parseLog(gamelog);
 
     var engineSetup = rulesengine.setupEngine(parsedLog, gamelog);
 
@@ -14,7 +14,7 @@ var parseGame = function(gamelog, rulesengine) {
     };
 }
 
-angular.module('wd.analyze.game', ['ngRoute', 'wd.shared', 'wd.process'])
+angular.module('wd.analyze.game', ['ngRoute', 'wd.shared', 'wd.process', 'wd.parse'])
 
 .config(['$routeProvider', function($routeProvider) {
     $routeProvider.when('/analyze/game', {
@@ -23,8 +23,8 @@ angular.module('wd.analyze.game', ['ngRoute', 'wd.shared', 'wd.process'])
     });
 }])
 
-.controller('AnalyzeGameCtrl', ['$scope', '$http', 'd3', 'format', 'rulesengine',
-    function($scope, $http, d3, format, rulesengine) {    
+.controller('AnalyzeGameCtrl', ['$scope', '$http', 'd3', 'format', 'rulesengine', 
+    'parser', function($scope, $http, d3, format, rulesengine, parser) {    
         $scope.analyzeGame = function(game) { 
             $('#load-block-error').addClass('hidden');
             $('#load-block-loading').removeClass('hidden');
@@ -34,7 +34,8 @@ angular.module('wd.analyze.game', ['ngRoute', 'wd.shared', 'wd.process'])
             $http({ method: 'GET', url: '/data/game/' + game })
                 .then(function(response) { 
                     if(response.data) { 
-                        $scope.gamestats = parseGame(response.data, rulesengine);
+                        $scope.gamestats = parseGame(response.data, rulesengine, 
+                            parser);
                         $scope.format = format.buildFormat($scope.gamestats);
                     } else {
                         $('#load-block-error').removeClass('hidden');
