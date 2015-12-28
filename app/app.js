@@ -5,6 +5,7 @@ angular.module('myApp', [
   'ngRoute',
   'wd.analyze.game',
   'wd.shared',
+  'wd.process',
   'd3'
 ]).
 config(['$routeProvider', function($routeProvider) {

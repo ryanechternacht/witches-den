@@ -41,7 +41,6 @@ var drawChart = function(d3, svg, scope, iElement, iAttrs) {
         .range([yBottom, yTop]);
 
     var xScale = d3.scale.ordinal()
-        // .domain(dataset.map(function(d) { return translator(d.key); }))
         .domain(barOrdering)
         .rangeRoundBands([xLeft, xRight], .1);
 
