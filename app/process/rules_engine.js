@@ -1,4 +1,5 @@
-//TODO refactor all of this into the js object format
+'use strict';
+
 
 angular.module('wd.process', [])
 .factory('rulesengine', [function() { 
@@ -51,8 +52,8 @@ angular.module('wd.process', [])
 
     return { 
         setupEngine: setupEngine,
-        processCommands: processCommands,
-    }
+        processCommands: processCommands
+    };
 
 
     /// START PUBLIC
