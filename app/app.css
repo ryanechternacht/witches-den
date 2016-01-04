@@ -47,8 +47,3 @@ svg .axis line {
     stroke: black;
     shape-rendering: crispEdges;
 }
-
-/*svg .tick text { 
-    transform: translate(0, 30) rotate(45deg);
-}
-*/

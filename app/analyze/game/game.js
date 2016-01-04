@@ -1,19 +1,20 @@
 'use strict';
 
-var parseGame = function(game) { 
-    var setup = makeRulesEngine();
-    var parsedLog = parseLog(parser, game.gamelog);
+var parseGame = function(gamelog, rulesengine, parser) { 
+    var parsedLog = parser.parseLog(gamelog);
 
-    var engineSetup = setupEngine(parsedLog, game.gamelog);
+    var engineSetup = rulesengine.setupEngine(parsedLog, gamelog);
 
-    var scoreCards = processCommands(engineSetup, setup.rules, parsedLog, game.gamelog);
-
+    var scoreCards = rulesengine.processCommands(engineSetup, parsedLog, gamelog);
     var players = _.sortBy(scoreCards, 'total').reverse();
 
-    return { factions: players, rounds: engineSetup.rounds };
+    return { 
+        factions: players, 
+        rounds: engineSetup.rounds 
+    };
 }
 
-angular.module('wd.analyze.game', ['ngRoute', 'wd.shared'])
+angular.module('wd.analyze.game', ['ngRoute', 'wd.shared', 'wd.process', 'wd.parse'])
 
 .config(['$routeProvider', function($routeProvider) {
     $routeProvider.when('/analyze/game', {
@@ -22,8 +23,8 @@ angular.module('wd.analyze.game', ['ngRoute', 'wd.shared'])
     });
 }])
 
-.controller('AnalyzeGameCtrl', ['$scope', '$http', 'd3', 'shared',
-    function($scope, $http, d3, shared) {    
+.controller('AnalyzeGameCtrl', ['$scope', '$http', 'd3', 'format', 'rulesengine', 
+    'parser', function($scope, $http, d3, format, rulesengine, parser) {    
         $scope.analyzeGame = function(game) { 
             $('#load-block-error').addClass('hidden');
             $('#load-block-loading').removeClass('hidden');
@@ -34,18 +35,15 @@ angular.module('wd.analyze.game', ['ngRoute', 'wd.shared'])
             $http({ method: 'GET', url: '/data/game/' + game })
                 .then(function(response) { 
                     if(response.data) { 
-                        $scope.gamestats = parseGame({ gamelog: response.data });
-                        var s = shared.init($scope.gamestats);
-                        $scope.simpleOrdering = s.simpleOrdering;
-                        $scope.detailedOrdering = s.detailedOrdering;
-                        $scope.pretty = s.pretty;
-                        $scope.detailedStats = s.detailedStats;
+                        $scope.gamestats = parseGame(response.data, rulesengine, 
+                            parser);
+                        $scope.format = format.buildFormat($scope.gamestats);
                     } else {
                         $('#load-block-error').removeClass('hidden');
                     }
                     $('#load-block-loading').addClass('hidden');
                 });
-            };
+        };
         
         //load test data
         $scope.analyzeGame('onion');
