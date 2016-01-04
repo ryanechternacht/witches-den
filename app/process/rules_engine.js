@@ -122,7 +122,7 @@ angular.module('wd.process', [])
             // var p = players[action.faction];
             var p = playerLookup[action.faction];
 
-            // for now, skip non player actions -- we mave do this differnetly 
+            // for now, skip non player actions -- we may do this differnetly 
             // in the future
             if(p != undefined) { 
                 var result = processCommand(rules, p, round, parsedAction, action);
