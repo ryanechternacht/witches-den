@@ -9,7 +9,6 @@ app.use(morgan('dev'));
 
 var angularPath = path.join(__dirname + "/../app");
 console.log("angular static path: " + angularPath);
-// app.use(express.static(__dirname + '/../app'));
 app.use(express.static(angularPath));
 
 var routesPath = path.join(__dirname, '/routes.js');
@@ -19,10 +18,6 @@ require(routesPath)(app);
 var faviconPath = path.join(__dirname, "favicon.png");
 console.log("favicon path: " + faviconPath);
 app.use(favicon(faviconPath));
-
-// app.get('/', function(req, res) { 
-//     res.sendFile(__dirname + '/../app/analyze/game/game.html');
-// });
 
 // app.use("/js", express.static(__dirname + "/app/js"));
 // app.use("/img", express.static(__dirname + "/app/img"));
