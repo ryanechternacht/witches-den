@@ -19,7 +19,8 @@
     "express": "~4.1.1",
     "method-override": "^1.0.0",
     "morgan": "^1.0.0",
-    "prototype": "0.0.5"
+    "prototype": "0.0.5",
+    "serve-favicon": "~2.3.0"
   },
   "scripts": {
     "postinstall": "bower install",

@@ -42,7 +42,7 @@ angular.module('wd.analyze.game', ['ngRoute', 'wd.shared', 'wd.process', 'wd.par
                     }
                     $('#load-block-loading').addClass('hidden');
                 });
-            };
+        };
         
         //load test data
         $scope.analyzeGame('onion');
