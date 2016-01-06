@@ -11,7 +11,9 @@ var drawChart = function(d3, svg, scope, iElement, iAttrs) {
     var keys = _.keys(scope.data);
     for(var i = 0; i < keys.length; i++) { 
         var k = keys[i];
-        dataset.push( { key: k, value: scope.data[k] } );
+        if(_.contains(scope.ordering, k)) {
+            dataset.push( { key: k, value: scope.data[k] } );
+        }
     }
 
     var barOrdering;

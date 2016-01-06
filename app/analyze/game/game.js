@@ -10,7 +10,8 @@ var parseGame = function(gamelog, rulesengine, parser) {
 
     return { 
         factions: players, 
-        rounds: engineSetup.rounds 
+        rounds: engineSetup.rounds,
+        fireAndIceBonus: engineSetup.fireAndIceBonus
     };
 }
 

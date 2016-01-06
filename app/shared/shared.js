@@ -15,7 +15,7 @@ angular.module('wd.shared', [])
         format.detailedOrdering = buildDetailedOrdering();
         format.detailedStats = buildDetailedStats(format.detailedOrdering, 
             format.labels, gameInfo.factions);
-        format.simpleOrdering = buildSimpleOrdering();
+        format.simpleOrdering = buildSimpleOrdering(gameInfo.fireAndIceBonus);
 
         return format;
     }
@@ -105,7 +105,7 @@ angular.module('wd.shared', [])
     }
 
 
-    function buildSimpleOrdering() { 
+    function buildSimpleOrdering(fireAndIceBonus) { 
         var a = new Array();
         
         // simple
@@ -115,13 +115,12 @@ angular.module('wd.shared', [])
         a.push("fav");
         a.push("leech");
         a.push("endGameNetwork"); // network
-        a.push("endGameBonus")
+        if(fireAndIceBonus) { 
+            a.push("endGameBonus");
+        }
         a.push("round");
-        a.push("starting");
         a.push("town");
         a.push("advance");
-        a.push("endGameResources"); // unused resources
-        a.push("unknown");
 
         return a;
     }

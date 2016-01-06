@@ -64,6 +64,7 @@ angular.module('wd.process', [])
         var rounds = [],
             players = [],
             options = [],
+            fireAndIceBonus = null,
             names = []; // holds player info until faction selection
 
         for(var i = 0; i < parsedLog.length; i++) { 
@@ -85,6 +86,10 @@ angular.module('wd.process', [])
                 names.push(parsedAction.setup.player.name);
             }
 
+            if(parsedAction.setup.additionalScoring != undefined) { 
+                fireAndIceBonus = parsedAction.setup.additionalScoring;
+            }
+
             if(parsedAction.setup.factionSelection) { 
                 var name = names.shift();
                 players.push(makePlayer(name, action.faction));
@@ -95,6 +100,7 @@ angular.module('wd.process', [])
             rounds: rounds,
             players: players, 
             options: [],
+            fireAndIceBonus: fireAndIceBonus,
         };
     }
 
