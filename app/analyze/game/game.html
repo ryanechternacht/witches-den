@@ -20,7 +20,7 @@
 
 <h3>Faction Breakdowns</h3>
 <article ng-repeat="stats in gamestats.factions">
-    <h4>{{ format.labels(stats.faction) }} ({{ stats.total }})</h4>
+    <h4>{{ format.labels(stats.faction) }} ({{ stats.total }}) - {{ stats.name }}</h4>
         <d3-scoregraph height="300" data="stats.simple" labels="format.labels" 
                        ordering="format.simpleOrdering">
         </d3-scoregraph>
