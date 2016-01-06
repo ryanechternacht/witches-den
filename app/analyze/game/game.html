@@ -18,6 +18,12 @@
     </form>
 </div>
 
+<h3>Game Stats - <a ng-href="http://terra.snellman.net/game/{{gamename}}">{{ gamename }}</a></h3>
+<article>
+</article>
+
+<hr />
+
 <h3>Faction Breakdowns</h3>
 <article ng-repeat="stats in gamestats.factions">
     <h4>{{ format.labels(stats.faction) }} ({{ stats.total }}) - {{ stats.name }}</h4>
