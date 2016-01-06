@@ -85,15 +85,15 @@ angular.module('wd.shared', [])
         a["fav12"] = "Favor 12 (pass TP [0,2,2,3,4])"
 
         var s = new Array();
-        s["SCORE1"] = "Score 1 (SPD >> 2)";
-        s["SCORE2"] = "Score 2 (TOWN >> 5)";
-        s["SCORE3"] = "Score 3 (D >> 2)";
-        s["SCORE4"] = "Score 4 (SH/SA >> 5)";
-        s["SCORE5"] = "Score 5 (D >> 2)";
-        s["SCORE6"] = "Score 6 (TP >> 3)";
-        s["SCORE7"] = "Score 7 (SH/SA >> 5)";
-        s["SCORE8"] = "Score 8 (TP >> 3)";
-        s["SCORE9"] = "Score 9 (TE >> 4)";
+        s["SCORE1"] = "Score 1 (SPD >> 2) (1Earth > C)";
+        s["SCORE2"] = "Score 2 (TOWN >> 5) (4Earth > SPD)";
+        s["SCORE3"] = "Score 3 (D >> 2) (4Water > P)";
+        s["SCORE4"] = "Score 4 (SH/SA >> 5) (2Fire > W)";
+        s["SCORE5"] = "Score 5 (D >> 2) (4Fire > 4PW)";
+        s["SCORE6"] = "Score 6 (TP >> 3) (4Water > SPD)";
+        s["SCORE7"] = "Score 7 (SH/SA >> 5) (2Air > W)";
+        s["SCORE8"] = "Score 8 (TP >> 3) (4Air > SPD)";
+        s["SCORE9"] = "Score 9 (TE >> 4) (P -> 2C)";
 
         // rounds (built from round info)
         for(var i = 0; i < rounds.length; i++) { 

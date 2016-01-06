@@ -20,9 +20,19 @@
 
 <h3>Game Overview - <a ng-href="http://terra.snellman.net/game/{{gamename}}">{{ gamename }}</a></h3>
 <article>
+    Placing
     <ol>
         <li ng-repeat="stats in gamestats.factions">
             {{ format.labels(stats.faction) }} ({{ stats.total }}) - {{ stats.name }}
+        </li>
+    </ol>
+</article>
+
+<article>
+    Rounds
+    <ol>
+        <li ng-repeat="round in gamestats.rounds">
+            {{ format.labels(round.scoreTile) }}
         </li>
     </ol>
 </article>
