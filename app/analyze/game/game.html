@@ -18,13 +18,18 @@
     </form>
 </div>
 
-<h3>Game Stats - <a ng-href="http://terra.snellman.net/game/{{gamename}}">{{ gamename }}</a></h3>
+<h3>Game Overview - <a ng-href="http://terra.snellman.net/game/{{gamename}}">{{ gamename }}</a></h3>
 <article>
+    <ol>
+        <li ng-repeat="stats in gamestats.factions">
+            {{ format.labels(stats.faction) }} ({{ stats.total }}) - {{ stats.name }}
+        </li>
+    </ol>
 </article>
 
 <hr />
 
-<h3>Faction Breakdowns</h3>
+<h3>Faction Score Breakdowns</h3>
 <article ng-repeat="stats in gamestats.factions">
     <h4>{{ format.labels(stats.faction) }} ({{ stats.total }}) - {{ stats.name }}</h4>
         <d3-scoregraph height="300" data="stats.simple" labels="format.labels" 
