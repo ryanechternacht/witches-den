@@ -12,7 +12,7 @@ angular.module('wd.shared', [])
         var format = {};
 
         format.labels = buildLabelFunction(gameInfo.rounds);
-        format.detailedOrdering = buildDetailedOrdering();
+        format.detailedOrdering = buildDetailedOrdering(gameInfo.rounds);
         format.detailedStats = buildDetailedStats(format.detailedOrdering, 
             format.labels, gameInfo.factions);
         format.simpleOrdering = buildSimpleOrdering(gameInfo.fireAndIceBonus);
@@ -126,7 +126,7 @@ angular.module('wd.shared', [])
     }
 
 
-    function buildDetailedOrdering() { 
+    function buildDetailedOrdering(rounds) { 
         var a = new Array();
 
         // detailed
@@ -146,15 +146,10 @@ angular.module('wd.shared', [])
         a.push("fav12");
         a.push("leech");
         a.push("endGameNetwork"); // network
-        a.push("SCORE1"); // TODO redo these to leverage round ordering
-        a.push("SCORE2");
-        a.push("SCORE3");
-        a.push("SCORE4");
-        a.push("SCORE5");
-        a.push("SCORE6");
-        a.push("SCORE7");
-        a.push("SCORE8");
-        a.push("SCORE9");
+        for(var i = 0; i < rounds.length; i++) { 
+            var r = rounds[i];
+            a.push(r.scoreTile);
+        }
         a.push("starting");
         a.push("town");
         a.push("endGameResources"); // unused resources
