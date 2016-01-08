@@ -10,7 +10,8 @@ var parseGame = function(gamelog, rulesengine, parser) {
 
     return { 
         factions: players, 
-        rounds: engineSetup.rounds 
+        rounds: engineSetup.rounds,
+        fireAndIceBonus: engineSetup.fireAndIceBonus
     };
 }
 
@@ -26,25 +27,31 @@ angular.module('wd.analyze.game', ['ngRoute', 'wd.shared', 'wd.process', 'wd.par
 .controller('AnalyzeGameCtrl', ['$scope', '$http', 'd3', 'format', 'rulesengine', 
     'parser', function($scope, $http, d3, format, rulesengine, parser) {    
         $scope.analyzeGame = function(game) { 
-            $('#load-block-error').addClass('hidden');
-            $('#load-block-loading').removeClass('hidden');
+            $scope.loaded = false;
+            $scope.loading = true;
             $scope.gamestats = null;
-            $scope.detailedStats = null;
+            $scope.format = null;
+            $scope.gamename = game;
 
             //TODO refactor this to a service?
             $http({ method: 'GET', url: '/data/game/' + game })
                 .then(function(response) { 
                     if(response.data) { 
+                        $scope.loaded = true;
                         $scope.gamestats = parseGame(response.data, rulesengine, 
                             parser);
                         $scope.format = format.buildFormat($scope.gamestats);
                     } else {
-                        $('#load-block-error').removeClass('hidden');
+                        $scope.loadError = true;
                     }
-                    $('#load-block-loading').addClass('hidden');
+                    $scope.loading = false;
                 });
         };
         
+        $scope.loading = false;
+        $scope.loaded = false;
+        $scope.game = '';
+
         //load test data
-        $scope.analyzeGame('onion');
+        // $scope.analyzeGame('onion');
 }]);
