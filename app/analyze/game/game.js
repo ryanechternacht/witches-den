@@ -42,7 +42,6 @@ angular.module('wd.analyze.game', ['ngRoute', 'wd.shared', 'wd.process', 'wd.par
                             parser);
                         $scope.format = format.buildFormat($scope.gamestats);
                     } else {
-                        $scope.loaded = false;
                         $scope.loadError = true;
                     }
                     $scope.loading = false;
