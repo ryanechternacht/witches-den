@@ -27,9 +27,6 @@ exports.findByName = function(req, res) {
         method: 'GET'
     };
 
-    var state;
-
-    // var request = http.request(options, function(terra_res) { });
     var request = http.request(options);
 
     request.on('response', function(response) {
@@ -42,7 +39,7 @@ exports.findByName = function(req, res) {
 
         response.on('end', function() { 
             // console.log("i see the end");
-            state = data.evalJSON();
+            var state = data.evalJSON();
             res.send(state.ledger);
         });
     });

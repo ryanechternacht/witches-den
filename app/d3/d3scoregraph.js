@@ -5,13 +5,15 @@ var drawChart = function(d3, svg, scope, iElement, iAttrs) {
 
     var height = scope.height,
         width = scope.width || d3.select(iElement[0])[0][0].offsetWidth - 20,
-        translator = scope.pretty;
+        translator = scope.labels;
 
     var dataset = [];
     var keys = _.keys(scope.data);
     for(var i = 0; i < keys.length; i++) { 
         var k = keys[i];
-        dataset.push( { key: k, value: scope.data[k] } );
+        if(_.contains(scope.ordering, k)) {
+            dataset.push( { key: k, value: scope.data[k] } );
+        }
     }
 
     var barOrdering;
@@ -41,7 +43,6 @@ var drawChart = function(d3, svg, scope, iElement, iAttrs) {
         .range([yBottom, yTop]);
 
     var xScale = d3.scale.ordinal()
-        // .domain(dataset.map(function(d) { return translator(d.key); }))
         .domain(barOrdering)
         .rangeRoundBands([xLeft, xRight], .1);
 
@@ -97,7 +98,7 @@ angular.module('d3').directive('d3Scoregraph', ['d3', function(d3) {
             width: '@',    // static binding to a value
             height: '@',
             ordering: '=',
-            pretty: '='
+            labels: '='
         },
         link: function(scope, iElement, iAttrs) {
             var svg = d3.select(iElement[0])

@@ -12,39 +12,64 @@
             </div>
         </div>
         <div class="form-group">
-            <span id="load-block-loading" class="hidden help-block">Loading...</span>
-            <span id="load-block-error" class="hidden help-block">Game not found. Try checking your capitalization</span>
+            <span id="load-block-loading" class="help-block" ng-show="loading">Loading...</span>
+            <span id="load-block-error" class="help-block" ng-show="loadError">Game not found. Try checking your capitalization</span>
         </div>
     </form>
 </div>
 
-<h3>Faction Breakdowns</h3>
+<h3 ng-hide="loaded">Game Overview</h3>
+<div ng-show="loaded">
+    <h3 >Game Overview - <a ng-href="http://terra.snellman.net/game/{{gamename}}">{{ gamename }}</a></h3>
+    <article>
+        Placing
+        <ol>
+            <li ng-repeat="stats in gamestats.factions">
+                {{ format.labels(stats.faction) }} ({{ stats.total }}) - {{ stats.name }}
+            </li>
+        </ol>
+    </article>
+
+    <article>
+        Rounds
+        <ol>
+            <li ng-repeat="round in gamestats.rounds">
+                {{ format.labels(round.scoreTile) }}
+            </li>
+        </ol>
+    </article>
+    <hr />
+</div>
+
+<h3>Faction Score Breakdowns</h3>
 <article ng-repeat="stats in gamestats.factions">
-    <h4>{{ pretty(stats.faction) }} ({{ stats.total }})</h4>
-        <d3-scoregraph height="300" data="stats.simple" pretty="pretty" ordering="simpleOrdering">
+    <h4>{{ format.labels(stats.faction) }} ({{ stats.total }}) - {{ stats.name }}</h4>
+        <d3-scoregraph height="300" data="stats.simple" labels="format.labels" 
+                       ordering="format.simpleOrdering">
         </d3-scoregraph>
-    </div>
     <hr/>
 </article>
 
-<article>
-    <h3>Detailed Score Statistics</h3>
-
+<h3>Detailed Score Statistics</h3>
+<article ng-show="loaded">
     <table class="table table-hover">
         <thead>
             <tr>
-                <th>Source</th><th ng-repeat="p in gamestats.factions">{{ pretty(p.faction) }} ({{ p.total }})</th>
+                <th>Source</th>
+                <th ng-repeat="p in gamestats.factions">
+                    {{ format.labels(p.faction) }} ({{ p.total }})
+                </th>
             </tr>
         </thead>
         <tfoot>
             <tr>
-                <td>Total</td><td ng-repeat="p in gamestats.factions">{{ p.total }}</td>
+                <td>Total</td>
+                <td ng-repeat="p in gamestats.factions">{{ p.total }}</td>
             <tr>
         </tfoot>
         <tbody>
-            <tr ng-repeat="(key, value) in detailedStats">
-                <!-- <td>{{ pretty[key] || key }}</td> -->
-                <td> {{ pretty(key) }}</td>
+            <tr ng-repeat="(key, value) in format.detailedStats">
+                <td> {{ format.labels(key) }}</td>
                 <td ng-repeat="v in value track by $index">{{ v || 0 }}</td>
             </tr>
         </tbody>

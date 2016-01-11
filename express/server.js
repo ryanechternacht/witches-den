@@ -1,18 +1,23 @@
 var express = require('express'),
-    // path = require('path'),
+    path = require('path'),
     morgan = require('morgan'),
+    favicon = require('serve-favicon'),
     app = express();
 
 
 app.use(morgan('dev'));
-app.use(express.static(__dirname + '/../app'));
 
-require('./routes.js')(app);
+var angularPath = path.join(__dirname + "/../app");
+console.log("angular static path: " + angularPath);
+app.use(express.static(angularPath));
 
+var routesPath = path.join(__dirname, '/routes.js');
+console.log("routes path: " + routesPath);
+require(routesPath)(app);
 
-// app.get('/', function(req, res) { 
-//     res.sendFile(__dirname + '/../app/analyze/game/game.html');
-// });
+var faviconPath = path.join(__dirname, "favicon.png");
+console.log("favicon path: " + faviconPath);
+app.use(favicon(faviconPath));
 
 // app.use("/js", express.static(__dirname + "/app/js"));
 // app.use("/img", express.static(__dirname + "/app/img"));
@@ -27,7 +32,5 @@ app.all("/*", function(req, res, next) {
 var port = process.env.PORT || 3001;
 
 app.listen(port);
-
-
 
 console.log('Listening on port ' + port + '...');

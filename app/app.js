@@ -5,8 +5,13 @@ angular.module('myApp', [
   'ngRoute',
   'wd.analyze.game',
   'wd.shared',
+  'wd.process',
+  'wd.parse',
   'd3'
-]).
-config(['$routeProvider', function($routeProvider) {
-  $routeProvider.otherwise({redirectTo: '/analyze/game'});
+])
+.config(['$routeProvider', '$locationProvider', 
+    function($routeProvider, $locationProvider) {
+        $routeProvider.otherwise({redirectTo: '/analyze/game'});
+
+        $locationProvider.html5Mode(true);
 }]);
