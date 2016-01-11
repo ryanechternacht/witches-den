@@ -19,7 +19,7 @@ angular.module('wd.analyze.game', ['ngRoute', 'wd.shared', 'wd.process', 'wd.par
 
 .config(['$routeProvider', function($routeProvider) {
     $routeProvider.when('/analyze/game', {
-        templateUrl: 'analyze/game/game.html', 
+        templateUrl: '/analyze/game/game.html', 
         controller: 'AnalyzeGameCtrl'
     });
 }])
@@ -50,7 +50,7 @@ angular.module('wd.analyze.game', ['ngRoute', 'wd.shared', 'wd.process', 'wd.par
         
         $scope.loading = false;
         $scope.loaded = false;
-        $scope.game = '';
+        $scope.gamename = '';
 
         //load test data
         // $scope.analyzeGame('onion');
