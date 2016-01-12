@@ -24,8 +24,17 @@
     <article>
         Placing
         <ol>
-            <li ng-repeat="stats in gamestats.factions">
-                {{ format.labels(stats.faction) }} ({{ stats.total }}) - {{ stats.name }}
+            <li ng-repeat="f in gamestats.factions">
+                {{ format.labels(f.faction) }} ({{ f.total }}) - {{ f.name }}
+            </li>
+        </ol>
+    </article>
+
+    <article>
+        Starting Order
+        <ol>
+            <li ng-repeat="f in gamestats.factions | orderBy: 'startOrder'">
+                {{ format.labels(f.faction) }} - {{ f.name }}
             </li>
         </ol>
     </article>

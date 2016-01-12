@@ -65,7 +65,7 @@ angular.module('wd.process', [])
             players = [],
             options = [],
             fireAndIceBonus = null,
-            names = []; // holds player info until faction selection
+            names = []; // holds player info and pick order until faction selection
 
         for(var i = 0; i < parsedLog.length; i++) { 
             var parsedAction = parsedLog[i];
@@ -83,7 +83,11 @@ angular.module('wd.process', [])
             }
 
             if(parsedAction.setup.player != undefined) { 
-                names.push(parsedAction.setup.player.name);
+                var order = names.length;
+                names.push({
+                    name: parsedAction.setup.player.name, 
+                    startOrder: order
+                });
             }
 
             if(parsedAction.setup.additionalScoring != undefined) { 
@@ -150,7 +154,7 @@ angular.module('wd.process', [])
 
 
     /// START PRIVATE
-    function makePlayer(name, faction) {
+    function makePlayer(player, faction) {
         var shipStart,
             shipLevels;
 
@@ -201,7 +205,8 @@ angular.module('wd.process', [])
 
         return {
             faction: faction,
-            name: name,
+            name: player.name,
+            startOrder: player.startOrder,
             d: 0,
             tp: 0,
             te: 0,
