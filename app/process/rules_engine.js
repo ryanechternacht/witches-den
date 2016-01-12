@@ -52,7 +52,8 @@ angular.module('wd.process', [])
 
     return { 
         setupEngine: setupEngine,
-        processCommands: processCommands
+        processCommands: processCommands,
+        checkGameComplete: checkGameComplete
     };
 
 
@@ -143,11 +144,23 @@ angular.module('wd.process', [])
             }
         }
 
+        // sum player's total points
         for(var i = 0; i < players.length; i++) { 
             sumPoints(players[i]);
         }
 
         return players;
+    }
+
+    function checkGameComplete(parsedLog) { 
+        for(var i = 0; i < parsedLog.length; i++) { 
+            var parsedAction = parsedLog[i];
+            if(parsedAction.endGame) { 
+                return true;
+            }
+        }
+
+        return false; // if we don't find an endGame action
     }
     /// END PUBLIC
 

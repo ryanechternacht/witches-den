@@ -20,6 +20,10 @@
 
 <h3 ng-hide="loaded">Game Overview</h3>
 <div ng-show="loaded">
+    <div class="alert alert-warning" ng-Show="gameIncomplete">
+        <strong>Game Incomplete!</strong>This game isn't complete yet. The numbers shown here will only reflect recorded points.
+    </div>
+
     <h3 >Game Overview - <a ng-href="http://terra.snellman.net/game/{{gamename}}">{{ gamename }}</a></h3>
     <article>
         Placing
