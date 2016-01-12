@@ -18,27 +18,33 @@ var parseGame = function(gamelog, rulesengine, parser) {
 angular.module('wd.analyze.game', ['ngRoute', 'wd.shared', 'wd.process', 'wd.parse'])
 
 .config(['$routeProvider', function($routeProvider) {
-    $routeProvider.when('/analyze/game', {
+    $routeProvider.when('/analyze/game/:game?', {
         templateUrl: '/analyze/game/game.html', 
         controller: 'AnalyzeGameCtrl'
     });
 }])
 
-.controller('AnalyzeGameCtrl', ['$scope', '$http', '$location', 'd3', 'format', 'rulesengine', 'parser', 
-    function($scope, $http, $location, d3, format, rulesengine, parser) {    
+.controller('AnalyzeGameCtrl', ['$scope', '$http', '$location', '$routeParams', 'd3', 'format', 'rulesengine', 'parser', 
+    function($scope, $http, $location, $routeParams, d3, format, rulesengine, parser) {    
+        
+        // text box on top of screen
         $scope.analyzeGame = function(game) { 
+            var path = "/analyze/game/" + game;
+            $location.path(path);
+        }
+
+        $scope.loading = false;
+        $scope.loaded = false;
+
+        if($routeParams.game) {
             $scope.loaded = false;
             $scope.loading = true;
             $scope.gamestats = null;
             $scope.format = null;
-            $scope.gamename = game;
-
-            
-            // $location.path('/analyze/game/' + $scope.gamename);
-
+            $scope.gamename = $routeParams.game;
 
             //TODO refactor this to a service?
-            $http({ method: 'GET', url: '/data/game/' + game })
+            $http({ method: 'GET', url: '/data/game/' + $routeParams.game })
                 .then(function(response) { 
                     if(response.data) { 
                         $scope.loaded = true;
@@ -51,11 +57,9 @@ angular.module('wd.analyze.game', ['ngRoute', 'wd.shared', 'wd.process', 'wd.par
                     $scope.loading = false;
                 });
         };
-        
-        $scope.loading = false;
-        $scope.loaded = false;
-        $scope.gamename = '';
 
-        //load test data
-        // $scope.analyzeGame('onion');
+        // dev - add in auto load of onion
+        if(!$scope.gamename) { 
+            $scope.analyzeGame('onion');
+        }
 }]);
