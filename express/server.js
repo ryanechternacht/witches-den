@@ -13,21 +13,11 @@ app.use(express.static(angularPath));
 
 var routesPath = path.join(__dirname, '/routes.js');
 console.log("routes path: " + routesPath);
-require(routesPath)(app);
+require(routesPath)(app, angularPath);
 
 var faviconPath = path.join(__dirname, "favicon.png");
 console.log("favicon path: " + faviconPath);
 app.use(favicon(faviconPath));
-
-// app.use("/js", express.static(__dirname + "/app/js"));
-// app.use("/img", express.static(__dirname + "/app/img"));
-// app.use("/css", express.static(__dirname + "/app/css"));
-app.all("/*", function(req, res, next) {
-    console.log(req);
-    console.log(res);
-    console.log(next);
-    res.sendFile("index.html", { root: __dirname + "/../app" });
-});
 
 var port = process.env.PORT || 3001;
 

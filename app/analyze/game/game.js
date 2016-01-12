@@ -24,14 +24,18 @@ angular.module('wd.analyze.game', ['ngRoute', 'wd.shared', 'wd.process', 'wd.par
     });
 }])
 
-.controller('AnalyzeGameCtrl', ['$scope', '$http', 'd3', 'format', 'rulesengine', 
-    'parser', function($scope, $http, d3, format, rulesengine, parser) {    
+.controller('AnalyzeGameCtrl', ['$scope', '$http', '$location', 'd3', 'format', 'rulesengine', 'parser', 
+    function($scope, $http, $location, d3, format, rulesengine, parser) {    
         $scope.analyzeGame = function(game) { 
             $scope.loaded = false;
             $scope.loading = true;
             $scope.gamestats = null;
             $scope.format = null;
             $scope.gamename = game;
+
+            
+            // $location.path('/analyze/game/' + $scope.gamename);
+
 
             //TODO refactor this to a service?
             $http({ method: 'GET', url: '/data/game/' + game })
