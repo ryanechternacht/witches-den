@@ -3767,11 +3767,11 @@ var parser = (function() {
       }
       
       function leechOption(accepted) { 
-      	return { leechAccepted: accepted };
+        return { leechAccepted: accepted };
       }
       
       function ssGainPowerToken(accepted) { 
-      	return { gainPowerToken: accepted }
+        return { gainPowerToken: accepted }
       }
 
       function action(act) { 
@@ -3828,10 +3828,10 @@ var parser = (function() {
       }
 
       function advance(track) { 
-        if(track == "ship") { 
+        if(track.toUpperCase() == "SHIP") { 
           return { advanceShip: 1 };
         }
-        else if(track == "dig") { 
+        else if(track.toUpperCase() == "DIG") { 
           return { advanceDig: 1 };
         }
       }
@@ -4101,7 +4101,7 @@ var parser = (function() {
 
       function makeAction(actions) {
         var result = {};    
-    	processActions(result, actions);
+      processActions(result, actions);
         return result;
       }
 

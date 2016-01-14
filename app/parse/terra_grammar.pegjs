@@ -217,10 +217,10 @@
   }
 
   function advance(track) { 
-    if(track == "ship") { 
+    if(track.toUpperCase() == "SHIP") { 
       return { advanceShip: 1 };
     }
-    else if(track == "dig") { 
+    else if(track.toUpperCase() == "DIG") { 
       return { advanceDig: 1 };
     }
   }
