@@ -63,7 +63,7 @@ angular.module('wd.analyze.game', ['ngRoute', 'wd.shared', 'wd.process', 'wd.par
         };
 
         // dev - add in auto load of onion
-        if(!$scope.gamename) { 
-            $scope.analyzeGame('onion');
-        }
+        // if(!$scope.gamename) { 
+        //     $scope.analyzeGame('onion');
+        // }
 }]);
