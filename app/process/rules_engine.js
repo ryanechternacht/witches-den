@@ -651,6 +651,7 @@ angular.module('wd.process', [])
         points += player.simple.endGameCult || 0;
         points += player.simple.endGameBonus || 0;
         points += player.simple.leech || 0;
+        points += player.simple.unknown || 0;
 
         player.total = points;
     }

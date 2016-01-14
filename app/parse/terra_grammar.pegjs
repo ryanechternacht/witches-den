@@ -159,6 +159,10 @@
     return { leechAccepted: accepted };
   }
   
+  function rwUnlockTerrain(terrain) { 
+    return { unlockTerrain: terrain };
+  }
+  
   function ssGainPowerToken(accepted) { 
     return { gainPowerToken: accepted }
   }
@@ -217,10 +221,10 @@
   }
 
   function advance(track) { 
-    if(track == "ship") { 
+    if(track.toUpperCase() == "SHIP") { 
       return { advanceShip: 1 };
     }
-    else if(track == "dig") { 
+    else if(track.toUpperCase() == "DIG") { 
       return { advanceDig: 1 };
     }
   }
@@ -479,6 +483,10 @@
       result.leechAccepted = action.leechAccepted;
     }
     
+    if(action.unlockTerrain != undefined) { 
+      result.unlockTerrain = action.unlockTerrain;
+    }
+    
     if(action.gainPowerToken != undefined) { 
       result.gainPowerToken = action.gainPowerToken;
     }
@@ -490,7 +498,7 @@
 
   function makeAction(actions) {
     var result = {};    
-  processActions(result, actions);
+    processActions(result, actions);
     return result;
   }
 }
@@ -531,6 +539,7 @@ Action
   / Bridge
   / Transform
   / LeechOption
+  / RiverwalkersUnlockTerrain
   / ShapeshifterGainPowerToken
   / PickColor
   
@@ -658,6 +667,10 @@ LeechOption
 ShapeshifterGainPowerToken
   = "gain P3 for VP"i _ "."? _ { return ssGainPowerToken(true); }
   / "-GAIN_P3_FOR_VP"i _ "."? _ { return ssGainPowerToken(false); }
+
+RiverwalkersUnlockTerrain
+  = "unlock-terrain"i _ "gain-priest"i _ "."? _ { return rwUnlockTerrain("gain-priest"); }
+  / "unlock-terrain"i _ terrain:String _ "."? _ { return rwUnlockTerrain(terrain); }
 
 PickColor
   = "pick-color "i color:String _ "."? _ { return pickColor(color); }
