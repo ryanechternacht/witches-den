@@ -666,7 +666,13 @@ angular.module('wd.process', [])
 
     //SCORE 1: spd >> 2; 1earth -> 1c
     function score1_onSpd(player, round, parsedAction, action) { 
-        if(round == undefined || round.scoreTile.toUpperCase() != "SCORE1") { 
+        
+        // dragonlords, acolytes, and riverwalkers don't actually get spades, 
+        // so they can't score off of them 
+        if(round == undefined || round.scoreTile.toUpperCase() != "SCORE1" ||
+            player.faction.toUpperCase() == "DRAGONLORDS" || 
+            player.faction.toUpperCase() == "ACOLYTES" || 
+            player.faction.toUpperCase() == "RIVERWALKERS") { 
             return null;
         }    
 
