@@ -193,8 +193,14 @@ angular.module('wd.shared', [])
         templateUrl: 'shared/about.html', 
         controller: 'AboutCtrl'
     });
+    $routeProvider.when('/changelog', {
+        templateUrl: 'shared/changelog.html',
+        controller: 'ChangeLogCtrl'
+    });
 }])
-.controller('AboutCtrl', ['$scope', 
-    function($scope) {    
+.controller('AboutCtrl', ['$scope', function($scope) {    
         
+}])
+.controller('ChangeLogCtrl', ['$scope', function($scope) { 
+
 }]);
