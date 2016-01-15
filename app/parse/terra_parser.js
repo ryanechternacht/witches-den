@@ -1,4 +1,4 @@
-buildParser = (function() {
+var parser = (function() {
   "use strict";
 
   /*
@@ -3790,21 +3790,21 @@ buildParser = (function() {
       }
 
       function build(space) {
-        return { d: 1, space: space };
+        return { d: space };
       }
 
       function upgrade(building, space) {
         if(building.toUpperCase() == "SH") { 
-          return { sh: 1, tp: -1, space:space }
+          return { sh: space }
         }
         if(building.toUpperCase() == "TE") { 
-          return { te: 1, tp: -1, space:space }
+          return { te: space }
         }
         if(building.toUpperCase() == "TP") { 
-          return { tp: 1, d: -1, space:space }
+          return { tp: space }
         }
         if(building.toUpperCase() == "SA") { 
-          return { sa: 1, te: -1, space:space }
+          return { sa: space }
         }
 
         return "[failure]: " + building + " is not recognized";
@@ -3905,7 +3905,7 @@ buildParser = (function() {
       }
       
       function rwUnlockTerrain(terrain) { 
-      	return { unlockTerrain: terrain };
+        return { unlockTerrain: terrain };
       }
       
       function ssGainPowerToken(accepted) { 
@@ -4168,18 +4168,33 @@ buildParser = (function() {
           result.action = action.action;
         }
         if(action.d != undefined) { 
-          result.d = action.d;
+          if(result.d == undefined) { 
+            result.d = [];
+          }
+          result.d.push(action.d);
         }
         if(action.tp != undefined) { 
-          result.tp = action.tp;
+          if(result.tp == undefined) { 
+            result.tp = [];
+          }
+          result.tp.push(action.tp);
         }
         if(action.te != undefined) { 
-          result.te = action.te;
+          if(result.te == undefined) { 
+            result.te = [];
+          }
+          result.te.push(action.te);
         }
         if(action.sh != undefined) { 
+          if(result.sh == undefined) { 
+            result.sh = 0;
+          }
           result.sh = action.sh;
         }
         if(action.sa != undefined) { 
+          if(result.sa == undefined) { 
+            result.sa = 0;
+          }
           result.sa = action.sa;
         }
         if(action.leech !== undefined) { 
@@ -4243,7 +4258,7 @@ buildParser = (function() {
 
       function makeAction(actions) {
         var result = {};    
-      	processActions(result, actions);
+        processActions(result, actions);
         return result;
       }
 
