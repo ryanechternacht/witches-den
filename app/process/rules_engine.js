@@ -491,19 +491,23 @@ angular.module('wd.process', [])
         }
 
         if(parsedAction.d != undefined) { 
-            player.d += parsedAction.d;
+            player.d += parsedAction.d.length;
         }
         if(parsedAction.tp != undefined) { 
-            player.tp += parsedAction.tp;
+            player.tp += parsedAction.tp.length;
+            player.d -= parsedAction.tp.length;
         }
         if(parsedAction.te != undefined) { 
-            player.te += parsedAction.te;
+            player.te += parsedAction.te.length;
+            player.tp -= parsedAction.te.length
         }
         if(parsedAction.sh != undefined) { 
-            player.sh += parsedAction.sh;
+            player.sh = 1;
+            player.tp -= 1;
         }
         if(parsedAction.sa != undefined) { 
-            player.sa += parsedAction.sa;
+            player.sa += 1;
+            player.te -= 1;
         }
         if(parsedAction.fav != undefined) { 
             for(var i = 0; i < parsedAction.fav.length; i++) { 
@@ -552,7 +556,7 @@ angular.module('wd.process', [])
             }
         }
         else if(player.faction.toUpperCase() == "FAKIRS") { 
-            if(diff == 4 && (parsedAction.d > 0 || parsedAction.transform != undefined)) { 
+            if(diff == 4 && (parsedAction.d && parsedAction.d.length > 0 || parsedAction.transform != undefined)) { 
                 // if 4 points unaccounted for and we built or transformed
                 return {
                     simple: { faction: diff }, 
@@ -562,7 +566,7 @@ angular.module('wd.process', [])
         }
         else if(player.faction.toUpperCase() == "DWARVES") { 
             // if 4 points unaccounted for and we built or transformed
-            if(diff == 4 && (parsedAction.d > 0 || parsedAction.transform != undefined)) { 
+            if(diff == 4 && (parsedAction.d && parsedAction.d.length > 0 || parsedAction.transform != undefined)) { 
                 return {
                     simple: { faction: diff }, 
                     detailed: { faction: diff } 
@@ -666,7 +670,13 @@ angular.module('wd.process', [])
 
     //SCORE 1: spd >> 2; 1earth -> 1c
     function score1_onSpd(player, round, parsedAction, action) { 
-        if(round == undefined || round.scoreTile.toUpperCase() != "SCORE1") { 
+        
+        // dragonlords, acolytes, and riverwalkers don't actually get spades, 
+        // so they can't score off of them 
+        if(round == undefined || round.scoreTile.toUpperCase() != "SCORE1" ||
+            player.faction.toUpperCase() == "DRAGONLORDS" || 
+            player.faction.toUpperCase() == "ACOLYTES" || 
+            player.faction.toUpperCase() == "RIVERWALKERS") { 
             return null;
         }    
 
@@ -717,7 +727,7 @@ angular.module('wd.process', [])
             return null;
         }
 
-        var points = parsedAction.d * 2;
+        var points = (parsedAction.d ? parsedAction.d.length : 0) * 2;
 
         if(points > 0) {  
             return { 
@@ -767,7 +777,7 @@ angular.module('wd.process', [])
             return null;
         } 
 
-        var points = parsedAction.d * 2;
+        var points = (parsedAction.d ? parsedAction.d.length : 0) * 2;
 
         if(points > 0) { 
             return { 
@@ -791,7 +801,7 @@ angular.module('wd.process', [])
             return null;
         } 
 
-        var points = parsedAction.tp * 3;
+        var points = (parsedAction.tp ? parsedAction.tp.length : 0) * 3;
 
         if(points > 0) { 
             return { 
@@ -845,7 +855,7 @@ angular.module('wd.process', [])
             return null;
         } 
 
-        var points = parsedAction.tp * 3;
+        var points = (parsedAction.tp ? parsedAction.tp.length : 0) * 3;
 
         if(points > 0) { 
             return { 
@@ -869,7 +879,7 @@ angular.module('wd.process', [])
             return null;
         } 
 
-        var points = parsedAction.te * 4;
+        var points = (parsedAction.te ? parsedAction.te.length : 0) * 4;
 
         if(points > 0) { 
             return { 
@@ -1027,6 +1037,7 @@ angular.module('wd.process', [])
         }
 
         var points = player.te * 3;
+
         if(points != 0) { 
             return { 
                 simple: { faction: points },
@@ -1229,7 +1240,7 @@ angular.module('wd.process', [])
             return null;
         } 
 
-        var points = parsedAction.tp * 3;
+        var points = (parsedAction.tp ? parsedAction.tp.length : 0) * 3;
 
         if(points > 0) { 
             return { 
@@ -1247,7 +1258,7 @@ angular.module('wd.process', [])
             return null;
         } 
 
-        var points = parsedAction.d * 2;
+        var points = (parsedAction.d ? parsedAction.d.length : 0) * 2;
 
         if(points > 0) { 
             return { 
