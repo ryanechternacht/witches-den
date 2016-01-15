@@ -556,7 +556,7 @@ angular.module('wd.process', [])
             }
         }
         else if(player.faction.toUpperCase() == "FAKIRS") { 
-            if(diff == 4 && (parsedAction.d > 0 || parsedAction.transform != undefined)) { 
+            if(diff == 4 && (parsedAction.d && parsedAction.d.length > 0 || parsedAction.transform != undefined)) { 
                 // if 4 points unaccounted for and we built or transformed
                 return {
                     simple: { faction: diff }, 
@@ -566,7 +566,7 @@ angular.module('wd.process', [])
         }
         else if(player.faction.toUpperCase() == "DWARVES") { 
             // if 4 points unaccounted for and we built or transformed
-            if(diff == 4 && (parsedAction.d > 0 || parsedAction.transform != undefined)) { 
+            if(diff == 4 && (parsedAction.d && parsedAction.d.length > 0 || parsedAction.transform != undefined)) { 
                 return {
                     simple: { faction: diff }, 
                     detailed: { faction: diff } 
