@@ -135,7 +135,7 @@ angular.module('wd.process', [])
 
             // for now, skip non player actions -- we may do this differnetly 
             // in the future
-            if(p != undefined) { 
+            if(p != undefined) {
                 var result = processCommand(rules, p, round, parsedAction, action);
             }
 
@@ -1169,16 +1169,32 @@ angular.module('wd.process', [])
             return null;
         }
 
-        if(action.PW.delta <= 1) { 
-            return null;
-        }
+        // shapeshifters can have lines like "gain P3 for VP. Leech 2 from giants"
+        // so we look at power change, not vp change (they lose 1vp when gaining)
+        if(player.faction.toUpperCase() == "SHAPESHIFTERS") { 
+            var delta = action.PW.delta;
 
-        var points = -(action.PW.delta - 1);
-        if(points != 0) { 
-            return { 
-                simple: { leech: points },
-                detailed: { leech: points }
+            if(parsedAction.gainPowerToken) { 
+                delta -= 2;
             }
+
+            if(delta > 1) { 
+                var points = -(delta - 1); 
+                if(points != 0) { 
+                    return { 
+                        simple: { leech: points },
+                        detailed: { leech: points }
+                    }
+                } 
+            }
+        } else { // for everyone else, just look at the point change
+            var points = action.VP.delta;
+            if(points != 0) { 
+                return { 
+                    simple: { leech: points },
+                    detailed: { leech: points }
+                }
+            } 
         }
     }
 
