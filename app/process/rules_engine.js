@@ -940,7 +940,7 @@ angular.module('wd.process', [])
             return null;
         }
 
-        var points = parsedAction.sh * 7;
+        var points = 7; // it's always 7 :)
         if(points != 0) { 
             return { 
                 simple: { faction: points },
@@ -1174,6 +1174,8 @@ angular.module('wd.process', [])
         if(player.faction.toUpperCase() == "SHAPESHIFTERS") { 
             var delta = action.PW.delta;
 
+            // if they take a token, it goes to P3 which is effectively +2pw, 
+            // so we offset that part
             if(parsedAction.gainPowerToken) { 
                 delta -= 2;
             }
