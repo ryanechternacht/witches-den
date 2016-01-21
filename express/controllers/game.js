@@ -1,5 +1,4 @@
 var http = require('http'),
-    prototype = require('prototype'),
     fs = require('fs');
 
 function readJsonFileSync(filepath, encoding){
@@ -33,13 +32,13 @@ exports.findByName = function(req, res) {
         var data = "";
 
         response.on('data', function(chunk) { 
-            // console.log("got a chunk");
+            console.log("chunk");
             data += chunk;
         });
 
         response.on('end', function() { 
-            // console.log("i see the end");
-            var state = data.evalJSON();
+            // console.log("end");
+            var state = JSON.parse(data);
             res.send(state.ledger);
         });
     });
