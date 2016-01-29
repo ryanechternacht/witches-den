@@ -32,7 +32,7 @@ exports.findByName = function(req, res) {
         var data = "";
 
         response.on('data', function(chunk) { 
-            console.log("chunk");
+            // console.log("chunk");
             data += chunk;
         });
 
