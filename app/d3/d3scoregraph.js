@@ -3,18 +3,13 @@
 var drawChart = function(d3, svg, scope, iElement, iAttrs) { 
     svg.selectAll("*").remove();
 
+    if(scope.data == undefined) {
+        return;
+    }
+
     var height = scope.height,
         width = scope.width || d3.select(iElement[0])[0][0].offsetWidth - 20,
         translator = scope.labels;
-
-    var dataset = [];
-    var keys = _.keys(scope.data);
-    for(var i = 0; i < keys.length; i++) { 
-        var k = keys[i];
-        if(_.contains(scope.ordering, k)) {
-            dataset.push( { key: k, value: scope.data[k] } );
-        }
-    }
 
     var barOrdering;
     if(scope.ordering) { 
@@ -23,71 +18,57 @@ var drawChart = function(d3, svg, scope, iElement, iAttrs) {
         barOrdering = dataset.map(function(d) { return translator(d.key); });
     }
 
+    var dataset = [];
+    var scorecards = scope.data;
+    var keys = _.keys(scorecards[0].simple);
+    for(var i = 0; i < keys.length; i++) { 
+        var key = keys[i];
+        if(_.contains(scope.ordering, key)) { 
+            var obj = {};
+            for(var j = 0; j < scorecards.length; j++) { 
+                var sc = scorecards[j];
+                obj[sc.faction] = sc.simple[key] || 0;
+            }
+            dataset.push({ key: key, value: obj});
+        }
+    }
+
     svg.attr("width", width)
         .attr("height", height);
 
-    var margin = { top: 30, bottom: 70, left: 30, right: 30};
+    var margin = { top: 30, bottom: 30, left: 100, right: 30};
 
     var barPadding = 5,
         yBottom = height - margin.bottom,
         yTop = margin.top,
         xLeft = margin.left,
-        xRight = width - margin.right;
-
+        xRight = width - margin.right;   
+        
     // some numbers can be negative (e.g. leech). We'll take the absolute value
     // of all numbers for building the graphs, and use color styling to mark 
-    // these as negative
+    // these as negative 
 
-    var yScale = d3.scale.linear()
-        .domain([0, d3.max(dataset, function(d) { return Math.abs(d.value); })])
-        .range([yBottom, yTop]);
-
-    var xScale = d3.scale.ordinal()
+    var yScale = d3.scale.ordinal()
         .domain(barOrdering)
-        .rangeRoundBands([xLeft, xRight], .1);
+        .rangeRoundBands([yTop, yBottom], .1);
 
-    var bar = svg.selectAll("g")
-        .data(dataset)
-        .enter()
-        .append("g")
-        .attr("transform", function(d, i) { 
-            return "translate(" + xScale(translator(d.key)) + ",0)";
-        });
 
-    bar.append("rect")
-        .attr("y", function(d) { return yScale(Math.abs(d.value)); })
-        .attr("height", function(d) { return yBottom - yScale(Math.abs(d.value)); })
-        .attr("width", function(d) { return xScale.rangeBand(); })
-        .attr("class", function(d) {
-            if(d.value >= 0) { 
-                return "bar";
-            }
-            else {
-                return "bar negative-bar"
-            }
-        });
 
-    bar.append("text")
-        .text(function(d) { return d.value; })
-        .attr("y", function(d) { return yScale(Math.abs(d.value)) - 5; })
-        .attr("x", xScale.rangeBand() / 2)
-        .attr("class", "bar-label");
-
-    var xAxis = d3.svg.axis()
-        .scale(xScale)
-        .orient("bottom");
+    var yAxis = d3.svg.axis()
+        .scale(yScale)
+        .orient("left");
 
     svg.append("g")
         .attr("class", "axis")
-        .attr("transform", "translate(0," + yBottom + ")")
-        .call(xAxis)
-        .selectAll("text")
-        .style("text-anchor", "end")
-        .attr("dx", "-.8em")
-        .attr("dy", ".15em")
-        .attr("transform", function(d) {
-            return "rotate(-30)" 
-        });
+        .attr("transform", "translate(" + xLeft + ",0)")
+        .call(yAxis)
+        .selectAll("text");
+        // .style("text-anchor", "end")
+        // .attr("dx", "-.8em")
+        // .attr("dy", ".15em")
+        // .attr("transform", function(d) {
+        //     return "rotate(-30)" 
+        // });
 }
 
 angular.module('d3').directive('d3Scoregraph', ['d3', function(d3) { 
