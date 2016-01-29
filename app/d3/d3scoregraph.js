@@ -18,18 +18,21 @@ var drawChart = function(d3, svg, scope, iElement, iAttrs) {
         barOrdering = dataset.map(function(d) { return translator(d.key); });
     }
 
+    var factionNames = _.map(scope.data, function(f) { return f.faction;});
+
+
     var dataset = [];
     var scorecards = scope.data;
     var keys = _.keys(scorecards[0].simple);
     for(var i = 0; i < keys.length; i++) { 
         var key = keys[i];
         if(_.contains(scope.ordering, key)) { 
-            var obj = {};
+            var arr = [];
             for(var j = 0; j < scorecards.length; j++) { 
                 var sc = scorecards[j];
-                obj[sc.faction] = sc.simple[key] || 0;
+                arr.push({faction: sc.faction, points: sc.simple[key] || 0});
             }
-            dataset.push({ key: key, value: obj});
+            dataset.push({ source: key, factions: arr});
         }
     }
 
@@ -52,9 +55,13 @@ var drawChart = function(d3, svg, scope, iElement, iAttrs) {
         .domain(barOrdering)
         .rangeRoundBands([yTop, yBottom], .1);
 
+    var yScaleInner = d3.scale.ordinal()
+        .domain(factionNames)
+        .rangeRoundBands([0, yScale.rangeBand()]);
+
     var largestValue = d3.max(dataset, function(f) { 
-        return d3.max(_.values(f.value), function(d) { 
-            return Math.abs(d);
+        return d3.max(f.factions, function(d) { 
+            return Math.abs(d.points);
         })
     });
 
@@ -67,19 +74,22 @@ var drawChart = function(d3, svg, scope, iElement, iAttrs) {
         .enter()
         .append("g")
         .attr("transform", function(d, i) { 
-            var y = yTop + yScale(translator(d.key)) - (yScale.rangeBand() / 2);
+            var y = yTop + yScale(translator(d.source)) - (yScale.rangeBand() / 2);
             return "translate(" + xLeft + "," + y + ")";
         })
         // setting width/height on a group doesn't do anything as far as i can tell
         .attr("height", yScale.rangeBand())
         .attr("width", xRight - xLeft);
 
-    barGroup.append("rect")
-        // .attr("x", function(d) { return yScale(Math.abs(d.value)); })
-        .attr("height", function(d) { return yScale.rangeBand(); })
-        .attr("width", function(d) { return xScale(Math.abs(d.value['giants'])); })
+    barGroup.selectAll("rect")
+        .data(function(d) { return d.factions })
+        .enter()
+        .append("rect")
+        .attr("width", function(d) { return xScale(Math.abs(d.points)); })
+        .attr("height", function(d) { return yScaleInner.rangeBand(); })
+        .attr("y", function(d) { return yScaleInner(d.faction); })
         .attr("class", function(d) {
-            if(d.value['giants'] >= 0) { 
+            if(d.points >= 0) { 
                 return "bar";
             }
             else {
@@ -88,14 +98,23 @@ var drawChart = function(d3, svg, scope, iElement, iAttrs) {
         });
 
 
+    // barGroup.append("rect")
+    //     // .attr("x", function(d) { return yScale(Math.abs(d.value)); })
+    //     .attr("height", function(d) { return yScale.rangeBand(); })
+    //     .attr("width", function(d) { return xScale(Math.abs(d.factions[3].points)); })
+    //     .attr("class", function(d) {
+    //         if(d.factions[3].points >= 0) { 
+    //             return "bar";
+    //         }
+    //         else {
+    //             return "bar negative-bar"
+    //         }
+    //     });
+
+
     var yAxis = d3.svg.axis()
         .scale(yScale)
         .orient("left");
-
-    // svg.append("text")
-    //     .text(largestValue)
-    //     .attr("y", 100)
-    //     .attr("x", 200);
 
     svg.append("g")
         .attr("class", "axis")
