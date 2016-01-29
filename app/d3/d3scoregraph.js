@@ -52,11 +52,50 @@ var drawChart = function(d3, svg, scope, iElement, iAttrs) {
         .domain(barOrdering)
         .rangeRoundBands([yTop, yBottom], .1);
 
+    var largestValue = d3.max(dataset, function(f) { 
+        return d3.max(_.values(f.value), function(d) { 
+            return Math.abs(d);
+        })
+    });
+
+    var xScale = d3.scale.linear()
+        .domain([0, largestValue])
+        .range([xLeft, xRight]);
+
+    var barGroup = svg.selectAll("g")
+        .data(dataset)
+        .enter()
+        .append("g")
+        .attr("transform", function(d, i) { 
+            var y = yTop + yScale(translator(d.key)) - (yScale.rangeBand() / 2);
+            return "translate(" + xLeft + "," + y + ")";
+        })
+        // setting width/height on a group doesn't do anything as far as i can tell
+        .attr("height", yScale.rangeBand())
+        .attr("width", xRight - xLeft);
+
+    barGroup.append("rect")
+        // .attr("x", function(d) { return yScale(Math.abs(d.value)); })
+        .attr("height", function(d) { return yScale.rangeBand(); })
+        .attr("width", function(d) { return xScale(Math.abs(d.value['giants'])); })
+        .attr("class", function(d) {
+            if(d.value['giants'] >= 0) { 
+                return "bar";
+            }
+            else {
+                return "bar negative-bar"
+            }
+        });
 
 
     var yAxis = d3.svg.axis()
         .scale(yScale)
         .orient("left");
+
+    // svg.append("text")
+    //     .text(largestValue)
+    //     .attr("y", 100)
+    //     .attr("x", 200);
 
     svg.append("g")
         .attr("class", "axis")
