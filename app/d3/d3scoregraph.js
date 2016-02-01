@@ -57,7 +57,7 @@ var drawChart = function(d3, svg, scope, iElement, iAttrs) {
 
     var yScaleInner = d3.scale.ordinal()
         .domain(factionNames)
-        .rangeRoundBands([0, yScale.rangeBand()]);
+        .rangeRoundBands([0, yScale.rangeBand()], .1);
 
     var largestValue = d3.max(dataset, function(f) { 
         return d3.max(f.factions, function(d) { 
@@ -125,13 +125,25 @@ var drawChart = function(d3, svg, scope, iElement, iAttrs) {
             // there shouldn't be another else
         });
 
+    // score amount
     bars.append("text")
         .attr("x", function(d) { return xScale(Math.abs(d.points)) + 5; })
-        .attr("height", function(d) { return yScaleInner.rangeBand(); })
         .attr("y", function(d) { return yScaleInner(d.faction) + (yScaleInner.rangeBand() / 2); })
         .text(function(d) { return d.points; })
         .attr("class", "bar-label");
 
+    // faction name
+    bars.append("text")
+        .attr("x", 5)
+        .attr("y", function(d) { return yScaleInner(d.faction) + (yScaleInner.rangeBand() / 2); })
+        .text(function(d) { return d.faction; })
+        .attr("class", function(d) { 
+            if(d.faction == "darklings" || d.faction == "alchemists") {
+                return "bar-label-inverse";
+            } else {
+                return "bar-label";
+            }
+        });
 
     var yAxis = d3.svg.axis()
         .scale(yScale)
