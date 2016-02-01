@@ -134,11 +134,18 @@ var drawChart = function(d3, svg, scope, iElement, iAttrs) {
 
     // faction name
     bars.append("text")
-        .attr("x", 5)
+        .attr("x", function(d) { 
+            if(d.points != 0) { 
+                return 5;
+            } else { // if d.points == 0
+                return 20;
+            }
+        })
         .attr("y", function(d) { return yScaleInner(d.faction) + (yScaleInner.rangeBand() / 2); })
         .text(function(d) { return d.faction; })
         .attr("class", function(d) { 
-            if(d.faction == "darklings" || d.faction == "alchemists") {
+            if(d.points >= 0 && 
+                (d.faction == "darklings" || d.faction == "alchemists")) {
                 return "bar-label-inverse";
             } else {
                 return "bar-label";
