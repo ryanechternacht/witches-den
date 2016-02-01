@@ -138,11 +138,11 @@ var drawChart = function(d3, svg, scope, iElement, iAttrs) {
             if(d.points != 0) { 
                 return 5;
             } else { // if d.points == 0
-                return 20;
+                return 20; // this puts it beyond the 0
             }
         })
         .attr("y", function(d) { return yScaleInner(d.faction) + (yScaleInner.rangeBand() / 2); })
-        .text(function(d) { return d.faction; })
+        .text(function(d) { return translator(d.faction); })
         .attr("class", function(d) { 
             if(d.points >= 0 && 
                 (d.faction.toUpperCase() == "DARKLINGS" || d.faction.toUpperCase() == "ALCHEMISTS")) {
