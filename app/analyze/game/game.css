@@ -1,3 +1,129 @@
 tfoot { 
     font-weight: bold;
 }
+
+svg text { 
+    font-family: sans-serif;
+}
+
+svg .bar-label { 
+    font-size: 14px;
+    alignment-baseline: middle;
+}
+
+svg .bar-label-inverse { 
+    font-size: 14px;
+    alignment-baseline: middle;
+    fill: white;
+}
+
+svg .axis { 
+    font-size: 11px;
+}
+
+svg .axis path,
+svg .axis line { 
+    fill: none;
+    stroke: black;
+    shape-rendering: crispEdges;
+}
+
+svg .bar-brown { 
+    fill: brown;
+}
+
+svg .bar-brown-negative {
+    stroke: brown;
+    stroke-width: 2;
+    fill: white;
+}
+
+svg .bar-gray {
+    fill: gray;
+}
+
+svg .bar-gray-negative {
+    stroke: gray;
+    stroke-width: 2;
+    fill: white;
+}
+
+svg .bar-red {
+    fill: red;
+}
+
+svg .bar-red-negative {
+    stroke: red;
+    stroke-width: 2;
+    fill: white;
+}
+
+svg .bar-blue {
+    fill: blue;
+}
+
+svg .bar-blue-negative {
+    stroke: blue;
+    stroke-width: 2;
+    fill: white;
+}
+
+svg .bar-green {
+    fill: green;
+}
+
+svg .bar-green-negative {
+    stroke: green;
+    stroke-width: 2;
+    fill: white;
+}
+
+svg .bar-yellow {
+    fill: yellow;
+}
+
+svg .bar-yellow-negative {
+    stroke: yellow;
+    stroke-width: 2;
+    fill: white;
+}
+
+svg .bar-black {
+    fill: black;
+}
+
+svg .bar-black-negative {
+    stroke: black;
+    stroke-width: 2;
+    fill: white;
+}
+
+svg .bar-ice {
+    fill: lightskyblue;
+}
+
+svg .bar-ice-negative {
+    stroke: lightskyblue;
+    stroke-width: 2;
+    fill: white;
+}
+
+svg .bar-volcano {
+    fill: orange;
+}
+
+svg .bar-volcano-negative {
+    stroke: orange;
+    stroke-width: 2;
+    fill: white;
+}
+
+svg .bar-variable {
+    fill: moccasin;
+}
+
+svg .bar-variable-negative {
+    stroke: moccasin;
+    stroke-width: 2;
+    fill: white;
+}

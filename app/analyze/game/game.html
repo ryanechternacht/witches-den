@@ -59,13 +59,12 @@
 </div>
 
 <h3>Faction Score Breakdowns</h3>
-<article ng-repeat="stats in gamestats.factions">
-    <h4>{{ format.labels(stats.faction) }} ({{ stats.total }}) - {{ stats.name }}</h4>
-        <d3-scoregraph height="300" data="stats.simple" labels="format.labels" 
-                       ordering="format.simpleOrdering">
-        </d3-scoregraph>
-    <hr/>
+<article>
+    <d3-scoregraph height="1000" data="gamestats.factions" labels="format.labels"
+                   ordering="format.simpleOrdering">
+    </d3-scoregraph>
 </article>
+
 
 <h3>Detailed Score Statistics</h3>
 <article ng-show="loaded">
