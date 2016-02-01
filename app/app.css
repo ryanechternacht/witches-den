@@ -16,34 +16,3 @@
     background: Green;
 }
 
-
-
-
-
-svg text { 
-    font-family: sans-serif;
-}
-
-svg .bar {
-    fill: teal;
-}
-
-svg .negative-bar { 
-    fill: orange;
-}
-
-svg .bar-label { 
-    font-size: 14px;
-    text-anchor: middle;
-}
-
-svg .axis { 
-    font-size: 11px;
-}
-
-svg .axis path,
-svg .axis line { 
-    fill: none;
-    stroke: black;
-    shape-rendering: crispEdges;
-}

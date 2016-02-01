@@ -67,49 +67,70 @@ var drawChart = function(d3, svg, scope, iElement, iAttrs) {
 
     var xScale = d3.scale.linear()
         .domain([0, largestValue])
-        .range([xLeft, xRight]);
+        .range([0, xRight - xLeft]);
 
     var barGroup = svg.selectAll("g")
         .data(dataset)
         .enter()
         .append("g")
         .attr("transform", function(d, i) { 
-            var y = yTop + yScale(translator(d.source)) - (yScale.rangeBand() / 2);
+            var y = yScale(translator(d.source));
             return "translate(" + xLeft + "," + y + ")";
         })
         // setting width/height on a group doesn't do anything as far as i can tell
         .attr("height", yScale.rangeBand())
         .attr("width", xRight - xLeft);
 
-    barGroup.selectAll("rect")
+    var bars = barGroup.selectAll("g")
         .data(function(d) { return d.factions })
         .enter()
-        .append("rect")
+        .append("g");
+
+    bars.append("rect")
         .attr("width", function(d) { return xScale(Math.abs(d.points)); })
         .attr("height", function(d) { return yScaleInner.rangeBand(); })
         .attr("y", function(d) { return yScaleInner(d.faction); })
         .attr("class", function(d) {
-            if(d.points >= 0) { 
-                return "bar";
+            if(d.faction == "cultists" || d.faction == "halflings") {
+                if(d.points >= 0) { return "bar-brown"; }
+                else { return "bar-brown-negative"; }
+            } else if(d.faction == "engineers" || d.faction == "dwarves") {
+                if(d.points >= 0) { return "bar-gray"; }
+                else { return "bar-gray-negative"; }
+            } else if(d.faction == "giants" || d.faction == "chaosmagicians") {
+                if(d.points >= 0) { return "bar-red"; }
+                else { return "bar-red-negative"; }
+            } else if(d.faction == "mermaids" || d.faction == "swarmlings") {
+                if(d.points >= 0) { return "bar-blue"; }
+                else { return "bar-blue-negative"; }
+            } else if(d.faction == "witches" || d.faction == "auren") {
+                if(d.points >= 0) { return "bar-green"; }
+                else { return "bar-green-negative"; }
+            } else if(d.faction == "nomads" || d.faction == "fakirs") {
+                if(d.points >= 0) { return "bar-yellow"; }
+                else { return "bar-yellow-negative"; }
+            } else if(d.faction == "darklings" || d.faction == "alchemists") {
+                if(d.points >= 0) { return "bar-black"; }
+                else { return "bar-black-negative"; }
+            } else if(d.faction == "icemadiens" || d.faction == "yetis") {
+                if(d.points >= 0) { return "bar-ice"; }
+                else { return "bar-ice-negative"; }
+            } else if(d.faction == "acolytes" || d.faction == "dragonlords") {
+                if(d.points >= 0) { return "bar-volcano"; }
+                else { return "bar-volcano-negative"; }
+            } else if(d.faction == "shapeshifters" || d.faction == "riverwalkers") {
+                if(d.points >= 0) { return "bar-variable"; }
+                else { return "bar-variable-negative"; }
             }
-            else {
-                return "bar negative-bar"
-            }
+            // there shouldn't be another else
         });
 
-
-    // barGroup.append("rect")
-    //     // .attr("x", function(d) { return yScale(Math.abs(d.value)); })
-    //     .attr("height", function(d) { return yScale.rangeBand(); })
-    //     .attr("width", function(d) { return xScale(Math.abs(d.factions[3].points)); })
-    //     .attr("class", function(d) {
-    //         if(d.factions[3].points >= 0) { 
-    //             return "bar";
-    //         }
-    //         else {
-    //             return "bar negative-bar"
-    //         }
-    //     });
+    bars.append("text")
+        .attr("x", function(d) { return xScale(Math.abs(d.points)) + 5; })
+        .attr("height", function(d) { return yScaleInner.rangeBand(); })
+        .attr("y", function(d) { return yScaleInner(d.faction) + (yScaleInner.rangeBand() / 2); })
+        .text(function(d) { return d.points; })
+        .attr("class", "bar-label");
 
 
     var yAxis = d3.svg.axis()
@@ -121,12 +142,6 @@ var drawChart = function(d3, svg, scope, iElement, iAttrs) {
         .attr("transform", "translate(" + xLeft + ",0)")
         .call(yAxis)
         .selectAll("text");
-        // .style("text-anchor", "end")
-        // .attr("dx", "-.8em")
-        // .attr("dy", ".15em")
-        // .attr("transform", function(d) {
-        //     return "rotate(-30)" 
-        // });
 }
 
 angular.module('d3').directive('d3Scoregraph', ['d3', function(d3) { 
