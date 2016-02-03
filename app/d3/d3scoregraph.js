@@ -45,7 +45,8 @@ var drawChart = function(d3, svg, scope, iElement, iAttrs) {
         yBottom = height - margin.bottom,
         yTop = margin.top,
         xLeft = margin.left,
-        xRight = width - margin.right;   
+        xRight = width - margin.right,
+        textPadding = 5;
         
     // some numbers can be negative (e.g. leech). We'll take the absolute value
     // of all numbers for building the graphs, and use color styling to mark 
@@ -132,25 +133,38 @@ var drawChart = function(d3, svg, scope, iElement, iAttrs) {
         .text(function(d) { return d.points; })
         .attr("class", "bar-label");
 
-    // faction name
+    // faction names
+    function clipText( d ) {
+        var self = d3.select(this),
+            textLength = self.node().getComputedTextLength(),
+            text = self.text();
+        while ( ( textLength > self.attr('width') )&& text.length > 0) {
+            text = text.slice(0, -1);
+            self.text(text);
+            textLength = self.node().getComputedTextLength();
+        }
+    }
+
     bars.append("text")
-        .attr("x", function(d) { 
-            if(d.points != 0) { 
-                return 5;
-            } else { // if d.points == 0
-                return 20; // this puts it beyond the 0
-            }
-        })
-        .attr("y", function(d) { return yScaleInner(d.faction) + (yScaleInner.rangeBand() / 2); })
-        .text(function(d) { return translator(d.faction); })
-        .attr("class", function(d) { 
-            if(d.points >= 0 && 
-                (d.faction.toUpperCase() == "DARKLINGS" || d.faction.toUpperCase() == "ALCHEMISTS")) {
-                return "bar-label-inverse";
-            } else {
-                return "bar-label";
-            }
-        });
+    .attr("x", function(d) { 
+        if(d.points != 0) { 
+            return textPadding;
+        } else { // if d.points == 0
+            return 20; // this puts it beyond the 0
+        }
+    })
+    .attr("y", function(d) { return yScaleInner(d.faction) + (yScaleInner.rangeBand() / 2); })
+    .attr("width", function(d) { return xScale(Math.abs(d.points)) - 2 * textPadding; })
+    .text(function(d) { return translator(d.faction); })
+    .attr("class", function(d) { 
+        if(d.points >= 0 && 
+            (d.faction.toUpperCase() == "DARKLINGS" || d.faction.toUpperCase() == "ALCHEMISTS")) {
+            return "bar-label-inverse";
+        } else {
+            return "bar-label";
+        }
+    })
+    .each(clipText);
 
     var yAxis = d3.svg.axis()
         .scale(yScale)
