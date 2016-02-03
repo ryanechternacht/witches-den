@@ -45,7 +45,8 @@ var drawChart = function(d3, svg, scope, iElement, iAttrs) {
         yBottom = height - margin.bottom,
         yTop = margin.top,
         xLeft = margin.left,
-        xRight = width - margin.right;   
+        xRight = width - margin.right,
+        textPadding = 5;
         
     // some numbers can be negative (e.g. leech). We'll take the absolute value
     // of all numbers for building the graphs, and use color styling to mark 
@@ -91,34 +92,34 @@ var drawChart = function(d3, svg, scope, iElement, iAttrs) {
         .attr("height", function(d) { return yScaleInner.rangeBand(); })
         .attr("y", function(d) { return yScaleInner(d.faction); })
         .attr("class", function(d) {
-            if(d.faction == "cultists" || d.faction == "halflings") {
+            if(d.faction.toUpperCase() == "CULTISTS" || d.faction.toUpperCase() == "HALFLINGS") {
                 if(d.points >= 0) { return "bar-brown"; }
                 else { return "bar-brown-negative"; }
-            } else if(d.faction == "engineers" || d.faction == "dwarves") {
+            } else if(d.faction.toUpperCase() == "ENGINEERS" || d.faction.toUpperCase() == "DWARVES") {
                 if(d.points >= 0) { return "bar-gray"; }
                 else { return "bar-gray-negative"; }
-            } else if(d.faction == "giants" || d.faction == "chaosmagicians") {
+            } else if(d.faction.toUpperCase() == "GIANTS" || d.faction.toUpperCase() == "CHAOSMAGICIANS") {
                 if(d.points >= 0) { return "bar-red"; }
                 else { return "bar-red-negative"; }
-            } else if(d.faction == "mermaids" || d.faction == "swarmlings") {
+            } else if(d.faction.toUpperCase() == "MERMAIDS" || d.faction.toUpperCase() == "SWARMLINGS") {
                 if(d.points >= 0) { return "bar-blue"; }
                 else { return "bar-blue-negative"; }
-            } else if(d.faction == "witches" || d.faction == "auren") {
+            } else if(d.faction.toUpperCase() == "WITCHES" || d.faction.toUpperCase() == "AUREN") {
                 if(d.points >= 0) { return "bar-green"; }
                 else { return "bar-green-negative"; }
-            } else if(d.faction == "nomads" || d.faction == "fakirs") {
+            } else if(d.faction.toUpperCase() == "NOMADS" || d.faction.toUpperCase() == "FAKIRS") {
                 if(d.points >= 0) { return "bar-yellow"; }
                 else { return "bar-yellow-negative"; }
-            } else if(d.faction == "darklings" || d.faction == "alchemists") {
+            } else if(d.faction.toUpperCase() == "DARKLINGS" || d.faction.toUpperCase() == "ALCHEMISTS") {
                 if(d.points >= 0) { return "bar-black"; }
                 else { return "bar-black-negative"; }
-            } else if(d.faction == "icemadiens" || d.faction == "yetis") {
+            } else if(d.faction.toUpperCase() == "ICEMADIENS" || d.faction.toUpperCase() == "YETIS") {
                 if(d.points >= 0) { return "bar-ice"; }
                 else { return "bar-ice-negative"; }
-            } else if(d.faction == "acolytes" || d.faction == "dragonlords") {
+            } else if(d.faction.toUpperCase() == "ACOLYTES" || d.faction.toUpperCase() == "DRAGONLORDS") {
                 if(d.points >= 0) { return "bar-volcano"; }
                 else { return "bar-volcano-negative"; }
-            } else if(d.faction == "shapeshifters" || d.faction == "riverwalkers") {
+            } else if(d.faction.toUpperCase() == "SHAPESHIFTERS" || d.faction.toUpperCase() == "RIVERWALKERS") {
                 if(d.points >= 0) { return "bar-variable"; }
                 else { return "bar-variable-negative"; }
             }
@@ -132,25 +133,38 @@ var drawChart = function(d3, svg, scope, iElement, iAttrs) {
         .text(function(d) { return d.points; })
         .attr("class", "bar-label");
 
-    // faction name
+    // faction names
+    function clipText( d ) {
+        var self = d3.select(this),
+            textLength = self.node().getComputedTextLength(),
+            text = self.text();
+        while ( ( textLength > self.attr('width') )&& text.length > 0) {
+            text = text.slice(0, -1);
+            self.text(text);
+            textLength = self.node().getComputedTextLength();
+        }
+    }
+
     bars.append("text")
-        .attr("x", function(d) { 
-            if(d.points != 0) { 
-                return 5;
-            } else { // if d.points == 0
-                return 20;
-            }
-        })
-        .attr("y", function(d) { return yScaleInner(d.faction) + (yScaleInner.rangeBand() / 2); })
-        .text(function(d) { return d.faction; })
-        .attr("class", function(d) { 
-            if(d.points >= 0 && 
-                (d.faction == "darklings" || d.faction == "alchemists")) {
-                return "bar-label-inverse";
-            } else {
-                return "bar-label";
-            }
-        });
+    .attr("x", function(d) { 
+        if(d.points != 0) { 
+            return textPadding;
+        } else { // if d.points == 0
+            return 20; // this puts it beyond the 0
+        }
+    })
+    .attr("y", function(d) { return yScaleInner(d.faction) + (yScaleInner.rangeBand() / 2); })
+    .attr("width", function(d) { return xScale(Math.abs(d.points)) - 2 * textPadding; })
+    .text(function(d) { return translator(d.faction); })
+    .attr("class", function(d) { 
+        if(d.points >= 0 && 
+            (d.faction.toUpperCase() == "DARKLINGS" || d.faction.toUpperCase() == "ALCHEMISTS")) {
+            return "bar-label-inverse";
+        } else {
+            return "bar-label";
+        }
+    })
+    .each(clipText);
 
     var yAxis = d3.svg.axis()
         .scale(yScale)

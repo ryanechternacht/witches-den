@@ -9,11 +9,19 @@ svg text {
 svg .bar-label { 
     font-size: 14px;
     alignment-baseline: middle;
+    text-overflow: clip;
+    overflow: hidden;
+    display: block;
+    position: relative;
 }
 
 svg .bar-label-inverse { 
     font-size: 14px;
     alignment-baseline: middle;
+    text-overflow: clip;
+    overflow: hidden;
+    /* from snellman */
+    position: relative;
     fill: white;
 }
 
@@ -28,102 +36,117 @@ svg .axis line {
     shape-rendering: crispEdges;
 }
 
+/* colors below are borrowed from snellman */
+/*var bgcolors = {
+    red: '#f08080',
+    green: '#80f080',
+    yellow: '#f0f080',
+    blue: '#60c0f0',
+    black: '#404040',
+    white: '#ffffff',
+    gray: '#c0c0c0',
+    brown: '#b08040',
+    ice: '#e0f0ff',
+    volcano: '#f0c060',
+    player: '#404040'
+};*/
+
 svg .bar-brown { 
-    fill: brown;
+    fill: #b08040;
 }
 
 svg .bar-brown-negative {
-    stroke: brown;
+    stroke: #b08040;
     stroke-width: 2;
     fill: white;
 }
 
 svg .bar-gray {
-    fill: gray;
+    fill: #c0c0c0;
 }
 
 svg .bar-gray-negative {
-    stroke: gray;
+    stroke: #c0c0c0;
     stroke-width: 2;
     fill: white;
 }
 
 svg .bar-red {
-    fill: red;
+    fill: #f08080;
 }
 
 svg .bar-red-negative {
-    stroke: red;
+    stroke: #f08080;
     stroke-width: 2;
     fill: white;
 }
 
 svg .bar-blue {
-    fill: blue;
+    fill: #60c0f0;
 }
 
 svg .bar-blue-negative {
-    stroke: blue;
+    stroke: #60c0f0;
     stroke-width: 2;
     fill: white;
 }
 
 svg .bar-green {
-    fill: green;
+    fill: #80f080;
 }
 
 svg .bar-green-negative {
-    stroke: green;
+    stroke: #80f080;
     stroke-width: 2;
     fill: white;
 }
 
 svg .bar-yellow {
-    fill: yellow;
+    fill: #f0f080;
 }
 
 svg .bar-yellow-negative {
-    stroke: yellow;
+    stroke: #f0f080;
     stroke-width: 2;
     fill: white;
 }
 
 svg .bar-black {
-    fill: black;
+    fill: #404040;
 }
 
 svg .bar-black-negative {
-    stroke: black;
+    stroke: #404040;
     stroke-width: 2;
     fill: white;
 }
 
 svg .bar-ice {
-    fill: lightskyblue;
+    fill: #e0f0ff;
 }
 
 svg .bar-ice-negative {
-    stroke: lightskyblue;
+    stroke: #e0f0ff;
     stroke-width: 2;
     fill: white;
 }
 
 svg .bar-volcano {
-    fill: orange;
+    fill: #f0c060;
 }
 
 svg .bar-volcano-negative {
-    stroke: orange;
+    stroke: #f0c060;
     stroke-width: 2;
     fill: white;
 }
 
 svg .bar-variable {
-    fill: moccasin;
+    fill: #404040;
 }
 
 svg .bar-variable-negative {
-    stroke: moccasin;
+    stroke: #404040;
     stroke-width: 2;
     fill: white;
 }
