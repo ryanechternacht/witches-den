@@ -42,6 +42,8 @@ var drawChart = function(d3, svg, scope, iElement, iAttrs) {
     var margin = { top: 30, bottom: 30, left: 100, right: 30};
 
     var barPadding = 5,
+        oneLetterWidth = 15, // magic number, chosen from experience
+        shortBarWidth = oneLetterWidth + 2*barPadding, 
         yBottom = height - margin.bottom,
         yTop = margin.top,
         xLeft = margin.left,
@@ -129,12 +131,15 @@ var drawChart = function(d3, svg, scope, iElement, iAttrs) {
     // score amount
     bars.append("text")
         .attr("x", function(d) { return xScale(Math.abs(d.points)) + 5; })
-        .attr("y", function(d) { return yScaleInner(d.faction) + (yScaleInner.rangeBand() / 2); })
+        .attr("y", function(d) { 
+            // +1 to move it down a bit
+            return yScaleInner(d.faction) + (yScaleInner.rangeBand() / 2) + 1; 
+        })
         .text(function(d) { return d.points; })
         .attr("class", "bar-label");
 
     // faction names
-    function clipText( d ) {
+    function clipText(d) {
         var self = d3.select(this),
             textLength = self.node().getComputedTextLength(),
             text = self.text();
@@ -145,19 +150,35 @@ var drawChart = function(d3, svg, scope, iElement, iAttrs) {
         }
     }
 
+    // IF the bar is long enough to fit at least 1 letter, paint the faction name 
+    // on top of the bar
+    // ELSE paint the faction name on the right side of the score label
     bars.append("text")
     .attr("x", function(d) { 
-        if(d.points != 0) { 
-            return textPadding;
-        } else { // if d.points == 0
-            return 20; // this puts it beyond the 0
+        var barWidth = xScale(Math.abs(d.points));
+        if(barWidth >= shortBarWidth) {
+            return barPadding;
+        } else { // it's a short bar, paint beside the number
+            return barWidth + 22; // magic number
         }
     })
-    .attr("y", function(d) { return yScaleInner(d.faction) + (yScaleInner.rangeBand() / 2); })
-    .attr("width", function(d) { return xScale(Math.abs(d.points)) - 2 * textPadding; })
+    .attr("y", function(d) { 
+        // +1 to move it down a bit
+        return yScaleInner(d.faction) + (yScaleInner.rangeBand() / 2) + 1; 
+    })
+    .attr("width", function(d) { 
+        var barWidth = xScale(Math.abs(d.points));
+        if(barWidth >= shortBarWidth) { 
+            return barWidth - 2*barPadding;
+        } else { 
+            return width; // paint all, it's on the right side of the number
+        }
+    })
     .text(function(d) { return translator(d.faction); })
     .attr("class", function(d) { 
-        if(d.points >= 0 && 
+        var barWidth = xScale(Math.abs(d.points));
+        // a long bar, that's black (>0 points and darklings/alchemists)
+        if(barWidth >= shortBarWidth && d.points > 0 && 
             (d.faction.toUpperCase() == "DARKLINGS" || d.faction.toUpperCase() == "ALCHEMISTS")) {
             return "bar-label-inverse";
         } else {
