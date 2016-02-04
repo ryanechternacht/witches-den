@@ -115,7 +115,7 @@ var drawChart = function(d3, svg, scope, iElement, iAttrs) {
             } else if(d.faction.toUpperCase() == "DARKLINGS" || d.faction.toUpperCase() == "ALCHEMISTS") {
                 if(d.points >= 0) { return "bar-black"; }
                 else { return "bar-black-negative"; }
-            } else if(d.faction.toUpperCase() == "ICEMADIENS" || d.faction.toUpperCase() == "YETIS") {
+            } else if(d.faction.toUpperCase() == "ICEMAIDENS" || d.faction.toUpperCase() == "YETIS") {
                 if(d.points >= 0) { return "bar-ice"; }
                 else { return "bar-ice-negative"; }
             } else if(d.faction.toUpperCase() == "ACOLYTES" || d.faction.toUpperCase() == "DRAGONLORDS") {
