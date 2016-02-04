@@ -23,16 +23,25 @@ var drawChart = function(d3, svg, scope, iElement, iAttrs) {
 
     var dataset = [];
     var scorecards = scope.data;
-    var keys = _.keys(scorecards[0].simple);
-    for(var i = 0; i < keys.length; i++) { 
-        var key = keys[i];
-        if(_.contains(scope.ordering, key)) { 
+    // build keys
+    var allKeys = {};
+    for(var i = 0; i < scorecards.length; i++) { 
+        var keys = _.keys(scorecards[i].simple);
+        for(var j = 0; j < keys.length; j++) { 
+            allKeys[keys[j]] = 0;
+        }
+    }
+    var cols = _.keys(allKeys);
+    
+    for(var i = 0; i < cols.length; i++) { 
+        var col = cols[i];
+        if(_.contains(scope.ordering, col)) { 
             var arr = [];
             for(var j = 0; j < scorecards.length; j++) { 
                 var sc = scorecards[j];
-                arr.push({faction: sc.faction, points: sc.simple[key] || 0});
+                arr.push({faction: sc.faction, points: sc.simple[col] || 0});
             }
-            dataset.push({ source: key, factions: arr});
+            dataset.push({ source: col, factions: arr});
         }
     }
 
