@@ -142,11 +142,11 @@ svg .bar-volcano-negative {
 }
 
 svg .bar-variable {
-    fill: #404040;
+    fill: moccasin;
 }
 
 svg .bar-variable-negative {
-    stroke: #404040;
+    stroke: moccasin;
     stroke-width: 2;
     fill: white;
 }
