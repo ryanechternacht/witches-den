@@ -1,0 +1,28 @@
+svg text { 
+    font-family: sans-serif;
+}
+
+svg .bar { 
+    fill: teal;
+}
+
+svg .bar-negative {
+    fill: orange;
+}
+
+svg .bar-label { 
+    font-size: 16x;
+    text-anchor: middle;
+}
+
+svg .axis { 
+    font-size: 11px;
+}
+
+svg .axis path,
+svg .axis line { 
+    fill: none;
+    stroke: black;
+    shape-rendering: crispEdges;
+}
+

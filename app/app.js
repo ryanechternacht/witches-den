@@ -4,6 +4,7 @@
 angular.module('myApp', [
   'ngRoute',
   'wd.analyze.game',
+  'wd.analyze.faction',
   'wd.shared',
   'wd.process',
   'wd.parse',
