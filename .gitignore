@@ -7,3 +7,5 @@ tmp
 .idea
 .deployment
 deploy.sh
+diagnostics/
+diagnosticss.zip
