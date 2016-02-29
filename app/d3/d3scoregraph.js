@@ -248,3 +248,10 @@ angular.module('d3').directive('d3Scoregraph', ['d3', function(d3) {
         }
     };
 }]);
+
+
+
+
+
+
+

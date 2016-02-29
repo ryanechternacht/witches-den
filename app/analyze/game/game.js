@@ -60,5 +60,5 @@ angular.module('wd.analyze.game', ['ngRoute', 'wd.shared', 'wd.process', 'wd.par
                     }
                     $scope.loading = false;
                 });
-        };
+        }
 }]);
