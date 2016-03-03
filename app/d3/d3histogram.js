@@ -9,11 +9,8 @@ var drawChart = function(d3, svg, scope, iElement, iAttrs) {
 
     var height = scope.height,
         width = scope.width || d3.select(iElement[0])[0][0].offsetWidth - 20,
-        translator = scope.labels;
-        // dataset = scope.data;
-
-    var keys = _.keys(scope.data);
-    var dataset = _.map(keys, d => ({ key: d, value: scope.data[d] }) );
+        translator = scope.labels,
+        dataset = _.sortBy(scope.data, x => x.order);
 
     svg.attr("width", width)
         .attr("height", height);
