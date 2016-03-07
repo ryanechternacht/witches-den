@@ -1,3 +1,12 @@
+.multiline-row {
+    margin-top: 12px;
+}
+
+.faction-img { 
+    width: 100%;
+}
+
+
 svg text { 
     font-family: sans-serif;
 }
