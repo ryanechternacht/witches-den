@@ -2,9 +2,17 @@
     margin-top: 12px;
 }
 
+#faction-list li { 
+    display: inline;
+}
+
 .faction-img { 
-    width: 100%;
-    display: block;
+    width: 50px;
+}
+
+#faction-list a:active,
+#faction-list a:hover {
+    text-decoration: none;
 }
 
 
