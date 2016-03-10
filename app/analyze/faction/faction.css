@@ -4,10 +4,11 @@
 
 #faction-list li { 
     display: inline;
+    padding-left: 0;
 }
 
 .faction-img { 
-    width: 50px;
+    width: 60px;
 }
 
 #faction-list a:active,
