@@ -11,6 +11,12 @@ var drawChart = function(d3, svg, scope, iElement, iAttrs) {
         width = scope.width || d3.select(iElement[0])[0][0].offsetWidth - 20,
         translator = scope.labels,
         dataset = _.sortBy(scope.data, x => x.order);
+<<<<<<< HEAD
+=======
+
+    // var keys = _.keys(scope.data);
+    // var dataset = _.map(keys, d => ({ key: d, value: scope.data[d] }) );
+>>>>>>> faction-stats
 
     svg.attr("width", width)
         .attr("height", height);
@@ -24,10 +30,10 @@ var drawChart = function(d3, svg, scope, iElement, iAttrs) {
         xRight = width - margin.right,
         chartHeight = yBottom - yTop;
 
-    var bars = dataset.map(function(d) { return d.key; });
+    // var bars = dataset.map(function(d) { return d.key; });
 
     var xScale = d3.scale.ordinal()
-        .domain(bars)
+        .domain(dataset.map(x => x.key))
         .rangeRoundBands([xLeft, xRight], .1);
 
     var yScale = d3.scale.linear()
@@ -71,9 +77,8 @@ angular.module('d3').directive('d3Histogram', ['d3', function(d3) {
         restrict: 'EA',
         scope: {
             data: '=', // binding to an angular object
-            width: '@',    // static binding to a value
+            width: '@', // static binding to a value
             height: '@',
-            ordering: '=',
             labels: '='
         },
         link: function(scope, iElement, iAttrs) {
