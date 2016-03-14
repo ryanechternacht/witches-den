@@ -90,24 +90,26 @@
 </div>
 
 
-<h2>
-    <img height="200" src="{{factionImg}}"> {{ format.labels(faction) }}
-</h2>
+<div ng-hide="faction == null">
+    <h2>
+        <img height="200" src="{{faction.imgUrl}}"> {{ format.labels(faction.name) }}
+    </h2>
 
 
-<h3>Total Points</h3>
-<d3-histogram class="d3-histogram" height="500" data="factionData.total" labels="format.labels">
-</d3-histogram>
+    <h3>Total Points</h3>
+    <d3-histogram class="d3-histogram" height="500" data="factionData.total" labels="format.labels">
+    </d3-histogram>
 
-<hr/>
+    <hr/>
 
-<h3>Network Place</h3>
-<d3-histogram class="d3-histogram" height="500" data="factionData.network" labels="format.labels">
-</d3-histogram>
+    <h3>Network Place</h3>
+    <d3-histogram class="d3-histogram" height="500" data="factionData.network" labels="format.labels">
+    </d3-histogram>
 
-</hr>
+    </hr>
 
-<h3>Cult Points (All Tracks)</h3>
-<d3-histogram class="d3-histogram" height="500" data="factionData.cult" labels="format.labels">
-</d3-histogram>
+    <h3>Cult Points (All Tracks)</h3>
+    <d3-histogram class="d3-histogram" height="500" data="factionData.cult" labels="format.labels">
+    </d3-histogram>
+</div>
 
