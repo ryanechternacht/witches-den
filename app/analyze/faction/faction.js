@@ -22,6 +22,10 @@ angular.module('wd.analyze.faction', ['ngRoute', 'wd.shared'])
                     }
                 });
         }
+        $scope.format = format.buildFormat()
+
+        // add a neutral version of this
+        // $scope.format = format.buildFormat();
 
         $scope.factionImg = getFactionImage($scope.faction)
 

@@ -1,6 +1,6 @@
 'use strict';
 
-var drawChart = function(d3, svg, scope, iElement, iAttrs) { 
+var drawHistogram = function(d3, svg, scope, iElement, iAttrs) { 
     svg.selectAll("*").remove();
 
     if(scope.data == undefined) {
@@ -104,7 +104,7 @@ angular.module('d3').directive('d3Histogram', ['d3', function(d3) {
 
             // define render function
             scope.render = function() {
-                drawChart(d3, svg, scope, iElement, iAttrs);
+                drawHistogram(d3, svg, scope, iElement, iAttrs);
             };
         }
     };

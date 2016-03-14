@@ -4,11 +4,12 @@ angular.module('wd.shared', [])
 .factory('format', [function() { 
 
     return { 
-        buildFormat: buildFormat 
+        buildFormatForAnalyzeGame: buildFormatForAnalyzeGame,
+        buildFormat: buildFormat
     };
 
     /// START PUBLIC
-    function buildFormat(gameInfo) { 
+    function buildFormatForAnalyzeGame(gameInfo) { 
         var format = {};
 
         format.labels = buildLabelFunction(gameInfo.rounds);
@@ -18,6 +19,10 @@ angular.module('wd.shared', [])
         format.simpleOrdering = buildSimpleOrdering(gameInfo.fireAndIceBonus);
 
         return format;
+    }
+
+    function buildFormat() { 
+        return { labels: buildLabelFunction() }
     }
     /// END PUBLIC
 
@@ -95,12 +100,13 @@ angular.module('wd.shared', [])
         s["SCORE8"] = "Score 8 (TP >> 3) (4Air > SPD)";
         s["SCORE9"] = "Score 9 (TE >> 4) (P -> 2C)";
 
-        // rounds (built from round info)
-        for(var i = 0; i < rounds.length; i++) { 
-            var r = rounds[i];
-            a[r.scoreTile] = "Round " + r.roundNum + " - " + s[r.scoreTile];
+        if(rounds) { 
+            // rounds (built from round info)
+            for(var i = 0; i < rounds.length; i++) { 
+                var r = rounds[i];
+                a[r.scoreTile] = "Round " + r.roundNum + " - " + s[r.scoreTile];
+            }
         }
-
         return a;
     }
 
