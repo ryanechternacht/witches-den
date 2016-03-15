@@ -2,6 +2,10 @@
     margin-top: 12px;
 }
 
+#faction-list {
+    padding-left: 0;
+}
+
 #faction-list li { 
     display: inline;
     padding-left: 0;
