@@ -228,6 +228,7 @@ angular.module('wd.process', [])
             fav10: false,
             fav11: false,
             fav12: false,
+            favors: [],
             passBonus: '',
             shipLevel: shipStart,
             shipLevels: shipLevels,
@@ -521,6 +522,7 @@ angular.module('wd.process', [])
                 else if(f == 12) { 
                     player.fav12 = true;
                 }
+                player.favors.push("fav" + f);
             }
         }
 
