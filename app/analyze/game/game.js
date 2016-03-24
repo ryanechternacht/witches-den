@@ -12,6 +12,7 @@ var parseGame = function(gamelog, rulesengine, parser) {
 
     return { 
         factions: players, 
+        bonuses: engineSetup.bonuses,
         rounds: engineSetup.rounds,
         fireAndIceBonus: engineSetup.fireAndIceBonus,
         gameComplete: gameComplete

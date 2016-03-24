@@ -54,6 +54,7 @@ angular.module('wd.shared', [])
         a["shapeshifters"] = "Shapeshifters";
         a["dragonlords"] = "Dragonlords";
         a["acolytes"] = "Acolytes";
+        a["all"] = "All Factions";
 
         // simple
         a["starting"] = "Starting";

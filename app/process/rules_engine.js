@@ -63,6 +63,7 @@ angular.module('wd.process', [])
         // other options?
 
         var rounds = [],
+            bonuses = ['bon1', 'bon2', 'bon3', 'bon4', 'bon5', 'bon6', 'bon7', 'bon8', 'bon9'],
             players = [],
             options = [],
             fireAndIceBonus = null,
@@ -83,6 +84,11 @@ angular.module('wd.process', [])
                 });
             }
 
+            if(parsedAction.setup.bonus != undefined) { 
+                var index = bonuses.indexOf(parsedAction.setup.bonus.toLowerCase());
+                bonuses.splice(index, 1);
+            }
+
             if(parsedAction.setup.player != undefined) { 
                 var order = names.length;
                 names.push({
@@ -99,12 +105,19 @@ angular.module('wd.process', [])
                 var name = names.shift();
                 players.push(makePlayer(name, action.faction));
             }
+
+            if(parsedAction.setup.option != undefined) { 
+                if(parsedAction.setup.option.toLowerCase() === "mini-expansion-1") {
+                    bonuses.push('bon10');
+                }
+            }
         }
 
         return {
             rounds: rounds,
             players: players, 
             options: [],
+            bonuses: bonuses,
             fireAndIceBonus: fireAndIceBonus,
         };
     }

@@ -86,6 +86,12 @@
                     alt="Witches" title="Witches">
             </a>
         </li>
+        <li> 
+            <a href="/analyze/faction/all">
+                <img class="faction-img" src="/img/all.png"
+                    alt="All Factions" title="All Factions">
+            </a>
+        </li>
     </ul>
 </div>
 
@@ -110,6 +116,20 @@
 
     <h3>Cult Points (All Tracks)</h3>
     <d3-histogram class="d3-histogram" height="500" data="factionData.cult" labels="format.labels">
+    </d3-histogram>
+
+    </hr>
+
+    <h3>Buildings Built (not necessarily connected)</h3>
+    <d3-histogram class="d3-histogram" height="500" data="factionData.buildings" labels="format.labels">
+    </d3-histogram>
+
+    <h3>Favors Taken (unordered)</h3>
+    <d3-histogram class="d3-histogram" height="500" data="factionData.favors" labels="format.labels">
+    </d3-histogram>
+
+    <h3>Pick Order</h3>
+    <d3-histogram class="d3-histogram" height="500" data="factionData.pickOrder" labels="format.labels">
     </d3-histogram>
 </div>
 

@@ -103,6 +103,11 @@ angular.module('wd.analyze.faction', ['ngRoute', 'wd.shared'])
                 imgUrl: imgUrlPrefix + "volk_14_300.jpg",
                 name: "witches"
             }; 
+        } else if(faction.toUpperCase() == "ALL") {
+           return {
+                imgUrl: "/img/all.png",
+                name: "all"
+            }; 
         } else {
             return null;
         }
