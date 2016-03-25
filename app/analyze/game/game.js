@@ -10,12 +10,15 @@ var parseGame = function(gamelog, rulesengine, parser) {
 
     var gameComplete = rulesengine.checkGameComplete(parsedLog);
 
+    var results = rulesengine.buildGameResults(players);
+
     return { 
         factions: players, 
         bonuses: engineSetup.bonuses,
         rounds: engineSetup.rounds,
         fireAndIceBonus: engineSetup.fireAndIceBonus,
-        gameComplete: gameComplete
+        gameComplete: gameComplete,
+        results: results
     };
 }
 

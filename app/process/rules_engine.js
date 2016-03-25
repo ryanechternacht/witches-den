@@ -53,7 +53,8 @@ angular.module('wd.process', [])
     return { 
         setupEngine: setupEngine,
         processCommands: processCommands,
-        checkGameComplete: checkGameComplete
+        checkGameComplete: checkGameComplete,
+        buildGameResults: buildGameResults
     };
 
 
@@ -93,7 +94,7 @@ angular.module('wd.process', [])
                 var order = names.length;
                 names.push({
                     name: parsedAction.setup.player.name, 
-                    startOrder: order
+                    startOrder: order + 1
                 });
             }
 
@@ -162,6 +163,8 @@ angular.module('wd.process', [])
             sumPoints(players[i]);
         }
 
+        buildGameResults(players);
+
         return players;
     }
 
@@ -174,6 +177,16 @@ angular.module('wd.process', [])
         }
 
         return false; // if we don't find an endGame action
+    }
+
+    function buildGameResults(scoreCards) { 
+        var ordered = _.sortBy(scoreCards, x => 'total').reverse();
+        return _.map(ordered, (x,i) => ({
+            faction: x.faction, 
+            player: x.name,
+            startOrder: x.startOrder,
+            place: i + 1
+        }))  
     }
     /// END PUBLIC
 
