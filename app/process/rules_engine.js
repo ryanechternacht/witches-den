@@ -53,7 +53,8 @@ angular.module('wd.process', [])
     return { 
         setupEngine: setupEngine,
         processCommands: processCommands,
-        checkGameComplete: checkGameComplete
+        checkGameComplete: checkGameComplete,
+        buildGameResults: buildGameResults
     };
 
 
@@ -63,6 +64,7 @@ angular.module('wd.process', [])
         // other options?
 
         var rounds = [],
+            bonuses = ['bon1', 'bon2', 'bon3', 'bon4', 'bon5', 'bon6', 'bon7', 'bon8', 'bon9'],
             players = [],
             options = [],
             fireAndIceBonus = null,
@@ -83,11 +85,16 @@ angular.module('wd.process', [])
                 });
             }
 
+            if(parsedAction.setup.bonus != undefined) { 
+                var index = bonuses.indexOf(parsedAction.setup.bonus.toLowerCase());
+                bonuses.splice(index, 1);
+            }
+
             if(parsedAction.setup.player != undefined) { 
                 var order = names.length;
                 names.push({
                     name: parsedAction.setup.player.name, 
-                    startOrder: order
+                    startOrder: order + 1
                 });
             }
 
@@ -99,12 +106,19 @@ angular.module('wd.process', [])
                 var name = names.shift();
                 players.push(makePlayer(name, action.faction));
             }
+
+            if(parsedAction.setup.option != undefined) { 
+                if(parsedAction.setup.option.toLowerCase() === "mini-expansion-1") {
+                    bonuses.push('bon10');
+                }
+            }
         }
 
         return {
             rounds: rounds,
             players: players, 
             options: [],
+            bonuses: bonuses,
             fireAndIceBonus: fireAndIceBonus,
         };
     }
@@ -149,6 +163,8 @@ angular.module('wd.process', [])
             sumPoints(players[i]);
         }
 
+        buildGameResults(players);
+
         return players;
     }
 
@@ -161,6 +177,16 @@ angular.module('wd.process', [])
         }
 
         return false; // if we don't find an endGame action
+    }
+
+    function buildGameResults(scoreCards) { 
+        var ordered = _.sortBy(scoreCards, x => 'total').reverse();
+        return _.map(ordered, (x,i) => ({
+            faction: x.faction, 
+            player: x.name,
+            startOrder: x.startOrder,
+            place: i + 1
+        }))  
     }
     /// END PUBLIC
 
@@ -228,6 +254,7 @@ angular.module('wd.process', [])
             fav10: false,
             fav11: false,
             fav12: false,
+            favors: [],
             passBonus: '',
             shipLevel: shipStart,
             shipLevels: shipLevels,
@@ -521,6 +548,7 @@ angular.module('wd.process', [])
                 else if(f == 12) { 
                     player.fav12 = true;
                 }
+                player.favors.push("fav" + f);
             }
         }
 

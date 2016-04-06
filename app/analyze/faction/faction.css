@@ -2,6 +2,10 @@
     margin-top: 12px;
 }
 
+#faction-list {
+    padding-left: 0;
+}
+
 #faction-list li { 
     display: inline;
     padding-left: 0;
@@ -17,29 +21,29 @@
 }
 
 
-svg text { 
+.d3-histogram text { 
     font-family: sans-serif;
 }
 
-svg .bar { 
+.d3-histogram .bar { 
     fill: teal;
 }
 
-svg .bar-negative {
+.d3-histogram .bar-negative {
     fill: orange;
 }
 
-svg .bar-label { 
+.d3-histogram .bar-label { 
     font-size: 16x;
     text-anchor: middle;
 }
 
-svg .axis { 
+.d3-histogram .axis { 
     font-size: 11px;
 }
 
-svg .axis path,
-svg .axis line { 
+.d3-histogram .axis path,
+.d3-histogram .axis line { 
     fill: none;
     stroke: black;
     shape-rendering: crispEdges;

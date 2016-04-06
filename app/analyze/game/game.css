@@ -2,11 +2,11 @@ tfoot {
     font-weight: bold;
 }
 
-svg text { 
+.d3-scoregraph text { 
     font-family: sans-serif;
 }
 
-svg .bar-label { 
+.d3-scoregraph .bar-label { 
     font-size: 14px;
     alignment-baseline: middle;
     text-overflow: clip;
@@ -15,7 +15,7 @@ svg .bar-label {
     position: relative;
 }
 
-svg .bar-label-inverse { 
+.d3-scoregraph .bar-label-inverse { 
     font-size: 14px;
     alignment-baseline: middle;
     text-overflow: clip;
@@ -25,12 +25,12 @@ svg .bar-label-inverse {
     fill: white;
 }
 
-svg .axis { 
+.d3-scoregraph .axis { 
     font-size: 11px;
 }
 
-svg .axis path,
-svg .axis line { 
+.d3-scoregraph .axis path,
+.d3-scoregraph .axis line { 
     fill: none;
     stroke: black;
     shape-rendering: crispEdges;
@@ -51,101 +51,101 @@ svg .axis line {
     player: '#404040'
 };*/
 
-svg .bar-brown { 
+.d3-scoregraph .bar-brown { 
     fill: #b08040;
 }
 
-svg .bar-brown-negative {
+.d3-scoregraph .bar-brown-negative {
     stroke: #b08040;
     stroke-width: 2;
     fill: white;
 }
 
-svg .bar-gray {
+.d3-scoregraph .bar-gray {
     fill: #c0c0c0;
 }
 
-svg .bar-gray-negative {
+.d3-scoregraph .bar-gray-negative {
     stroke: #c0c0c0;
     stroke-width: 2;
     fill: white;
 }
 
-svg .bar-red {
+.d3-scoregraph .bar-red {
     fill: #f08080;
 }
 
-svg .bar-red-negative {
+.d3-scoregraph .bar-red-negative {
     stroke: #f08080;
     stroke-width: 2;
     fill: white;
 }
 
-svg .bar-blue {
+.d3-scoregraph .bar-blue {
     fill: #60c0f0;
 }
 
-svg .bar-blue-negative {
+.d3-scoregraph .bar-blue-negative {
     stroke: #60c0f0;
     stroke-width: 2;
     fill: white;
 }
 
-svg .bar-green {
+.d3-scoregraph .bar-green {
     fill: #80f080;
 }
 
-svg .bar-green-negative {
+.d3-scoregraph .bar-green-negative {
     stroke: #80f080;
     stroke-width: 2;
     fill: white;
 }
 
-svg .bar-yellow {
+.d3-scoregraph .bar-yellow {
     fill: #f0f080;
 }
 
-svg .bar-yellow-negative {
+.d3-scoregraph .bar-yellow-negative {
     stroke: #f0f080;
     stroke-width: 2;
     fill: white;
 }
 
-svg .bar-black {
+.d3-scoregraph .bar-black {
     fill: #404040;
 }
 
-svg .bar-black-negative {
+.d3-scoregraph .bar-black-negative {
     stroke: #404040;
     stroke-width: 2;
     fill: white;
 }
 
-svg .bar-ice {
+.d3-scoregraph .bar-ice {
     fill: #e0f0ff;
 }
 
-svg .bar-ice-negative {
+.d3-scoregraph .bar-ice-negative {
     stroke: #e0f0ff;
     stroke-width: 2;
     fill: white;
 }
 
-svg .bar-volcano {
+.d3-scoregraph .bar-volcano {
     fill: #f0c060;
 }
 
-svg .bar-volcano-negative {
+.d3-scoregraph .bar-volcano-negative {
     stroke: #f0c060;
     stroke-width: 2;
     fill: white;
 }
 
-svg .bar-variable {
+.d3-scoregraph .bar-variable {
     fill: moccasin;
 }
 
-svg .bar-variable-negative {
+.d3-scoregraph .bar-variable-negative {
     stroke: moccasin;
     stroke-width: 2;
     fill: white;

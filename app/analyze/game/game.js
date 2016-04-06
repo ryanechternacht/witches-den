@@ -10,11 +10,15 @@ var parseGame = function(gamelog, rulesengine, parser) {
 
     var gameComplete = rulesengine.checkGameComplete(parsedLog);
 
+    var results = rulesengine.buildGameResults(players);
+
     return { 
         factions: players, 
+        bonuses: engineSetup.bonuses,
         rounds: engineSetup.rounds,
         fireAndIceBonus: engineSetup.fireAndIceBonus,
-        gameComplete: gameComplete
+        gameComplete: gameComplete,
+        results: results
     };
 }
 
@@ -53,7 +57,7 @@ angular.module('wd.analyze.game', ['ngRoute', 'wd.shared', 'wd.process', 'wd.par
                         $scope.loaded = true;
                         $scope.gamestats = parseGame(response.data, rulesengine, 
                             parser);
-                        $scope.format = format.buildFormat($scope.gamestats);
+                        $scope.format = format.buildFormatForAnalyzeGame($scope.gamestats);
                         $scope.gameIncomplete = !$scope.gamestats.gameComplete;
                     } else {
                         $scope.loadError = true;

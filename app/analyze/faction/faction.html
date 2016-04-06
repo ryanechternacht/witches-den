@@ -4,94 +4,163 @@
     <ul id="faction-list">
         <li>
             <a href="/analyze/faction/dwarves">
-                <img class="faction-img" src="http://www.terra-mystica-spiel.de/img/volk_7_140.jpg">
+                <img class="faction-img" src="http://www.terra-mystica-spiel.de/img/volk_7_140.jpg"
+                    alt="Dwarves" title="Dwarves">
             </a>
         </li>
         <li>
             <a href="/analyze/faction/engineers">
-                <img class="faction-img" src="http://www.terra-mystica-spiel.de/img/volk_8_140.jpg">
+                <img class="faction-img" src="http://www.terra-mystica-spiel.de/img/volk_8_140.jpg"
+                    alt="Engineers" title="Engineers">
             </a>
         </li>
         <li>
             <a href="/analyze/faction/chaosmagicians">
-                <img class="faction-img" src="http://www.terra-mystica-spiel.de/img/volk_3_140.jpg">
+                <img class="faction-img" src="http://www.terra-mystica-spiel.de/img/volk_3_140.jpg"
+                    alt="Chaos Magicians" title="Chaos Magicians">
             </a>
         </li>
         <li>
             <a href="/analyze/faction/giants">
-                <img class="faction-img" src="http://www.terra-mystica-spiel.de/img/volk_4_140.jpg">
+                <img class="faction-img" src="http://www.terra-mystica-spiel.de/img/volk_4_140.jpg"
+                    alt="Giants" Title="Giants">
             </a>
         </li>
         <li> 
             <a href="/analyze/faction/fakirs">
-                <img class="faction-img" src="http://www.terra-mystica-spiel.de/img/volk_1_140.jpg">
+                <img class="faction-img" src="http://www.terra-mystica-spiel.de/img/volk_1_140.jpg"
+                    alt="Fakirs" title="Fakirs">
             </a>
         </li>
         <li> 
             <a href="/analyze/faction/nomads">
-                <img class="faction-img" src="http://www.terra-mystica-spiel.de/img/volk_2_140.jpg">
+                <img class="faction-img" src="http://www.terra-mystica-spiel.de/img/volk_2_140.jpg"
+                    alt="Nomads" title="Noamds">
             </a>
         </li>
         <li> 
             <a href="/analyze/faction/halflings">
-                <img class="faction-img" src="http://www.terra-mystica-spiel.de/img/volk_9_140.jpg">
+                <img class="faction-img" src="http://www.terra-mystica-spiel.de/img/volk_9_140.jpg"
+                    alt="Halflings" title="Halflings">
             </a>
         </li>
         <li> 
             <a href="/analyze/faction/cultists">
-                <img class="faction-img" src="http://www.terra-mystica-spiel.de/img/volk_10_140.jpg">
+                <img class="faction-img" src="http://www.terra-mystica-spiel.de/img/volk_10_140.jpg"
+                    alt="Cultists" title="Cultists">
             </a>
         </li>
         <li> 
             <a href="/analyze/faction/alchemists">
-                <img class="faction-img" src="http://www.terra-mystica-spiel.de/img/volk_11_140.jpg">
+                <img class="faction-img" src="http://www.terra-mystica-spiel.de/img/volk_11_140.jpg"
+                    alt="Alchemists" title="Alchemists">
             </a>
         </li>
         <li> 
             <a href="/analyze/faction/darklings">
-                <img class="faction-img" src="http://www.terra-mystica-spiel.de/img/volk_12_140.jpg">
+                <img class="faction-img" src="http://www.terra-mystica-spiel.de/img/volk_12_140.jpg"
+                    alt="Darklings" title="Darklings">
             </a>
         </li>
         <li> 
             <a href="/analyze/faction/swarmlings">
-                <img class="faction-img" src="http://www.terra-mystica-spiel.de/img/volk_5_140.jpg">
+                <img class="faction-img" src="http://www.terra-mystica-spiel.de/img/volk_5_140.jpg"
+                    alt="Swarmlings" title="Swarmlings">
             </a>
         </li>
         <li> 
             <a href="/analyze/faction/mermaids">
-                <img class="faction-img" src="http://www.terra-mystica-spiel.de/img/volk_6_140.jpg">
+                <img class="faction-img" src="http://www.terra-mystica-spiel.de/img/volk_6_140.jpg"
+                    alt="Mermaids" title="Mermaids">
             </a>
         </li>
         <li> 
             <a href="/analyze/faction/auren">
-                <img class="faction-img" src="http://www.terra-mystica-spiel.de/img/volk_13_140.jpg">
+                <img class="faction-img" src="http://www.terra-mystica-spiel.de/img/volk_13_140.jpg"
+                    alt="Auren" title="Auren">
             </a>
         </li>
         <li> 
             <a href="/analyze/faction/witches">
-                <img class="faction-img" src="http://www.terra-mystica-spiel.de/img/volk_14_140.jpg">
+                <img class="faction-img" src="http://www.terra-mystica-spiel.de/img/volk_14_140.jpg"
+                    alt="Witches" title="Witches">
+            </a>
+        </li>
+        <li> 
+            <a href="/analyze/faction/all">
+                <img class="faction-img" src="/img/all.png"
+                    alt="All Factions" title="All Factions">
             </a>
         </li>
     </ul>
 </div>
 
 
-<h2><img height="200" src="{{factionImg}}"> {{faction}}</h2>
+<div ng-hide="faction == null">
+    <div class="row">
+        <div class="col-sm-6">
+            <h2>
+                <img height="200" src="{{faction.imgUrl}}"> {{ format.labels(faction.name) }}
+            </h2>
+        </div>
 
+        <div class="col-sm-6">
+            <h3>Statistics</h3>
+        </div>
+    </div>
 
-<h3>Total Points</h3>
-<d3-histogram height="500" data="factionData.total" labels="format.labels">
-</d3-histogram>
+    <div class="row">
+        <div class="col-sm-6">
+            <h3>Placing</h3>
+           <!--  <d3-histogram class="d3-histogram" height="200" data="factionData.total" labels="format.labels">
+            </d3-histogram> -->
+        </div>
 
-<hr/>
+        <div class="col-sm-6">
+            <h3>Total Points</h3>
+            <d3-histogram class="d3-histogram" height="200" data="factionData.total" labels="format.labels">
+            </d3-histogram>
+        </div>
+    </div>
 
-<h3>Network Place</h3>
-<d3-histogram height="500" data="factionData.network" labels="format.labels">
-</d3-histogram>
+    <div class="row">
+        <div class="col-sm-6">
+            <h3>Network Place</h3>
+            <d3-histogram class="d3-histogram" height="200" data="factionData.network" labels="format.labels">
+            </d3-histogram>
+        </div>
 
-</hr>
+        <div class="col-sm-6">
+            <h3>Cult Points (All Tracks)</h3>
+            <d3-histogram class="d3-histogram" height="200" data="factionData.cult" labels="format.labels">
+            </d3-histogram>
+        </div>
+    </div>
 
-<h3>Cult Points (All Tracks)</h3>
-<d3-histogram height="500" data="factionData.cult" labels="format.labels">
-</d3-histogram>
+    <div class="row">
+        <div class="col-sm-6">
+            <h3>Buildings Built (not necessarily connected)</h3>
+            <d3-histogram class="d3-histogram" height="200" data="factionData.buildings" labels="format.labels">
+            </d3-histogram>
+        </div>
+
+        <div class="col-sm-6">
+            <h3>Favors Taken (unordered)</h3>
+            <d3-histogram class="d3-histogram" height="200" data="factionData.favors" labels="format.labels">
+            </d3-histogram>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6">
+            <h3>Pick Order</h3>
+            <d3-histogram class="d3-histogram" height="200" data="factionData.pickOrder" labels="format.labels">
+            </d3-histogram>
+        </div>
+
+        <div class="col-sm-6">
+            <h3>Place holder</h3>
+        </div>
+    </div>
+</div>
 

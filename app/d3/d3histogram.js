@@ -1,6 +1,6 @@
 'use strict';
 
-var drawChart = function(d3, svg, scope, iElement, iAttrs) { 
+var drawHistogram = function(d3, svg, scope, iElement, iAttrs) { 
     svg.selectAll("*").remove();
 
     if(scope.data == undefined) {
@@ -15,7 +15,7 @@ var drawChart = function(d3, svg, scope, iElement, iAttrs) {
     svg.attr("width", width)
         .attr("height", height);
 
-    var margin = { top: 30, bottom: 100, left: 30, right: 30};
+    var margin = { top: 30, bottom: 30, left: 30, right: 30};
     
     var labelPadding = 10,
         yBottom = height - margin.bottom,
@@ -101,7 +101,7 @@ angular.module('d3').directive('d3Histogram', ['d3', function(d3) {
 
             // define render function
             scope.render = function() {
-                drawChart(d3, svg, scope, iElement, iAttrs);
+                drawHistogram(d3, svg, scope, iElement, iAttrs);
             };
         }
     };
