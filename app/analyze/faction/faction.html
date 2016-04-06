@@ -97,39 +97,70 @@
 
 
 <div ng-hide="faction == null">
-    <h2>
-        <img height="200" src="{{faction.imgUrl}}"> {{ format.labels(faction.name) }}
-    </h2>
+    <div class="row">
+        <div class="col-sm-6">
+            <h2>
+                <img height="200" src="{{faction.imgUrl}}"> {{ format.labels(faction.name) }}
+            </h2>
+        </div>
 
+        <div class="col-sm-6">
+            <h3>Statistics</h3>
+        </div>
+    </div>
 
-    <h3>Total Points</h3>
-    <d3-histogram class="d3-histogram" height="500" data="factionData.total" labels="format.labels">
-    </d3-histogram>
+    <div class="row">
+        <div class="col-sm-6">
+            <h3>Placing</h3>
+           <!--  <d3-histogram class="d3-histogram" height="200" data="factionData.total" labels="format.labels">
+            </d3-histogram> -->
+        </div>
 
-    <hr/>
+        <div class="col-sm-6">
+            <h3>Total Points</h3>
+            <d3-histogram class="d3-histogram" height="200" data="factionData.total" labels="format.labels">
+            </d3-histogram>
+        </div>
+    </div>
 
-    <h3>Network Place</h3>
-    <d3-histogram class="d3-histogram" height="500" data="factionData.network" labels="format.labels">
-    </d3-histogram>
+    <div class="row">
+        <div class="col-sm-6">
+            <h3>Network Place</h3>
+            <d3-histogram class="d3-histogram" height="200" data="factionData.network" labels="format.labels">
+            </d3-histogram>
+        </div>
 
-    </hr>
+        <div class="col-sm-6">
+            <h3>Cult Points (All Tracks)</h3>
+            <d3-histogram class="d3-histogram" height="200" data="factionData.cult" labels="format.labels">
+            </d3-histogram>
+        </div>
+    </div>
 
-    <h3>Cult Points (All Tracks)</h3>
-    <d3-histogram class="d3-histogram" height="500" data="factionData.cult" labels="format.labels">
-    </d3-histogram>
+    <div class="row">
+        <div class="col-sm-6">
+            <h3>Buildings Built (not necessarily connected)</h3>
+            <d3-histogram class="d3-histogram" height="200" data="factionData.buildings" labels="format.labels">
+            </d3-histogram>
+        </div>
 
-    </hr>
+        <div class="col-sm-6">
+            <h3>Favors Taken (unordered)</h3>
+            <d3-histogram class="d3-histogram" height="200" data="factionData.favors" labels="format.labels">
+            </d3-histogram>
+        </div>
+    </div>
 
-    <h3>Buildings Built (not necessarily connected)</h3>
-    <d3-histogram class="d3-histogram" height="500" data="factionData.buildings" labels="format.labels">
-    </d3-histogram>
+    <div class="row">
+        <div class="col-sm-6">
+            <h3>Pick Order</h3>
+            <d3-histogram class="d3-histogram" height="200" data="factionData.pickOrder" labels="format.labels">
+            </d3-histogram>
+        </div>
 
-    <h3>Favors Taken (unordered)</h3>
-    <d3-histogram class="d3-histogram" height="500" data="factionData.favors" labels="format.labels">
-    </d3-histogram>
-
-    <h3>Pick Order</h3>
-    <d3-histogram class="d3-histogram" height="500" data="factionData.pickOrder" labels="format.labels">
-    </d3-histogram>
+        <div class="col-sm-6">
+            <h3>Place holder</h3>
+        </div>
+    </div>
 </div>
 

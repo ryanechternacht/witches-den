@@ -18,7 +18,7 @@ var drawHistogram = function(d3, svg, scope, iElement, iAttrs) {
     svg.attr("width", width)
         .attr("height", height);
 
-    var margin = { top: 30, bottom: 100, left: 30, right: 30};
+    var margin = { top: 30, bottom: 30, left: 30, right: 30};
     
     var labelPadding = 10,
         yBottom = height - margin.bottom,
