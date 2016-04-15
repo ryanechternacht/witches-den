@@ -1,9 +1,10 @@
 'use strict';
 
 
-angular.module('wd.process', [])
-.factory('rulesengine', [function() { 
+module.exports = (function() { 
     
+    var _ = require('underscore');
+
     var rules = [
         score1_onSpd,
         score2_onTw,
@@ -163,8 +164,6 @@ angular.module('wd.process', [])
             sumPoints(players[i]);
         }
 
-        buildGameResults(players);
-
         return players;
     }
 
@@ -180,13 +179,14 @@ angular.module('wd.process', [])
     }
 
     function buildGameResults(scoreCards) { 
-        var ordered = _.sortBy(scoreCards, x => 'total').reverse();
+        var ordered = _.sortBy(scoreCards, x => x.total).reverse();
+
         return _.map(ordered, (x,i) => ({
             faction: x.faction, 
             player: x.name,
             startOrder: x.startOrder,
             place: i + 1
-        }))  
+        }));
     }
     /// END PUBLIC
 
@@ -1500,7 +1500,7 @@ angular.module('wd.process', [])
         return null;
     }
     /// END RULES
-}]);
+})();
 
 
 
