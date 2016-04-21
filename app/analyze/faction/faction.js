@@ -3,10 +3,59 @@
 angular.module('wd.analyze.faction', ['ngRoute', 'wd.shared'])
 
 .config(['$routeProvider', function($routeProvider) {
+    $routeProvider.when('/analyze/faction/all', {
+        templateUrl: '/analyze/faction/all.html',
+        controller: 'AnalyzeAllCtrl'
+    });
     $routeProvider.when('/analyze/faction/:faction?', {
         templateUrl: '/analyze/faction/faction.html', 
         controller: 'AnalyzeFactionCtrl'
     });
+}])
+
+.controller('AnalyzeAllCtrl', ['$scope', '$http', '$location', 'd3', 'format', 
+    function($scope, $http, $location, d3, format) {    
+
+    $scope.format = format.buildFormat();
+    $scope.faction = { imgUrl: "/img/all.png", name: "all" };
+
+    $http({ method: 'GET', url: '/data/faction/' + $scope.faction.name })
+        .then(function(response) { 
+            if(response.data)  {
+                $scope.factionData = response.data;
+                buildAndSaveHeatmap($scope, $scope.factionData.results)
+            }
+        });
+
+    function buildAndSaveHeatmap($scope, results) {
+        // "results": [
+        //     {
+        //       "faction": "fakirs",
+        //       "fakirs": {
+        //         "win": 0,
+        //         "tie": 0,
+        //         "loss": 0
+        //       },
+
+        var factions = _.map(results, x => x.faction);
+
+        var data = new Array(factions.length);
+        for(var i = 0; i < factions.length; i++) { 
+            data[i] = new Array(factions.length);
+        }
+
+        for(var i = 0; i < data.length; i++) { 
+            for(var j = 0; j < data[i].length; j++) {
+                var denom = results[i][factions[j]].win + results[i][factions[j]].loss;
+                var percent = denom == 0 ? "-" :
+                    Math.round(results[i][factions[j]].win / denom * 100);
+                data[i][j] = percent;
+            }
+        }
+
+        $scope.factions = factions;
+        $scope.heatmap = data;
+    }
 }])
 
 .controller('AnalyzeFactionCtrl', ['$scope', '$http', '$location', '$routeParams', 'd3', 'format', 
@@ -102,11 +151,6 @@ angular.module('wd.analyze.faction', ['ngRoute', 'wd.shared'])
            return {
                 imgUrl: imgUrlPrefix + "volk_14_300.jpg",
                 name: "witches"
-            }; 
-        } else if(faction.toUpperCase() == "ALL") {
-           return {
-                imgUrl: "/img/all.png",
-                name: "all"
             }; 
         } else {
             return null;

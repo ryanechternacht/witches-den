@@ -95,25 +95,12 @@
     </ul>
 </div>
 
-
 <div ng-hide="faction == null">
     <div class="row">
         <div class="col-sm-6">
             <h2>
                 <img height="200" src="{{faction.imgUrl}}"> {{ format.labels(faction.name) }}
             </h2>
-        </div>
-
-        <div class="col-sm-6">
-            <h3>Statistics</h3>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-sm-6">
-            <h3>Placing</h3>
-           <d3-histogram class="d3-histogram" height="200" data="factionData.results" labels="format.labels">
-            </d3-histogram>
         </div>
 
         <div class="col-sm-6">
@@ -152,14 +139,11 @@
     </div>
 
     <div class="row">
-        <div class="col-sm-6">
-            <h3>Pick Order</h3>
-            <d3-histogram class="d3-histogram" height="200" data="factionData.pickOrder" labels="format.labels">
-            </d3-histogram>
-        </div>
-
-        <div class="col-sm-6">
-            <h3>Place holder</h3>
+        <div class="col-sm-12">
+            <h3>Faction Comparisons</h3>
+            <d3-heatmap class="d3-heatmap" height="400" data="heatmap" 
+                labels="format.labels" factions="factions">
+            </d3-heatmap>
         </div>
     </div>
 </div>

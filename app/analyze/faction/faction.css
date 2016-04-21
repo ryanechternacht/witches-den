@@ -49,3 +49,15 @@
     shape-rendering: crispEdges;
 }
 
+.d3-heatmap .heatmap-cell {
+    fill: teal;
+}
+
+.d3-heatmap .heatmap-off {
+    fill: none;
+}
+
+.d3-heatmap .heatmap-cell-text {
+    text-anchor: middle;
+    alignment-baseline: middle;
+}
