@@ -26,17 +26,13 @@ var drawHeatmap = function(d3, svg, scope, iElement, iAttrs) {
         chartHeight = yBottom - yTop,
         chartWidth = xRight - xLeft;
 
-        console.log(yBottom, yTop, xLeft, xRight, chartHeight);
-
     var yScale = d3.scale.ordinal()
         .domain(factions.map(x => x))
         .rangeRoundBands([yTop, yBottom], .1);
 
     var xScale = d3.scale.ordinal()
         .domain(factions.map(x => x))
-        .rangeRoundBands([0, chartWidth], .1);
-
-        console.log(d3.map(factions, x => x));
+        .rangeRoundBands([0, chartWidth], 0);
 
     var rows = svg.selectAll("g")
         .data(dataset)
@@ -45,14 +41,8 @@ var drawHeatmap = function(d3, svg, scope, iElement, iAttrs) {
         .attr("transform", (d, i) => {
             var y = yScale(i);
             return "translate(" + xLeft + "," + y + ")";
-        });
-
-    // var cells = rows.selectAll("text")
-    //     .data(d => d)
-    //     .enter()
-    //     .append("text")
-    //     .text(d => d)
-    //     .attr("x", (d, i) => xScale(i))
+        })
+        .attr("class", "row");
 
     var cells = rows.selectAll("g")
         .data(d => d)
@@ -66,11 +56,19 @@ var drawHeatmap = function(d3, svg, scope, iElement, iAttrs) {
     cells.append("rect")
         .attr("width", xScale.rangeBand())
         .attr("height", yScale.rangeBand())
-        .attr("class", d => { 
-            if(d == 0 || d == "-") {
-                return "heatmap-off"
+        .attr("class", (d, i) => {
+            if(d == "-" || d == "") {
+                return "neutral";
+            } else if(d >= 75) {
+                return "strong-positive";
+            } else if(d >= 60) {
+                return "weak-positive";
+            } else if(d <= 25) {
+                return "strong-negative";
+            } else if(d <= 40) {
+                return "weak-negative";
             } else {
-                return "heatmap-cell";
+                return "neutral";
             }
         });
 
@@ -78,7 +76,72 @@ var drawHeatmap = function(d3, svg, scope, iElement, iAttrs) {
         .text(d => d)
         .attr("y", yScale.rangeBand() / 2 + 1) // +2 moves it down a bit
         .attr("x", xScale.rangeBand() / 2)
-        .attr("class", "heatmap-cell-text");
+        .attr("class", "cell-text");
+
+
+    var dividers = svg.selectAll(".dividers")
+        .data(factions)
+        .enter()
+        .append("line")
+            .attr("x1", (d,i) => {
+                if(i % 2 == 0) { // left side
+                    return xScale(i) + margin.left + 2;
+                } else { // right side
+                    return xScale(i) + xScale.rangeBand() + margin.left - 2;
+                }
+            })
+            .attr("x2", (d,i) => {
+                if(i % 2 == 0) { // left side
+                    return xScale(i) + margin.left + 2;
+                } else { // right side
+                    return xScale(i) + xScale.rangeBand() + margin.left - 2;
+                }
+            })
+            .attr("y1", margin.top)
+            .attr("y2", chartHeight + margin.top)
+            .attr("class", (d,i) => {
+                if(factions[i] == "nomads" || factions[i] == "fakirs") {
+                    return "yellow";
+                } else if(factions[i] == "chaosmagicians" || factions[i] == "giants") {
+                    return "red";
+                } else if(factions[i] == "engineers" || factions[i] == "dwarves") {
+                    return "gray";
+                } else if(factions[i] == "swarmlings" || factions[i] == "mermaids") {
+                    return "blue";
+                } else if(factions[i] == "darklings" || factions[i] == "alchemists") {
+                    return "black";
+                } else if(factions[i] == "cultists" || factions[i] == "halflings") {
+                    return "brown";
+                } else if(factions[i] == "witches" || factions[i] == "auren") {
+                    return "green";
+                }
+            });
+
+    // labels
+    var leftLabels = svg.selectAll(".left-label")
+        .data(factions)
+        .enter()
+        .append("text")
+        .text(d => d)
+        .attr('x', 0)
+        .attr('y', d => yScale(d) + yScale.rangeBand() / 2 + 1)
+        .attr("class", "row-header");
+
+
+    var topLabels = svg.selectAll(".top-label")
+        .data(factions)
+        .enter()
+        .append("g")
+            .attr("transform", d => {
+                var y = margin.top;
+                var x = xScale(d) + xScale.rangeBand() / 2 + margin.left;
+                return "translate(" + x + "," + y + ")";
+            })
+            .attr("class", "top-label")
+            .append("text")
+                .text(d => d)
+                .attr("class", "column-header")
+                .attr("transform", d => "rotate(-70)");
 }
 
 angular.module('d3').directive('d3Heatmap', ['d3', function(d3) { 

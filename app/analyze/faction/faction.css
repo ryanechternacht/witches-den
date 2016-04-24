@@ -49,15 +49,75 @@
     shape-rendering: crispEdges;
 }
 
-.d3-heatmap .heatmap-cell {
-    fill: teal;
+.d3-heatmap .row:hover {
+    outline: thin solid black;
 }
 
-.d3-heatmap .heatmap-off {
-    fill: none;
-}
-
-.d3-heatmap .heatmap-cell-text {
+.d3-heatmap .cell-text {
     text-anchor: middle;
     alignment-baseline: middle;
+}
+
+.d3-heatmap .strong-positive {
+    fill: #5D6BCC;
+}
+
+.d3-heatmap .weak-positive {
+    fill: #B3BDFF;
+}
+
+.d3-heatmap .neutral {
+    fill: #FFFFFF;
+}
+
+.d3-heatmap .weak-negative {
+    fill: #FFBFA3;
+}
+
+.d3-heatmap .strong-negative {
+    fill: #FF8450;
+}
+
+.d3-heatmap .yellow {
+    stroke: yellow;
+    stroke-width: 3;
+}
+
+.d3-heatmap .red {
+    stroke: red;
+    stroke-width: 5;
+}
+
+.d3-heatmap .gray {
+    stroke: gray;
+    stroke-width: 5;
+}
+
+.d3-heatmap .blue {
+    stroke: blue;
+    stroke-width: 5;
+}
+
+.d3-heatmap .black {
+    stroke: black;
+    stroke-width: 5;
+}
+
+.d3-heatmap .brown {
+    stroke: brown;
+    stroke-width: 5;
+}
+
+.d3-heatmap .green {
+    stroke: green;
+    stroke-width: 5;
+}
+
+.d3-heatmap .row-header {
+    alignment-baseline: middle;
+}
+
+.d3-heatmap .column-header {
+    alignment-baseline: middle;
+    text-anchor: start;
 }

@@ -28,15 +28,6 @@ angular.module('wd.analyze.faction', ['ngRoute', 'wd.shared'])
         });
 
     function buildAndSaveHeatmap($scope, results) {
-        // "results": [
-        //     {
-        //       "faction": "fakirs",
-        //       "fakirs": {
-        //         "win": 0,
-        //         "tie": 0,
-        //         "loss": 0
-        //       },
-
         var factions = _.map(results, x => x.faction);
 
         var data = new Array(factions.length);
@@ -46,10 +37,14 @@ angular.module('wd.analyze.faction', ['ngRoute', 'wd.shared'])
 
         for(var i = 0; i < data.length; i++) { 
             for(var j = 0; j < data[i].length; j++) {
-                var denom = results[i][factions[j]].win + results[i][factions[j]].loss;
-                var percent = denom == 0 ? "-" :
-                    Math.round(results[i][factions[j]].win / denom * 100);
-                data[i][j] = percent;
+                if(Math.floor(i / 2) == Math.floor(j / 2)) { // same color
+                    data[i][j] = "";
+                } else {
+                    var denom = results[i][factions[j]].win + results[i][factions[j]].loss;
+                    var percent = denom == 0 ? "-" :
+                        Math.round(results[i][factions[j]].win / denom * 100);
+                    data[i][j] = percent;
+                }
             }
         }
 
@@ -80,7 +75,6 @@ angular.module('wd.analyze.faction', ['ngRoute', 'wd.shared'])
         }
 
         var imgUrlPrefix = "http://www.terra-mystica-spiel.de/img/";
-
 
         if(faction.toUpperCase() == "DWARVES") { 
             return {
