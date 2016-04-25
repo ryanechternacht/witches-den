@@ -81,17 +81,6 @@ var drawHeatmap = function(d3, svg, scope, iElement, iAttrs) {
             } else {
                 return "neutral";
             }
-            // else if(d >= 75) {
-            //     return "strong-positive";
-            // } else if(d >= 60) {
-            //     return "weak-positive";
-            // } else if(d <= 25) {
-            //     return "strong-negative";
-            // } else if(d <= 40) {
-            //     return "weak-negative";
-            // } else {
-            //     return "neutral";
-            // }
         })
         .attr("style", d => {
             // if positive, the closer to 100, the darker (50 is white)
@@ -226,3 +215,4 @@ angular.module('d3').directive('d3Heatmap', ['d3', function(d3) {
         }
     };
 }]);
+
