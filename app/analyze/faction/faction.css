@@ -49,16 +49,12 @@
     shape-rendering: crispEdges;
 }
 
-.d3-heatmap .row:hover {
-    outline: thin solid black;
-}
-
 .d3-heatmap .cell-text {
     text-anchor: middle;
     alignment-baseline: middle;
 }
 
-.d3-heatmap .strong-positive {
+/*.d3-heatmap .strong-positive {
     fill: #5D6BCC;
 }
 
@@ -76,41 +72,24 @@
 
 .d3-heatmap .strong-negative {
     fill: #FF8450;
+}*/
+
+.d3-heatmap .neutral {
+    fill-opacity: 0;
 }
 
-.d3-heatmap .yellow {
-    stroke: yellow;
-    stroke-width: 3;
+.d3-heatmap .negative-cell {
+    fill: #FF8450;
 }
 
-.d3-heatmap .red {
-    stroke: red;
-    stroke-width: 5;
+.d3-heatmap .positive-cell {
+    fill: #5D6BCC;
 }
 
-.d3-heatmap .gray {
-    stroke: gray;
-    stroke-width: 5;
-}
-
-.d3-heatmap .blue {
-    stroke: blue;
-    stroke-width: 5;
-}
-
-.d3-heatmap .black {
+.d3-heatmap .row-divider,
+.d3-heatmap .col-divider {
     stroke: black;
-    stroke-width: 5;
-}
-
-.d3-heatmap .brown {
-    stroke: brown;
-    stroke-width: 5;
-}
-
-.d3-heatmap .green {
-    stroke: green;
-    stroke-width: 5;
+    stroke-width: 2;
 }
 
 .d3-heatmap .row-header {
@@ -120,4 +99,38 @@
 .d3-heatmap .column-header {
     alignment-baseline: middle;
     text-anchor: start;
+}
+
+.d3-heatmap .brown-header {
+
+}
+
+
+
+.d3-heatmap .green-cell {
+    fill: green;
+}
+
+.d3-heatmap .blue-cell {
+    fill: blue;
+}
+
+.d3-heatmap .black-cell {
+    fill: black;
+}
+
+.d3-heatmap .red-cell {
+    fill: red;
+}
+
+.d3-heatmap .gray-cell {
+    fill: gray;
+}
+
+.d3-heatmap .yellow-cell {
+    fill: yellow;
+}
+
+.d3-heatmap .brown-cell {
+    fill: brown;
 }
