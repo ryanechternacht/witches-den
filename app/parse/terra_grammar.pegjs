@@ -144,11 +144,11 @@
     return "[failure] " + res + " is not recognized";
   }
 
-  function town(num) { 
+  function town(num, count) { 
     if(num == 7) {
-      return { tw: 7, advanceShip: 1 }
+      return { tw: 7, advanceShip: 1, townCount: count }
     }
-    return { tw: num };
+    return { tw: num, townCount: count };
   }
 
   function favor(num) { 
@@ -391,7 +391,9 @@
       if(result.tw == undefined) { 
         result.tw = [];
       }
-      result.tw.push(action.tw);
+      for(var i = 0; i < action.townCount; i++) {
+        result.tw.push(action.tw);
+      }
     }
     if(action.fav != undefined) { 
       if(result.fav == undefined) { 
@@ -634,6 +636,7 @@ ResourceAmount
 
 Town
   = "+tw"i num:Number "."? _ { return town(num) }
+  / "+" + count:Number + "tw"i + num:Number "."? _ { return town(num, count); }
 
 Favor
   = "+fav"i num:Number "."? _ { return favor(num) }
