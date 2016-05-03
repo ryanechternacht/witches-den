@@ -611,7 +611,7 @@ BonusSetup
   = "removing tile "i  bonusTile:String { return bonusSetup(bonusTile); }
 
 PlayerSetup
-  = "Player "i playerNum:Number ": " playerName:OptionString { return playerSetup(playerName, playerNum); }
+  = "Player "i playerNum:Number ": " playerName:NameString { return playerSetup(playerName, playerNum); }
 
 AdditionalScoringSetup
   = "added final scoring tile: "i scoringTile:OptionString { return additionalScoringSetup(scoringTile); }
@@ -700,6 +700,9 @@ String
 
 OptionString
   = characters:[a-z0-9-/.:]i+ { return a2s(characters); }
+
+NameString
+  = characters:.+ { return a2s(characters); }
 
 Number
   = digits:[0-9]+ { return parseInt(a2s(digits),10); }
