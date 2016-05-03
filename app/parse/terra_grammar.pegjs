@@ -637,7 +637,7 @@ ResourceAmount
   / res:String { return resource(res, 1) }
 
 Town
-  = "+tw"i num:Number "."? _ { return town(num) }
+  = "+tw"i num:Number "."? _ { return town(num, 1) }
   / "+" + count:Number + "tw"i + num:Number "."? _ { return town(num, count); }
 
 Favor
