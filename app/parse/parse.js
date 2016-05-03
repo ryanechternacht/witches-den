@@ -177,7 +177,7 @@ angular.module('wd.parse', [])
             peg$c98 = function(res) { return resource(res, 1) },
             peg$c99 = "+tw",
             peg$c100 = { type: "literal", value: "+tw", description: "\"+tw\"" },
-            peg$c101 = function(num) { return town(num) },
+            peg$c101 = function(num) { return town(num, 1) },
             peg$c102 = "tw",
             peg$c103 = { type: "literal", value: "tw", description: "\"tw\"" },
             peg$c104 = function(count, num) { return town(num, count); },
