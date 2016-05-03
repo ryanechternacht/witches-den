@@ -144,11 +144,11 @@
     return "[failure] " + res + " is not recognized";
   }
 
-  function town(num) { 
+  function town(num, count) { 
     if(num == 7) {
-      return { tw: 7, advanceShip: 1 }
+      return { tw: 7, advanceShip: 1, townCount: count }
     }
-    return { tw: num };
+    return { tw: num, townCount: count };
   }
 
   function favor(num) { 
@@ -391,7 +391,9 @@
       if(result.tw == undefined) { 
         result.tw = [];
       }
-      result.tw.push(action.tw);
+      for(var i = 0; i < action.townCount; i++) {
+        result.tw.push(action.tw);
+      }
     }
     if(action.fav != undefined) { 
       if(result.fav == undefined) { 
@@ -581,6 +583,8 @@ OctagonalAction
 Leech
   = "leech"i _ amount:Number _ "from"i _ faction:String _ "."? _ { return leech(true, amount, faction) }
   / "decline"i _ amount:Number _ "from"i _ faction:String _ "."? _ { return leech(false, amount, faction) }
+  / "leech"i _ amount:Number { return leech(true, amount); }
+  / "decline"i _ amount:Number { return leech(false, amount); }
 
 Advance
   = "advance"i _ track:String _ "."? _ { return advance(track); } 
@@ -607,7 +611,7 @@ BonusSetup
   = "removing tile "i  bonusTile:String { return bonusSetup(bonusTile); }
 
 PlayerSetup
-  = "Player "i playerNum:Number ": " playerName:OptionString { return playerSetup(playerName, playerNum); }
+  = "Player "i playerNum:Number ": " playerName:NameString { return playerSetup(playerName, playerNum); }
 
 AdditionalScoringSetup
   = "added final scoring tile: "i scoringTile:OptionString { return additionalScoringSetup(scoringTile); }
@@ -633,7 +637,8 @@ ResourceAmount
   / res:String { return resource(res, 1) }
 
 Town
-  = "+tw"i num:Number "."? _ { return town(num) }
+  = "+tw"i num:Number "."? _ { return town(num, 1) }
+  / "+" + count:Number + "tw"i + num:Number "."? _ { return town(num, count); }
 
 Favor
   = "+fav"i num:Number "."? _ { return favor(num) }
@@ -695,6 +700,9 @@ String
 
 OptionString
   = characters:[a-z0-9-/.:]i+ { return a2s(characters); }
+
+NameString
+  = characters:.+ { return a2s(characters); }
 
 Number
   = digits:[0-9]+ { return parseInt(a2s(digits),10); }
