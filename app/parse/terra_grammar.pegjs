@@ -583,6 +583,8 @@ OctagonalAction
 Leech
   = "leech"i _ amount:Number _ "from"i _ faction:String _ "."? _ { return leech(true, amount, faction) }
   / "decline"i _ amount:Number _ "from"i _ faction:String _ "."? _ { return leech(false, amount, faction) }
+  / "leech"i _ amount:Number { return leech(true, amount); }
+  / "decline"i _ amount:Number { return leech(false, amount); }
 
 Advance
   = "advance"i _ track:String _ "."? _ { return advance(track); } 
