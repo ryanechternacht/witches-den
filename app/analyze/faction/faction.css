@@ -54,26 +54,6 @@
     alignment-baseline: middle;
 }
 
-/*.d3-heatmap .strong-positive {
-    fill: #5D6BCC;
-}
-
-.d3-heatmap .weak-positive {
-    fill: #B3BDFF;
-}
-
-.d3-heatmap .neutral {
-    fill: #FFFFFF;
-}
-
-.d3-heatmap .weak-negative {
-    fill: #FFBFA3;
-}
-
-.d3-heatmap .strong-negative {
-    fill: #FF8450;
-}*/
-
 .d3-heatmap .neutral {
     fill-opacity: 0;
 }
