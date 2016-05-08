@@ -1,5 +1,13 @@
 <div class="page-header">
-    <h1>Analyze a Terra Mystica Faction</h1>
+    <h1>
+        Analyze a Terra Mystica Faction
+        <div class="pull-right">
+            <p class="graph-explanation" 
+                title="This dataset includes every game from League games in Divisions 1-3 in Seasons 1-10">
+                ?
+            </p>
+        </div>
+    </h1>
 
     <ul id="faction-list">
         <li>
@@ -104,7 +112,15 @@
         </div>
 
         <div class="col-sm-6">
-            <h3>Total Points</h3>
+            <h3>
+                Total Points
+                <div class="pull-right">
+                    <p class="graph-explanation" 
+                    title="Histogram of total points scored per faction per game. Ex: the 130's bucket is any score 130-139.">
+                        ?
+                    </p>
+                </div>
+            </h3>
             <d3-histogram class="d3-histogram" height="200" data="factionData.total" labels="format.labels">
             </d3-histogram>
         </div>
@@ -112,20 +128,43 @@
 
     <div class="row">
         <div class="col-sm-6">
-            <h3>Cult Points (All Tracks)</h3>
+            <h3>
+                Cult Points
+                <div class="pull-right">
+                    <p class="graph-explanation" 
+                    title="Histogram of total points scored from all cult tracks per faction per game.">
+                        ?
+                    </p>
+                </div>
+            </h3>
             <d3-histogram class="d3-histogram" height="200" data="factionData.cult" labels="format.labels">
             </d3-histogram>
         </div>
 
         <div class="col-sm-6">
-            <h3>Buildings Built (not necessarily connected)</h3>
+            <h3>Buildings Built 
+                <div class="pull-right">
+                    <p class="graph-explanation" 
+                    title="Histogram of total number of buildings built per faction per game. This counts all buildings, even if they are not networked.">
+                        ?
+                    </p>
+                </div>
+            </h3>
             <d3-histogram class="d3-histogram" height="200" data="factionData.buildings" labels="format.labels">
             </d3-histogram>
         </div>
     
     <div class="row">
         <div class="col-sm-6">
-            <h3>Favors Taken (unordered)</h3>
+            <h3>
+                Favors Taken
+                <div class="pull-right">
+                    <p class="graph-explanation" 
+                    title="Histogram outling how often favors are taken per faction. Ex: fav5 was taken 535 times (over ~420 games with 4 factions per game).">
+                        ?
+                    </p>
+                </div>
+            </h3>
             <d3-histogram class="d3-histogram" height="200" data="factionData.favors" labels="format.labels">
             </d3-histogram>
         </div>
@@ -133,7 +172,15 @@
 
     <div class="row">
         <div class="col-sm-12">
-            <h3>Faction Comparisons</h3>
+            <h3>
+                Faction Comparisons
+                <div class="pull-right">
+                    <p class="graph-explanation" 
+                    title="Heatmap showing how factions perform against each other. Looking at row 1 (dwarves), the 67 in column 4 (giants) means that dwarves outscore giants in 67% of games.">
+                        ?
+                    </p>
+                </div>
+            </h3>
             <d3-heatmap class="d3-heatmap" height="400" data="heatmap" 
                 labels="format.labels" factions="factions">
             </d3-heatmap>

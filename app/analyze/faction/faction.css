@@ -101,12 +101,6 @@
     text-anchor: start;
 }
 
-.d3-heatmap .brown-header {
-
-}
-
-
-
 .d3-heatmap .green-cell {
     fill: green;
 }
@@ -133,4 +127,10 @@
 
 .d3-heatmap .brown-cell {
     fill: brown;
+}
+
+.graph-explanation {
+    border: 1px solid black;
+    padding: 2px 5px;
+    background-color: #eee;
 }

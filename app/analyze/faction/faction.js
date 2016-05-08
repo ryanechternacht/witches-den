@@ -27,6 +27,8 @@ angular.module('wd.analyze.faction', ['ngRoute', 'wd.shared'])
             }
         });
 
+    loadTooltips();
+
     function buildAndSaveHeatmap($scope, results) {
         var factions = _.map(results, x => x.faction);
 
@@ -51,6 +53,10 @@ angular.module('wd.analyze.faction', ['ngRoute', 'wd.shared'])
         $scope.factions = factions;
         $scope.heatmap = data;
     }
+
+    function loadTooltips() {
+        $(".graph-explanation").tooltip();
+    }
 }])
 
 .controller('AnalyzeFactionCtrl', ['$scope', '$http', '$location', '$routeParams', 'd3', 'format', 
@@ -67,6 +73,8 @@ angular.module('wd.analyze.faction', ['ngRoute', 'wd.shared'])
                 }
             });
     }
+
+    loadTooltips();
 
 
     function getFactionSettings(faction) { 
@@ -149,5 +157,9 @@ angular.module('wd.analyze.faction', ['ngRoute', 'wd.shared'])
         } else {
             return null;
         }
+    }
+
+    function loadTooltips() {
+        $(".graph-explanation").tooltip();
     }
 }]);

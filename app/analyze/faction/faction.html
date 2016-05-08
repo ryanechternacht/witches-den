@@ -1,5 +1,13 @@
 <div class="page-header">
-    <h1>Analyze a Terra Mystica Faction</h1>
+    <h1>
+        Analyze a Terra Mystica Faction
+        <div class="pull-right">
+            <p class="graph-explanation" 
+                title="This dataset includes every game from League games in Divisions 1-3 in Seasons 1-10">
+                ?
+            </p>
+        </div>
+    </h1>
 
     <ul id="faction-list">
         <li>
@@ -105,61 +113,108 @@
         </div>
 
         <div class="col-sm-6">
-            <h3>Statistics</h3>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-sm-6">
-            <h3>Placing</h3>
+            <h3>
+                Placing
+                <div class="pull-right">
+                    <p class="graph-explanation" 
+                    title="Histogram of what place this faction placed in the games it played. Note: ties are rounded up.">
+                        ?
+                    </p>
+                </div>
+            </h3>
            <d3-histogram class="d3-histogram" height="200" data="factionData.results" labels="format.labels">
             </d3-histogram>
         </div>
+    </div>
 
+    <div class="row">
         <div class="col-sm-6">
-            <h3>Total Points</h3>
+            <h3>
+                Total Points
+                <div class="pull-right">
+                    <p class="graph-explanation" 
+                    title="Histogram of total points scored per game. Ex: the 130's bucket is any score 130-139.">
+                        ?
+                    </p>
+                </div>
+            </h3>
             <d3-histogram class="d3-histogram" height="200" data="factionData.total" labels="format.labels">
             </d3-histogram>
         </div>
-    </div>
 
-    <div class="row">
         <div class="col-sm-6">
-            <h3>Network Place</h3>
+            <h3>
+                Network Place
+                <div class="pull-right">
+                    <p class="graph-explanation" 
+                    title="Histogram of what place this faction took in network size over the games it played. Note: ties are rounded up.">
+                        ?
+                    </p>
+                </div>
+            </h3>
             <d3-histogram class="d3-histogram" height="200" data="factionData.network" labels="format.labels">
             </d3-histogram>
         </div>
+    </div>
 
+    <div class="row">
         <div class="col-sm-6">
-            <h3>Cult Points (All Tracks)</h3>
+            <h3>
+                Cult Points
+                <div class="pull-right">
+                    <p class="graph-explanation" 
+                    title="Histogram of total points scored from all cult tracks per game.">
+                        ?
+                    </p>
+                </div>
+            </h3>
+
             <d3-histogram class="d3-histogram" height="200" data="factionData.cult" labels="format.labels">
             </d3-histogram>
         </div>
-    </div>
 
-    <div class="row">
         <div class="col-sm-6">
-            <h3>Buildings Built (not necessarily connected)</h3>
+            <h3>Buildings Built 
+                <div class="pull-right">
+                    <p class="graph-explanation" 
+                    title="Histogram of total number of buildings built per game. This counts all buildings, even if they are not networked.">
+                        ?
+                    </p>
+                </div>
+            </h3>
+
             <d3-histogram class="d3-histogram" height="200" data="factionData.buildings" labels="format.labels">
             </d3-histogram>
         </div>
-
-        <div class="col-sm-6">
-            <h3>Favors Taken (unordered)</h3>
-            <d3-histogram class="d3-histogram" height="200" data="factionData.favors" labels="format.labels">
-            </d3-histogram>
-        </div>
     </div>
 
     <div class="row">
         <div class="col-sm-6">
-            <h3>Pick Order</h3>
-            <d3-histogram class="d3-histogram" height="200" data="factionData.pickOrder" labels="format.labels">
+            <h3>
+                Favors Taken
+                <div class="pull-right">
+                    <p class="graph-explanation" 
+                    title="Histogram outling how often favors are taken by this faction. Note: these results ignore the order in which favors are taken.">
+                        ?
+                    </p>
+                </div>
+            </h3>
+            <d3-histogram class="d3-histogram" height="200" data="factionData.favors" labels="format.labels">
             </d3-histogram>
         </div>
 
         <div class="col-sm-6">
-            <h3>Place holder</h3>
+            <h3>
+                Pick Order
+                <div class="pull-right">
+                    <p class="graph-explanation" 
+                    title="Histogram outling how often this faction is picked in the pick order. Ex: the first column (1) is how often this faction is first-picked.">
+                        ?
+                    </p>
+                </div>
+            </h3>
+            <d3-histogram class="d3-histogram" height="200" data="factionData.pickOrder" labels="format.labels">
+            </d3-histogram>
         </div>
     </div>
 </div>
