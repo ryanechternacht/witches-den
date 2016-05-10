@@ -55,7 +55,7 @@ angular.module('wd.analyze.faction', ['ngRoute', 'wd.shared'])
     }
 
     function loadTooltips() {
-        $(".graph-explanation").tooltip();
+        $(".explanation").tooltip({ tooltipClass: "explanation-tooltip" });
     }
 }])
 
@@ -160,6 +160,8 @@ angular.module('wd.analyze.faction', ['ngRoute', 'wd.shared'])
     }
 
     function loadTooltips() {
-        $(".graph-explanation").tooltip();
+        $(".explanation").tooltip();
+        // $(".explanation").tooltip({ tooltipClass: "explanation-tooltip" });
+        // $(".explanation").tooltip('option', 'tooltipClass', "explanation-tooltip");
     }
 }]);
