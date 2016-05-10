@@ -1,6 +1,6 @@
 'use strict';
 
-var drawChart = function(d3, svg, scope, iElement, iAttrs) { 
+var drawScoregraph = function(d3, svg, scope, iElement, iAttrs) { 
     svg.selectAll("*").remove();
 
     if(scope.data == undefined) {
@@ -243,8 +243,15 @@ angular.module('d3').directive('d3Scoregraph', ['d3', function(d3) {
 
             // define render function
             scope.render = function() {
-                drawChart(d3, svg, scope, iElement, iAttrs);
+                drawScoregraph(d3, svg, scope, iElement, iAttrs);
             };
         }
     };
 }]);
+
+
+
+
+
+
+

@@ -1,8 +1,9 @@
 var http = require('http'),
-    fs = require('fs');
+    fs = require('fs'),
+    DocumentClient = require('documentdb').DocumentClient,
+    azureInfo = require('../secret/azureinfo.js');
 
 function readJsonFileSync(filepath, encoding){
-
     if (typeof (encoding) == 'undefined'){
         encoding = 'utf8';
     }
@@ -45,4 +46,22 @@ exports.findByName = function(req, res) {
 
     request.end();
 };
+
+exports.getFactionData = function(req, res) {
+    var faction = req.params.faction;
+    console.log("/data/faction/" + faction);
+
+    var client = new DocumentClient(azureInfo.host, {masterKey: azureInfo.masterKey});
+
+    var q = "select * from c where c.id = '" + faction + "'";
+    var collLink = 'dbs/dev/colls/factions';
+    client.queryDocuments(collLink, q).toArray(function(err, results) { 
+        if(err) { res.send(err); }
+        else { res.send(results[0]); }
+    });
+}
+
+
+
+
 

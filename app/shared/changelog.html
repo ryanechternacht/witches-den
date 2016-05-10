@@ -2,12 +2,18 @@
     <div class="page-header">
         <h2>Change Log</h2>
 
+        <h4>v1.2.0</h4>
+        <ul>
+            <li>Added a branch new page for showing faction by faction statistics</li>
+            <li>These faction statistics are based off of League game results. I included all games from Divisions 1-3 in Seasons 1-10. I'll add newer seasons soon.</li>
+        </ul>
+
         <h4>v1.1.2</h4>
         <ul>
-            <li>Fixed a parsing issue when gaining 2 copies of the same town tile simultaneously ('+2TW3'). (#11)</li>
-            <li>Fixed a parsing issue when using the abridged leech/leech decline syntax (e.g. 'decline 2' instead of 'decline 2 from darklings'). (#12)</li>
-            <li>Fixed a parsing issue when using unicode characters (specifically in user names). (#13)</li>
-            <li>Fixed a bug where typing in the search box on the game analysis page changed the game name link below it. (#14) </li>
+            <li>Fixed taking 2 duplicate town tiles simultaneously (like '+2tw3') not parsing correctly. (issue #11)</li>
+            <li>Fixed parsing the short form of leeching/declining ('leech 2' opposed to 'leech 2 from dwarves') not parsing correctly. (issue #12)</li>
+            <li>Fixed support for Unicode characters in player names not parsing correctly. (issue #13)</li>
+            <li>Fixed changing the value of the search box renaming the game name on the game analysis page. (issue #14)</li>
         </ul>
 
         <h4>v1.1.1</h4>
