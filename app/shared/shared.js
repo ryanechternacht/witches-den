@@ -1,8 +1,15 @@
 'use strict';
 
-angular.module('wd.shared', [])
-.factory('format', [function() { 
+Format.$inject = [];
+AboutCtrl.$inject = ['$scope'];
+ChangeLogCtrl.$inject = ['$scope'];
+module.exports = {
+    format: Format,
+    about: AboutCtrl,
+    changeLog: ChangeLogCtrl
+};
 
+function Format() {
     return { 
         buildFormatForAnalyzeGame: buildFormatForAnalyzeGame,
         buildFormat: buildFormat
@@ -194,20 +201,14 @@ angular.module('wd.shared', [])
         return obj;
     }
     /// END PRIVATE
-}])
-.config(['$routeProvider', function($routeProvider) {
-    $routeProvider.when('/about', {
-        templateUrl: 'shared/about.html', 
-        controller: 'AboutCtrl'
-    });
-    $routeProvider.when('/changelog', {
-        templateUrl: 'shared/changelog.html',
-        controller: 'ChangeLogCtrl'
-    });
-}])
-.controller('AboutCtrl', ['$scope', function($scope) {    
-        
-}])
-.controller('ChangeLogCtrl', ['$scope', function($scope) { 
+}
 
-}]);
+
+function AboutCtrl($scope) {    
+        
+}
+
+
+function ChangeLogCtrl($scope) {
+
+}

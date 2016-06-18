@@ -1,5 +1,51 @@
 'use strict';
 
+var _ = require('underscore');
+
+d3Histogram.$inject = ['d3'];
+module.exports = d3Histogram;
+
+function d3Histogram(d3) { 
+    return {
+        restrict: 'EA',
+        scope: {
+            data: '=', // binding to an angular object
+            width: '@', // static binding to a value
+            height: '@',
+            labels: '='
+        },
+        link: function(scope, iElement, iAttrs) {
+            var svg = d3.select(iElement[0])
+                .append("svg");
+
+            // use auto scaling for width
+            if(scope.width == undefined) {
+                svg.style("width", "100%");
+            }
+
+            // on window resize, re-render d3 canvas
+            window.onresize = function() {
+                return scope.$apply();
+            };
+            scope.$watch(function() {
+                return angular.element(window)[0].innerWidth;
+            }, function() {
+                return scope.render();
+            });
+
+            // watch for data changes and re-render
+            scope.$watch('data', function(newVals, oldVals) {
+                return scope.render(newVals);
+            }, true);
+
+            // define render function
+            scope.render = function() {
+                drawHistogram(d3, svg, scope, iElement, iAttrs);
+            };
+        }
+    };
+}
+
 var drawHistogram = function(d3, svg, scope, iElement, iAttrs) { 
     svg.selectAll("*").remove();
 
@@ -65,44 +111,3 @@ var drawHistogram = function(d3, svg, scope, iElement, iAttrs) {
         .call(xAxis)
         .selectAll("text");
 }
-
-angular.module('d3').directive('d3Histogram', ['d3', function(d3) { 
-    return {
-        restrict: 'EA',
-        scope: {
-            data: '=', // binding to an angular object
-            width: '@', // static binding to a value
-            height: '@',
-            labels: '='
-        },
-        link: function(scope, iElement, iAttrs) {
-            var svg = d3.select(iElement[0])
-                .append("svg");
-
-            // use auto scaling for width
-            if(scope.width == undefined) {
-                svg.style("width", "100%");
-            }
-
-            // on window resize, re-render d3 canvas
-            window.onresize = function() {
-                return scope.$apply();
-            };
-            scope.$watch(function() {
-                return angular.element(window)[0].innerWidth;
-            }, function() {
-                return scope.render();
-            });
-
-            // watch for data changes and re-render
-            scope.$watch('data', function(newVals, oldVals) {
-                return scope.render(newVals);
-            }, true);
-
-            // define render function
-            scope.render = function() {
-                drawHistogram(d3, svg, scope, iElement, iAttrs);
-            };
-        }
-    };
-}]);
