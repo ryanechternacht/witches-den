@@ -7,6 +7,14 @@
     background: DarkGreen;
 }
 
+.navbar-green .navbar-toggle {
+    /*border-color: Green;*/
+}
+
+.navbar-green .navbar-toggle .icon-bar {
+    background: white;
+}
+
 .navbar-green a { 
     color: White;
 }
