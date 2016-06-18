@@ -1,8 +1,11 @@
 'use strict';
 
+var _ = require('underscore');
 
-angular.module('wd.process', [])
-.factory('rulesengine', [function() { 
+RulesEngine.$inject = [];
+module.exports = RulesEngine;
+
+function RulesEngine() { 
     
     var rules = [
         score1_onSpd,
@@ -1499,11 +1502,4 @@ angular.module('wd.process', [])
         return null;
     }
     /// END RULES
-}]);
-
-
-
-
-
-
-
+}

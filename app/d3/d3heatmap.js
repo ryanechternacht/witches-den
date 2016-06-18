@@ -1,5 +1,52 @@
 'use strict';
 
+var _ = require('underscore');
+
+d3Heatmap.$inject = ['d3'];
+module.exports = d3Heatmap;
+
+function d3Heatmap(d3) {
+    return {
+        restrict: 'EA',
+        scope: {
+            data: '=', // binding to an angular object
+            width: '@', // static binding to a value
+            height: '@',
+            labels: '=',
+            factions: '='
+        },
+        link: function(scope, iElement, iAttrs) {
+            var svg = d3.select(iElement[0])
+                .append("svg");
+
+            // use auto scaling for width
+            if(scope.width == undefined) {
+                svg.style("width", "100%");
+            }
+
+            // on window resize, re-render d3 canvas
+            window.onresize = function() {
+                return scope.$apply();
+            };
+            scope.$watch(function() {
+                return angular.element(window)[0].innerWidth;
+            }, function() {
+                return scope.render();
+            });
+
+            // watch for data changes and re-render
+            scope.$watch('data', function(newVals, oldVals) {
+                return scope.render(newVals);
+            }, true);
+
+            // define render function
+            scope.render = function() {
+                drawHeatmap(d3, svg, scope, iElement, iAttrs);
+            };
+        }
+    };
+}
+
 var drawHeatmap = function(d3, svg, scope, iElement, iAttrs) { 
     svg.selectAll("*").remove();
 
@@ -173,46 +220,3 @@ var drawHeatmap = function(d3, svg, scope, iElement, iAttrs) {
                 .attr("class", "column-header")
                 .attr("transform", d => "rotate(-70)");
 }
-
-angular.module('d3').directive('d3Heatmap', ['d3', function(d3) { 
-    return {
-        restrict: 'EA',
-        scope: {
-            data: '=', // binding to an angular object
-            width: '@', // static binding to a value
-            height: '@',
-            labels: '=',
-            factions: '='
-        },
-        link: function(scope, iElement, iAttrs) {
-            var svg = d3.select(iElement[0])
-                .append("svg");
-
-            // use auto scaling for width
-            if(scope.width == undefined) {
-                svg.style("width", "100%");
-            }
-
-            // on window resize, re-render d3 canvas
-            window.onresize = function() {
-                return scope.$apply();
-            };
-            scope.$watch(function() {
-                return angular.element(window)[0].innerWidth;
-            }, function() {
-                return scope.render();
-            });
-
-            // watch for data changes and re-render
-            scope.$watch('data', function(newVals, oldVals) {
-                return scope.render(newVals);
-            }, true);
-
-            // define render function
-            scope.render = function() {
-                drawHeatmap(d3, svg, scope, iElement, iAttrs);
-            };
-        }
-    };
-}]);
-
