@@ -71,7 +71,8 @@ function RulesEngine() {
             players = [],
             options = [],
             fireAndIceBonus = null,
-            names = []; // holds player info and pick order until faction selection
+            names = [], // holds player info and pick order until faction selection
+            variableFactionVersion = null; // version of riverwalkers and shape shifters
 
         for(var i = 0; i < parsedLog.length; i++) { 
             var parsedAction = parsedLog[i];
@@ -107,12 +108,27 @@ function RulesEngine() {
 
             if(parsedAction.setup.factionSelection) { 
                 var name = names.shift();
-                players.push(makePlayer(name, action.faction));
+                players.push(makePlayer(name, action.faction, variableFactionVersion));
             }
 
             if(parsedAction.setup.option != undefined) { 
                 if(parsedAction.setup.option.toLowerCase() === "mini-expansion-1") {
                     bonuses.push('bon10');
+                } else if(parsedAction.setup.option.toLowerCase() === 
+                        "fire-and-ice-factions/variable") {
+                    variableFactionVersion = "v1";
+                } else if(parsedAction.setup.option.toLowerCase() === 
+                        "fire-and-ice-factions/variable_v2") {
+                    variableFactionVersion = "v2";
+                } else if(parsedAction.setup.option.toLowerCase() === 
+                        "fire-and-ice-factions/variable_v3") {
+                    variableFactionVersion = "v3";
+                } else if(parsedAction.setup.option.toLowerCase() === 
+                        "fire-and-ice-factions/variable_v4") {
+                    variableFactionVersion = "v4";
+                } else if(parsedAction.setup.option.toLowerCase() === 
+                        "fire-and-ice-factions/variable_v5") {
+                    variableFactionVersion = "v5";
                 }
             }
         }
@@ -195,7 +211,7 @@ function RulesEngine() {
 
 
     /// START PRIVATE
-    function makePlayer(player, faction) {
+    function makePlayer(player, faction, variableFactionVersion) {
         var shipStart,
             shipLevels;
 
@@ -244,6 +260,14 @@ function RulesEngine() {
             throw "Faction [" + faction + "] unrecognized";
         }
 
+        var version;
+        if(faction.toUpperCase() == "SHAPESHIFTERS" 
+            || faction.toUpperCase() == "RIVERWALKERS") {
+            version = variableFactionVersion;
+        } else {
+            version = "v1";
+        }
+
         return {
             faction: faction,
             name: player.name,
@@ -265,7 +289,8 @@ function RulesEngine() {
             },
             simple: { 
                 starting: 20
-            }
+            },
+            version: version
         };
     }
 
@@ -1083,13 +1108,14 @@ function RulesEngine() {
             return null;
         }
 
-        // do some logic around which version of shape shifters we're playing
-        var points = -1;
-        if(points != 0) { 
-            return { 
-                simple: { faction: points },
-                detailed: { "faction-ssOnLeech": points }
-            }
+        // when it was changed to -1, an action was added to approve the
+        // taking of power. when it was free, no action existed. so if we're
+        // here, we are in a version in which the prompt exists (so its -1)
+        var points = -1;  
+
+        return { 
+            simple: { faction: points },
+            detailed: { "faction-ssOnLeech": points }
         }
     }
 
@@ -1099,13 +1125,16 @@ function RulesEngine() {
             return null;
         }
 
-        // do some logic aorund which version of shape shifters we're playing with
-        var points = 0; 
-        if(points != 0) { 
-            return { 
-                simple: { faction: points },
-                detailed: { "faction-ssAbility": points }
-            }
+        if(!(parsedAction.action.toUpperCase() == "ACTH1" 
+            || parsedAction.action.toUpperCase() == "ACTH2")) {
+            return null;
+        }
+
+        var points = 2; // so far at every version its 2
+
+        return {
+            simple: { faction: points },
+            detailed: { "faction-ssAbility": points }
         }
     }
 
