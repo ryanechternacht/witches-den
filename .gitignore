@@ -9,4 +9,4 @@ tmp
 deploy.sh
 diagnostics/
 diagnosticss.zip
-static/*
+static/
