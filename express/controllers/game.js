@@ -1,9 +1,13 @@
 var http = require('http'),
     fs = require('fs'),
-    DocumentClient = require('documentdb').DocumentClient,
-    env = require('dotenv').load(),
-    host = process.env.HOST,
-    masterKey = process.env.MASTERKEY;    
+    DocumentClient = require('documentdb').DocumentClient;
+
+if(process.env.NODE_ENV !== "production") {
+    var env = require('dotenv').load();
+}
+host = process.env.HOST,
+masterKey = process.env.MASTERKEY;   
+ 
 
 function readJsonFileSync(filepath, encoding){
     if (typeof (encoding) == 'undefined'){
