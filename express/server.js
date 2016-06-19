@@ -4,7 +4,6 @@ var express = require('express'),
     favicon = require('serve-favicon'),
     app = express();
 
-
 app.use(morgan('dev'));
 
 var angularPath = path.join(__dirname + "/../app");
@@ -13,7 +12,7 @@ app.use(express.static(angularPath));
 
 var routesPath = path.join(__dirname, '/routes.js');
 console.log("routes path: " + routesPath);
-require(routesPath)(app, angularPath);
+require(routesPath)(app, angularPath, process.env.HOST, process.env.MASTERKEY);
 
 var faviconPath = path.join(__dirname, "favicon.png");
 console.log("favicon path: " + faviconPath);
