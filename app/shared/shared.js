@@ -20,7 +20,7 @@ function Format() {
         var format = {};
 
         format.labels = buildLabelFunction(gameInfo.rounds);
-        format.detailedOrdering = buildDetailedOrdering(gameInfo.rounds);
+        format.detailedOrdering = buildDetailedOrdering(gameInfo.rounds, gameInfo.fireAndIceBonus);
         format.detailedStats = buildDetailedStats(format.detailedOrdering, 
             format.labels, gameInfo.factions);
         format.simpleOrdering = buildSimpleOrdering(gameInfo.fireAndIceBonus);
@@ -140,7 +140,7 @@ function Format() {
     }
 
 
-    function buildDetailedOrdering(rounds) { 
+    function buildDetailedOrdering(rounds, fireAndIceBonus) { 
         var a = new Array();
 
         // detailed
@@ -158,6 +158,19 @@ function Format() {
         a.push("fav10");
         a.push("fav11");
         a.push("fav12");
+
+        if(fireAndIceBonus) {
+            if(fireAndIceBonus.toUpperCase() == "CONNECTED-DISTANCE") {
+                a.push("endGameConnectedDistance");
+            } else if(fireAndIceBonus.toUpperCase() == "CONNECTED-AS-SH-DISTANCE") {
+                a.push("endGameConnectedSaShDistance");
+            } else if(fireAndIceBonus.toUpperCase() == "CONNECTED-CLUSTERS") {
+                a.push("endGameConnectedClusters");
+            } else if(fireAndIceBonus.toUpperCase() == "BUILDING-ON-EDGE") {
+                a.push("endGameBuildingOnEdge");
+            }
+        }
+        
         a.push("leech");
         a.push("endGameNetwork"); // network
         for(var i = 0; i < rounds.length; i++) { 
