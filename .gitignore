@@ -10,3 +10,4 @@ deploy.sh
 diagnostics/
 diagnosticss.zip
 static/
+.env

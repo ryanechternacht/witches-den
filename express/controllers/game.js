@@ -1,7 +1,9 @@
 var http = require('http'),
     fs = require('fs'),
     DocumentClient = require('documentdb').DocumentClient,
-    azureInfo = require('../secret/azureinfo.js');
+    env = require('dotenv').load(),
+    host = process.env.HOST,
+    masterKey = process.env.MASTERKEY;    
 
 function readJsonFileSync(filepath, encoding){
     if (typeof (encoding) == 'undefined'){
@@ -51,7 +53,7 @@ exports.getFactionData = function(req, res) {
     var faction = req.params.faction;
     console.log("/data/faction/" + faction);
 
-    var client = new DocumentClient(azureInfo.host, {masterKey: azureInfo.masterKey});
+    var client = new DocumentClient(host, {masterKey: masterKey});
 
     var q = "select * from c where c.id = '" + faction + "'";
     var collLink = 'dbs/dev/colls/factions';
