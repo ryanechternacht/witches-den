@@ -1,8 +1,15 @@
 'use strict';
 
-angular.module('wd.shared', [])
-.factory('format', [function() { 
+Format.$inject = [];
+AboutCtrl.$inject = ['$scope'];
+ChangeLogCtrl.$inject = ['$scope'];
+module.exports = {
+    format: Format,
+    about: AboutCtrl,
+    changeLog: ChangeLogCtrl
+};
 
+function Format() {
     return { 
         buildFormatForAnalyzeGame: buildFormatForAnalyzeGame,
         buildFormat: buildFormat
@@ -13,7 +20,7 @@ angular.module('wd.shared', [])
         var format = {};
 
         format.labels = buildLabelFunction(gameInfo.rounds);
-        format.detailedOrdering = buildDetailedOrdering(gameInfo.rounds);
+        format.detailedOrdering = buildDetailedOrdering(gameInfo.rounds, gameInfo.fireAndIceBonus);
         format.detailedStats = buildDetailedStats(format.detailedOrdering, 
             format.labels, gameInfo.factions);
         format.simpleOrdering = buildSimpleOrdering(gameInfo.fireAndIceBonus);
@@ -88,7 +95,7 @@ angular.module('wd.shared', [])
         a["endGameBuildingOnEdge"] = "F&I Building on Edge";
         a["fav10"] = "Favor 10 (TP >> 3)";
         a["fav11"] = "Favor 11 (D >> 2)";
-        a["fav12"] = "Favor 12 (pass TP [0,2,2,3,4])"
+        a["fav12"] = "Favor 12 (pass TP [0,2,3,3,4])"
 
         var s = new Array();
         s["SCORE1"] = "Score 1 (SPD >> 2) (1Earth > C)";
@@ -133,7 +140,7 @@ angular.module('wd.shared', [])
     }
 
 
-    function buildDetailedOrdering(rounds) { 
+    function buildDetailedOrdering(rounds, fireAndIceBonus) { 
         var a = new Array();
 
         // detailed
@@ -151,6 +158,19 @@ angular.module('wd.shared', [])
         a.push("fav10");
         a.push("fav11");
         a.push("fav12");
+
+        if(fireAndIceBonus) {
+            if(fireAndIceBonus.toUpperCase() == "CONNECTED-DISTANCE") {
+                a.push("endGameConnectedDistance");
+            } else if(fireAndIceBonus.toUpperCase() == "CONNECTED-AS-SH-DISTANCE") {
+                a.push("endGameConnectedSaShDistance");
+            } else if(fireAndIceBonus.toUpperCase() == "CONNECTED-CLUSTERS") {
+                a.push("endGameConnectedClusters");
+            } else if(fireAndIceBonus.toUpperCase() == "BUILDING-ON-EDGE") {
+                a.push("endGameBuildingOnEdge");
+            }
+        }
+        
         a.push("leech");
         a.push("endGameNetwork"); // network
         for(var i = 0; i < rounds.length; i++) { 
@@ -194,20 +214,14 @@ angular.module('wd.shared', [])
         return obj;
     }
     /// END PRIVATE
-}])
-.config(['$routeProvider', function($routeProvider) {
-    $routeProvider.when('/about', {
-        templateUrl: 'shared/about.html', 
-        controller: 'AboutCtrl'
-    });
-    $routeProvider.when('/changelog', {
-        templateUrl: 'shared/changelog.html',
-        controller: 'ChangeLogCtrl'
-    });
-}])
-.controller('AboutCtrl', ['$scope', function($scope) {    
-        
-}])
-.controller('ChangeLogCtrl', ['$scope', function($scope) { 
+}
 
-}]);
+
+function AboutCtrl($scope) {    
+        
+}
+
+
+function ChangeLogCtrl($scope) {
+
+}

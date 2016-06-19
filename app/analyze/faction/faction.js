@@ -1,21 +1,15 @@
 'use strict';
 
-angular.module('wd.analyze.faction', ['ngRoute', 'wd.shared'])
+var _ = require('underscore');
 
-.config(['$routeProvider', function($routeProvider) {
-    $routeProvider.when('/analyze/faction/all', {
-        templateUrl: '/analyze/faction/all.html',
-        controller: 'AnalyzeAllCtrl'
-    });
-    $routeProvider.when('/analyze/faction/:faction?', {
-        templateUrl: '/analyze/faction/faction.html', 
-        controller: 'AnalyzeFactionCtrl'
-    });
-}])
+AnalyzeAllCtrl.$inject = ['$scope', '$http', '$location', 'd3', 'format'];
+AnalyzeFactionCtrl.$inject = ['$scope', '$http', '$location', '$routeParams', 'd3', 'format'];
+module.exports = {
+    faction: AnalyzeFactionCtrl,
+    all: AnalyzeAllCtrl
+};
 
-.controller('AnalyzeAllCtrl', ['$scope', '$http', '$location', 'd3', 'format', 
-    function($scope, $http, $location, d3, format) {    
-
+function AnalyzeAllCtrl($scope, $http, $location, d3, format) {    
     $scope.format = format.buildFormat();
     $scope.faction = { imgUrl: "/img/all.png", name: "all" };
 
@@ -57,11 +51,9 @@ angular.module('wd.analyze.faction', ['ngRoute', 'wd.shared'])
     function loadTooltips() {
         $(".explanation").tooltip({ tooltipClass: "explanation-tooltip" });
     }
-}])
+}
 
-.controller('AnalyzeFactionCtrl', ['$scope', '$http', '$location', '$routeParams', 'd3', 'format', 
-    function($scope, $http, $location, $routeParams, d3, format) {    
-    
+function AnalyzeFactionCtrl($scope, $http, $location, $routeParams, d3, format) {    
     $scope.format = format.buildFormat()
     $scope.faction = getFactionSettings($routeParams.faction);
 
@@ -161,7 +153,5 @@ angular.module('wd.analyze.faction', ['ngRoute', 'wd.shared'])
 
     function loadTooltips() {
         $(".explanation").tooltip();
-        // $(".explanation").tooltip({ tooltipClass: "explanation-tooltip" });
-        // $(".explanation").tooltip('option', 'tooltipClass', "explanation-tooltip");
     }
-}]);
+}
