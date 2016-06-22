@@ -558,6 +558,17 @@ function RulesEngine() {
         if(parsedAction.sh != undefined) { 
             player.sh = 1;
             player.tp -= 1;
+
+            player.shstats = {
+                round: round.roundNum,
+            }
+            // was there a bonus for building the SH in this round
+            if(round.scoreTile == "SCORE4" 
+                || round.scoreTile == "SCORE7") {
+                player.shstats.roundBonus = true
+            } else {
+                player.shstats.roundBonus = false
+            }
         }
         if(parsedAction.sa != undefined) { 
             player.sa += 1;
