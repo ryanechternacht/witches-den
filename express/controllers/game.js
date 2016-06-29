@@ -1,13 +1,19 @@
 module.exports = function(env) { 
+    
     var http = require('http'),
         fs = require('fs'),
-        DocumentClient = require('documentdb').DocumentClient; 
+        DocumentClient = require('documentdb').DocumentClient,
+        collLink = 'dbs/dev/colls/factions';
+
+    if(env.NODE_ENV === "PROD") {
+        collLink = 'dbs/prod/colls/factions';
+    }
 
     return {
         test: test,
         findByName: findByName,
         getFactionData: getFactionData
-    }
+    };
 
 
     function readJsonFileSync(filepath, encoding){
@@ -61,7 +67,6 @@ module.exports = function(env) {
         var client = new DocumentClient(env.HOST, {masterKey: env.MASTER_KEY});
 
         var q = "select * from c where c.id = '" + faction + "'";
-        var collLink = 'dbs/dev/colls/factions';
         client.queryDocuments(collLink, q).toArray(function(err, results) { 
             if(err) { res.send(err); }
             else { res.send(results[0]); }
