@@ -1,5 +1,5 @@
-module.exports = function(app, angularPath) { 
-    var game = require('./controllers/game');
+module.exports = function(app, angularPath, env) { 
+    var game = require('./controllers/game')(env);
     app.get('/data/game/:name', game.findByName); 
     app.get('/data/test', game.test);
     app.get('/data/faction/:faction', game.getFactionData);
