@@ -217,5 +217,21 @@
             </d3-histogram>
         </div>
     </div>
+
+    <div class="row">
+        <div class="col-sm-6">
+            <h3>
+                Stronghold Built
+                <div class="pull-right">
+                    <p class="explanation" 
+                    title="Histogram outlining in which round (if any) this faction built a stronghold. The teal column indiciates that the stronghold was built with a round bonus; the orange column indicates no round bonus.">
+                        ?
+                    </p>
+                </div>
+            </h3>
+            <d3-histogram-multi class="d3-histogram" height="200" data="factionData.shstats" labels="format.labels">
+            </d3-histogram-multi>
+        </div>
+    </div>
 </div>
 
