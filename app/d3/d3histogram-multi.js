@@ -58,6 +58,12 @@ var drawHistogramMulti = function(d3, svg, scope, iElement, iAttrs) {
     //     { "order":1, "key":5, "value": [1,1] }
     // ]
 
+    // TODO this needs to be a parameter of some sort
+    var labelTranslator = x => {
+        if (x == 0) { return "No SH"; }
+        else { return x; }
+    };
+
     var height = scope.height,
         width = scope.width || d3.select(iElement[0])[0][0].offsetWidth - 20,
         translator = scope.labels,
@@ -80,7 +86,7 @@ var drawHistogramMulti = function(d3, svg, scope, iElement, iAttrs) {
     );
 
     var xScale = d3.scale.ordinal()
-        .domain(dataset.map(x => x.key))
+        .domain(dataset.map(x => labelTranslator(x.key)))
         .rangeRoundBands([xLeft, xRight], .1);
 
     var xScaleInner = d3.scale.ordinal()
@@ -96,7 +102,7 @@ var drawHistogramMulti = function(d3, svg, scope, iElement, iAttrs) {
         .enter()
         .append("g")
         .attr("transform", function(d) { 
-            var x = xScale(d.key);
+            var x = xScale(labelTranslator(d.key));
             return "translate(" + x + "," + yTop + ")";
         });
 
@@ -119,12 +125,6 @@ var drawHistogramMulti = function(d3, svg, scope, iElement, iAttrs) {
         .attr("y", d => chartHeight - yScale(d) - labelPadding)
         .text(d => d)
         .attr("class", "bar-label");
-
-    // barGroups.append("text")
-    //     .attr("x", xScale.rangeBand() / 2)
-    //     .attr("y", function(d) { return chartHeight - yScale(d.value) - labelPadding; })
-    //     .text(function(d) { return d.value; })
-    //     .attr("class", "bar-label");
 
     var xAxis = d3.svg.axis()
         .scale(xScale)
