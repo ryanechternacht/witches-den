@@ -97,6 +97,9 @@ function Format() {
         a["fav11"] = "Favor 11 (D >> 2)";
         a["fav12"] = "Favor 12 (pass TP [0,2,3,3,4])"
 
+        // other
+        a["no-sh"] = "No SH";
+
         var s = new Array();
         s["SCORE1"] = "Score 1 (SPD >> 2) (1Earth > C)";
         s["SCORE2"] = "Score 2 (TOWN >> 5) (4Earth > SPD)";

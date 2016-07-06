@@ -191,7 +191,7 @@ var drawScoregraph = function(d3, svg, scope, iElement, iAttrs) {
             // +1 to move it down a bit
             return yScaleInner(d.faction) + (yScaleInner.rangeBand() / 2) + 1; 
         })
-        .text(function(d) { return d.points; })
+        .text(d => d.points != 0 ? d.points : "")
         .attr("class", "bar-label");
 
     // faction names
@@ -230,7 +230,7 @@ var drawScoregraph = function(d3, svg, scope, iElement, iAttrs) {
             return width; // paint all, it's on the right side of the number
         }
     })
-    .text(function(d) { return translator(d.faction); })
+    .text(d => d.points != 0 ? translator(d.faction) : "")
     .attr("class", function(d) { 
         var barWidth = xScale(Math.abs(d.points));
         // a long bar, that's black (>0 points and darklings/alchemists)

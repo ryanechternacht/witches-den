@@ -98,7 +98,7 @@ var drawHistogram = function(d3, svg, scope, iElement, iAttrs) {
     barGroups.append("text")
         .attr("x", xScale.rangeBand() / 2)
         .attr("y", function(d) { return chartHeight - yScale(d.value) - labelPadding; })
-        .text(function(d) { return d.value; })
+        .text(d => d.value != 0 ? d.value : "")
         .attr("class", "bar-label");
 
     var xAxis = d3.svg.axis()
