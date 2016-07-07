@@ -2,10 +2,10 @@
 
 var _ = require('underscore');
 
-d3Histogram.$inject = ['d3'];
-module.exports = d3Histogram;
+d3HistogramMulti.$inject = ['d3'];
+module.exports = d3HistogramMulti;
 
-function d3Histogram(d3) { 
+function d3HistogramMulti(d3) { 
     return {
         restrict: 'EA',
         scope: {
@@ -40,18 +40,23 @@ function d3Histogram(d3) {
 
             // define render function
             scope.render = function() {
-                drawHistogram(d3, svg, scope, iElement, iAttrs);
+                drawHistogramMulti(d3, svg, scope, iElement, iAttrs);
             };
         }
     };
 }
 
-var drawHistogram = function(d3, svg, scope, iElement, iAttrs) { 
+var drawHistogramMulti = function(d3, svg, scope, iElement, iAttrs) { 
     svg.selectAll("*").remove();
 
     if(scope.data == undefined) {
         return;
     }
+
+    // shstats: [
+    //     { "order":0, "key":3, "value": [1,0] },
+    //     { "order":1, "key":5, "value": [1,1] }
+    // ]
 
     var height = scope.height,
         width = scope.width || d3.select(iElement[0])[0][0].offsetWidth - 20,
@@ -70,14 +75,20 @@ var drawHistogram = function(d3, svg, scope, iElement, iAttrs) {
         xRight = width - margin.right,
         chartHeight = yBottom - yTop;
 
-    // var bars = dataset.map(function(d) { return d.key; });
+    var largestValue = d3.max(dataset, f => 
+        d3.max(f.value, d => d)
+    );
 
     var xScale = d3.scale.ordinal()
-        .domain(dataset.map(x => x.key))
+        .domain(dataset.map(x => translator(x.key)))
         .rangeRoundBands([xLeft, xRight], .1);
 
+    var xScaleInner = d3.scale.ordinal()
+        .domain([0,1])
+        .rangeRoundBands([0, xScale.rangeBand()], .1)
+
     var yScale = d3.scale.linear()
-        .domain([0, d3.max(dataset, function(d) { return d.value; })])
+        .domain([0, largestValue])
         .range([0, chartHeight]);
 
     var barGroups = svg.selectAll("g")
@@ -85,20 +96,28 @@ var drawHistogram = function(d3, svg, scope, iElement, iAttrs) {
         .enter()
         .append("g")
         .attr("transform", function(d) { 
-            var x = xScale(d.key);
+            var x = xScale(translator(d.key));
             return "translate(" + x + "," + yTop + ")";
         });
 
-    barGroups.append("rect")
-        .attr("width", xScale.rangeBand())
-        .attr("height", function(d) { return yScale(d.value); })
-        .attr("y", function(d) { return chartHeight - yScale(d.value); })
-        .attr("class", "bar");
+    var bars = barGroups.selectAll("g")
+        .data(d => d.value)
+        .enter()
+        .append("g");
 
-    barGroups.append("text")
-        .attr("x", xScale.rangeBand() / 2)
-        .attr("y", function(d) { return chartHeight - yScale(d.value) - labelPadding; })
-        .text(d => d.value != 0 ? d.value : "")
+    var barClasses = ["bar", "bar-negative"]
+
+    bars.append("rect")
+        .attr("width", d => xScaleInner.rangeBand())
+        .attr("x", (d,i) => xScaleInner(i))
+        .attr("y", d => chartHeight - yScale(d))
+        .attr("height", d => yScale(d))
+        .attr("class", (d,i) => barClasses[i]);
+
+    bars.append("text")
+        .attr("x", (d,i) => xScaleInner.rangeBand() / 2 + xScaleInner(i))
+        .attr("y", d => chartHeight - yScale(d) - labelPadding)
+        .text(d => d != 0 ? d : "")
         .attr("class", "bar-label");
 
     var xAxis = d3.svg.axis()

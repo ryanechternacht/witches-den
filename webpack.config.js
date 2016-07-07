@@ -4,7 +4,7 @@ module.exports = {
     context: __dirname + '/app',
     entry: {
         app: './app.js',
-        vendor: ['angular', 'angular-route']
+        vendor: ['angular', 'angular-route', 'bootstrap']
     },
     output: {
         path: __dirname + '/app/static',
