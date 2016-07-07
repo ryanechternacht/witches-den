@@ -49,6 +49,11 @@
     shape-rendering: crispEdges;
 }
 
+.d3-histogram-multi .legend text {
+    alignment-baseline: middle;
+    font-size: 12px;
+}
+
 .d3-heatmap .cell-text {
     text-anchor: middle;
     alignment-baseline: middle;

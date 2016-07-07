@@ -12,7 +12,8 @@ function d3HistogramMulti(d3) {
             data: '=', // binding to an angular object
             width: '@', // static binding to a value
             height: '@',
-            labels: '='
+            labels: '=',
+            legend: '='
         },
         link: function(scope, iElement, iAttrs) {
             var svg = d3.select(iElement[0])
@@ -58,26 +59,33 @@ var drawHistogramMulti = function(d3, svg, scope, iElement, iAttrs) {
     //     { "order":1, "key":5, "value": [1,1] }
     // ]
 
+    // legend: [
+    //     { group: 0, name: "SH bonus", class: "bar" },
+    //     { group: 1, name: "No SH bonus", class: "bar-negative" }    
+    // ]
+
     var height = scope.height,
         width = scope.width || d3.select(iElement[0])[0][0].offsetWidth - 20,
         translator = scope.labels,
-        dataset = _.sortBy(scope.data, x => x.order);
+        dataset = _.sortBy(scope.data, x => x.order),
+        legend = scope.legend;
 
     svg.attr("width", width)
         .attr("height", height);
 
-    var margin = { top: 30, bottom: 30, left: 30, right: 30};
-    
-    var labelPadding = 10,
-        yBottom = height - margin.bottom,
+    var margin = { top: 30, bottom: 30, left: 30, right: 30 },
+        legendMargin = { top: 30, bottom: 10, left: 20, right: 20},
+        labelPadding = 10,
+        legendHeight = 30;
+
+    var legendOffset = !legend ? 0 : legendHeight + legendMargin.top + legendMargin.bottom,
+        yBottom = height - margin.bottom - legendOffset,
         yTop = margin.top,
         xLeft = margin.left,
         xRight = width - margin.right,
         chartHeight = yBottom - yTop;
 
-    var largestValue = d3.max(dataset, f => 
-        d3.max(f.value, d => d)
-    );
+    var largestValue = d3.max(dataset, f => d3.max(f.value, d => d));
 
     var xScale = d3.scale.ordinal()
         .domain(dataset.map(x => translator(x.key)))
@@ -129,4 +137,44 @@ var drawHistogramMulti = function(d3, svg, scope, iElement, iAttrs) {
         .attr("transform", "translate(0," + yBottom + ")")
         .call(xAxis)
         .selectAll("text");
+
+    // legend
+    if(legend) {
+        var legendTop = yBottom + legendMargin.top,
+            legendBottom = legendTop + legendHeight,
+            legendLeft = legendMargin.left,
+            legendRight = width - legendMargin.right,
+            box = { height: 15, width: 15 };
+
+        var legendScale = d3.scale.ordinal()
+            .domain(_.map(legend, l => l.name))
+            .rangeRoundBands([legendLeft, legendRight], .1);
+
+        var legendZone = svg.append("g")
+            .attr("class", "legend")
+            .attr("transform", "translate(" + legendLeft + "," + legendTop + ")");
+
+        var legendEntries = legendZone.selectAll("g")
+            .data(legend)
+            .enter()
+            .append("g")
+            .attr("transform", l => {
+                var x = legendScale(l.name);
+                return "translate(" + x + ",0)";
+            });
+
+        // sample colors
+        legendEntries.append("rect")
+            .attr("width", box.width)
+            .attr("height", box.height)
+            //pad in x and y
+            .attr("class", l => l.class);
+
+        // // text
+        legendEntries.append("text")
+            .attr("x", box.width + 10)
+            .attr("y", box.height / 2)
+            .attr("class", "legend-text")
+            .text(l => l.name);
+    }
 }
